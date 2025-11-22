@@ -37,9 +37,6 @@ public class UserConfigs : IEntityTypeConfiguration<User>
         builder.Property(u => u.IsActive)
             .IsRequired();
 
-        builder.Property(u => u.IsDeleted)
-            .IsRequired();
-
         builder.Property(u => u.CreatedAt).HasDefaultValueSql("GetDate()").ValueGeneratedOnAdd();
 
        
