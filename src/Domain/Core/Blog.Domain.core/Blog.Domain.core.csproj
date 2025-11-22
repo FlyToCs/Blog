@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Category\AppService\" />
+    <Folder Include="Category\Data\" />
+    <Folder Include="Category\DTOs\" />
+    <Folder Include="Category\Entities\" />
+    <Folder Include="Category\Enums\" />
+    <Folder Include="Category\Service\" />
+    <Folder Include="PostComment\AppService\" />
+    <Folder Include="PostComment\Data\" />
+    <Folder Include="PostComment\DTOs\" />
+    <Folder Include="PostComment\Entities\" />
+    <Folder Include="PostComment\Enums\" />
+    <Folder Include="PostComment\Service\" />
+    <Folder Include="Post\AppService\" />
+    <Folder Include="Post\Data\" />
+    <Folder Include="Post\DTOs\" />
+    <Folder Include="Post\Entities\" />
+    <Folder Include="Post\Enums\" />
+    <Folder Include="Post\Service\" />
+    <Folder Include="User\Entities\" />
+    <Folder Include="User\Enums\" />
+    <Folder Include="User\Data\" />
+    <Folder Include="User\AppService\" />
+    <Folder Include="User\DTOs\" />
+    <Folder Include="User\Service\" />
+  </ItemGroup>
+
+</Project>

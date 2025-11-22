@@ -1,0 +1,23 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Domain/" />
+  <Folder Name="/src/Domain/AppService/">
+    <Project Path="src/Domain/AppService/Blog.Domain.AppService/Blog.Domain.AppService.csproj" />
+  </Folder>
+  <Folder Name="/src/Domain/Core/">
+    <Project Path="src/Domain/Core/Blog.Domain.core/Blog.Domain.core.csproj" />
+  </Folder>
+  <Folder Name="/src/Domain/Service/">
+    <Project Path="src/Domain/Service/Blog.Domain.Service/Blog.Domain.Service.csproj" />
+  </Folder>
+  <Folder Name="/src/Infrastructure/" />
+  <Folder Name="/src/Infrastructure/DataAccess/">
+    <Project Path="src/Infrastructure/DataAccess/Blog.Infa.DataAccess.Repo.EfCore/Blog.Infa.DataAccess.Repo.EfCore.csproj" />
+  </Folder>
+  <Folder Name="/src/Infrastructure/Db/">
+    <Project Path="src/Infrastructure/Db/Blog.Infa.Db.SqlServer.EfCore/Blog.Infa.Db.SqlServer.EfCore.csproj" />
+  </Folder>
+  <Folder Name="/src/Presentation/">
+    <Project Path="src/Presentation/Blog.Presentation.RazorPages/Blog.Presentation.RazorPages.csproj" />
+  </Folder>
+</Solution>
