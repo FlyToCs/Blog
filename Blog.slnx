@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/framework/">
+    <Project Path="framework/Blog.Framework/Blog.Framework.csproj" Id="e65844a9-982a-446c-82f3-7ee9f28efd90" />
+  </Folder>
   <Folder Name="/src/" />
   <Folder Name="/src/Domain/" />
   <Folder Name="/src/Domain/AppService/">

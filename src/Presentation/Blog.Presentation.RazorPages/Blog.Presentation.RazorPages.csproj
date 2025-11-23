@@ -13,4 +13,11 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Domain\AppService\Blog.Domain.AppService\Blog.Domain.AppService.csproj" />
+    <ProjectReference Include="..\..\Domain\Core\Blog.Domain.core\Blog.Domain.core.csproj" />
+    <ProjectReference Include="..\..\Domain\Service\Blog.Domain.Service\Blog.Domain.Service.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\DataAccess\Blog.Infa.DataAccess.Repo.EfCore\Blog.Infa.DataAccess.Repo.EfCore.csproj" />
+  </ItemGroup>
+
 </Project>

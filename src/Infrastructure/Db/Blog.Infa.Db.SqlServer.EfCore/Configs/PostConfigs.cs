@@ -32,7 +32,7 @@ public class PostConfigs : IEntityTypeConfiguration<Post>
             .ValueGeneratedOnAdd();
 
         builder.HasOne(p => p.Author)
-            .WithMany()
+            .WithMany(u=>u.Posts)
             .HasForeignKey(p => p.AuthorId)
             .OnDelete(DeleteBehavior.NoAction);
 

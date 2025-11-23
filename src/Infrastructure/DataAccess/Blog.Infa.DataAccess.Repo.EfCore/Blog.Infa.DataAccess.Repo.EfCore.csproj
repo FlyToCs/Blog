@@ -6,4 +6,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Domain\Core\Blog.Domain.core\Blog.Domain.core.csproj" />
+    <ProjectReference Include="..\..\Db\Blog.Infa.Db.SqlServer.EfCore\Blog.Infa.Db.SqlServer.EfCore.csproj" />
+  </ItemGroup>
+
 </Project>

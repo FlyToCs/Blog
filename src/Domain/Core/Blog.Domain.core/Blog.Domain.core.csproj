@@ -22,9 +22,7 @@
     <Folder Include="Post\DTOs\" />
     <Folder Include="Post\Enums\" />
     <Folder Include="Post\Service\" />
-    <Folder Include="User\Data\" />
     <Folder Include="User\AppService\" />
-    <Folder Include="User\DTOs\" />
     <Folder Include="User\Service\" />
   </ItemGroup>
 

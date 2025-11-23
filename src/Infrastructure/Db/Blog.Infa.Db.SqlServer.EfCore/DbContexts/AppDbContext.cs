@@ -2,6 +2,7 @@
 using Blog.Domain.core.Post.Entities;
 using Blog.Domain.core.PostComment.Entities;
 using Blog.Domain.core.User.Entities;
+using Blog.Infa.Db.SqlServer.EfCore.Configs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 
@@ -16,7 +17,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(User).Assembly);
+
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserConfigs).Assembly);
+
         base.OnModelCreating(modelBuilder);
     }
 }

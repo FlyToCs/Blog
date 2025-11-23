@@ -1,5 +1,5 @@
 ﻿@page
-@model Blog.Presentation.RazorPages.Pages.Auth.LoginModel
+@model LoginModel
 @{
 }
 
@@ -14,26 +14,28 @@
                             <div class="account-box-headline">
                                 <a href="login.html" class="login-ds active">
                                     <span class="title">ورود</span>
-                                    <span class="sub-title">به کالامارکت</span>
+                                    <span class="sub-title">به پشمک بلاگ خوش امودید</span>
                                 </a>
                                 <a href="register.html" class="register-ds">
                                     <span class="title">ثبت نام</span>
-                                    <span class="sub-title">در کالامارکت</span>
+                                    <span class="sub-title">در پشمک بلاگ</span>
                                 </a>
                             </div>
                             <div class="Login-to-account mt-4">
                                 <div class="account-box-content">
                                     <h4>ورود به حساب کاربری</h4>
-                                    <form action="#" class="form-account text-right">
+                                    <form method="post" class="form-account text-right">
                                         <div class="form-account-title">
-                                            <label for="email-phone">ایمیل / شماره موبایل</label>
-                                            <input type="text" class="number-email-input" id="email-phone"
-                                                   name="email-account">
+                                            <label asp-for="Username"></label>
+                                            <input type="text" class="number-email-input" asp-for="Username">
+                                            <span asp-validation-for="Username" class="text-danger"></span>
                                         </div>
+
                                         <div class="form-account-title">
-                                            <label for="password">رمز عبور</label>
+                                            <label asp-for="Password"></label>
                                             <a href="#" class="account-link-password">رمز خود را فراموش کرده ام</a>
-                                            <input type="password" class="password-input" name="password-account">
+                                            <input type="password" class="password-input" asp-for="Password">
+                                            <span asp-validation-for="Password" class="text-danger"></span>
                                         </div>
                                         <div class="form-auth-row">
                                             <label for="#" class="ui-checkbox mt-1">
@@ -42,8 +44,10 @@
                                             </label>
                                             <label for="remember" class="remember-me mr-0">مرا به خاطر بسپار</label>
                                         </div>
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
                                         <div class="form-row-account">
-                                            <button class="btn btn-primary btn-login">ورود به کالامارکت</button>
+                                            <button class="btn btn-primary btn-login">ورود به پشمک بلاگ</button>
                                         </div>
                                     </form>
                                 </div>
@@ -55,3 +59,4 @@
         </div>
     </div>
 </div>
+<partial name="_ValidationScriptsPartial" />
