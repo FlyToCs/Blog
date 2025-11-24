@@ -20,7 +20,7 @@ namespace Blog.Infa.Db.SqlServer.EfCore.Migrations
                     Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Slug = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     MetaTag = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    MetaDesctiption = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
+                    MetaDescription = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     ParentId = table.Column<int>(type: "int", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GetDate()"),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),

@@ -1,4 +1,7 @@
 using Blog.Domain.AppService;
+using Blog.Domain.core.Category.AppService;
+using Blog.Domain.core.Category.Data;
+using Blog.Domain.core.Category.Service;
 using Blog.Domain.core.User.AppService;
 using Blog.Domain.core.User.Data;
 using Blog.Domain.core.User.Service;
@@ -7,7 +10,7 @@ using Blog.Infa.DataAccess.Repo.EfCore.Repositories;
 using Blog.Infa.Db.SqlServer.EfCore.DbContexts;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +26,9 @@ builder.Services.AddScoped<IUserAppService, UserAppService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 
-
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICategoryAppService, CategoryAppService>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 
 builder.Services.AddAuthentication(options =>

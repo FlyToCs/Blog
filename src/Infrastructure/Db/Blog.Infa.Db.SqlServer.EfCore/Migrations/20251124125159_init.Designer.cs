@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Blog.Infa.Db.SqlServer.EfCore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251124095740_init")]
+    [Migration("20251124125159_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -41,7 +41,7 @@ namespace Blog.Infa.Db.SqlServer.EfCore.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("MetaDesctiption")
+                    b.Property<string>("MetaDescription")
                         .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");

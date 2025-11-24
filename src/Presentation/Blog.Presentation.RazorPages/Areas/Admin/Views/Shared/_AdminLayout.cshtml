@@ -21,26 +21,27 @@
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
+    <div class="wrapper">
 
-    <partial name="_Header" />
-    <partial name="_SideBar" />
+        <partial name="_Header" />
+        <partial name="_SideBar" />
 
-    <div class="content-wrapper">
-        @RenderBody()
+        <div class="content-wrapper">
+            @RenderBody()
+        </div>
+        <footer class="main-footer text-left">
+            <strong>
+                Copyleft &copy; 2014-2017 <a href="https://adminlte.io">Almsaeed Studio</a> & <a href="http://hosseinizadeh.ir/adminlte">Alireza Hosseinizadeh</a>
+            </strong>
+        </footer>
     </div>
-    <footer class="main-footer text-left">
-        <strong>
-            Copyleft &copy; 2014-2017 <a href="https://adminlte.io">Almsaeed Studio</a> & <a href="http://hosseinizadeh.ir/adminlte">Alireza Hosseinizadeh</a>
-        </strong>
-    </footer>
-</div>
     <script src="/admin/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="/admin/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/admin/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
     <script src="/admin/bower_components/fastclick/lib/fastclick.js"></script>
     <script src="/admin/dist/js/adminlte.min.js"></script>
     <script src="/admin/dist/js/demo.js"></script>
+    <partial name="_ValidationScriptsPartial" />
     <script>
         $(document).ready(function () {
             $('.sidebar-menu').tree()

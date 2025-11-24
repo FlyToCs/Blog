@@ -24,7 +24,7 @@ public class CategoryConfigs : IEntityTypeConfiguration<Category>
         builder.Property(c => c.MetaTag)
             .HasMaxLength(150);
 
-        builder.Property(c => c.MetaDesctiption)
+        builder.Property(c => c.MetaDescription)
             .HasMaxLength(300);
 
         builder.Property(u => u.CreatedAt)

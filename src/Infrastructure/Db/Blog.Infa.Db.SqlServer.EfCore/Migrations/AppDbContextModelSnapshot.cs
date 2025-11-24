@@ -38,7 +38,7 @@ namespace Blog.Infa.Db.SqlServer.EfCore.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("MetaDesctiption")
+                    b.Property<string>("MetaDescription")
                         .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
