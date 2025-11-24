@@ -11,9 +11,9 @@ public class CategoryService(ICategoryRepository categoryRepo) : ICategoryServic
         return categoryRepo.CreateCategory(createDto);
     }
 
-    public bool UpdateCategory(int categoryId, EditCategoryDto editDto)
+    public bool UpdateCategory(EditCategoryDto editDto)
     {
-        return categoryRepo.UpdateCategory(categoryId, editDto);
+        return categoryRepo.UpdateCategory(editDto);
     }
 
     public List<CategoryDto> GetAllCategories()
@@ -29,5 +29,10 @@ public class CategoryService(ICategoryRepository categoryRepo) : ICategoryServic
     public CategoryDto? GetCategoryBy(string slug)
     {
         return categoryRepo.GetCategoryBy(slug);
+    }
+
+    public bool IsSlugExist(string slug)
+    {
+        return categoryRepo.IsSlugExist(slug);
     }
 }

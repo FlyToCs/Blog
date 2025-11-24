@@ -22,9 +22,9 @@ public class CategoryRepository(AppDbContext context) : ICategoryRepository
         return context.SaveChanges() > 0;
     }
 
-    public bool UpdateCategory(int categoryId, EditCategoryDto editDto)
+    public bool UpdateCategory(EditCategoryDto editDto)
     {
-        context.Categories.Where(c => c.Id == categoryId)
+        var effectedRows = context.Categories.Where(c => c.Id == editDto.Id)
             .ExecuteUpdate(setter => setter
                 .SetProperty(c => c.Title, editDto.Title)
                 .SetProperty(c => c.Slug, editDto.Slug)
@@ -32,7 +32,7 @@ public class CategoryRepository(AppDbContext context) : ICategoryRepository
                 .SetProperty(c => c.MetaTag, editDto.MetaTag)
                 .SetProperty(c => c.ParentId, editDto.ParentId)
             );
-        return context.SaveChanges() > 0;
+        return effectedRows > 0;
     }
 
     public List<CategoryDto> GetAllCategories()
@@ -75,5 +75,10 @@ public class CategoryRepository(AppDbContext context) : ICategoryRepository
             MetaDescription = c.MetaDescription,
             MetaTag = c.MetaTag
         }).FirstOrDefault();
+    }
+
+    public bool IsSlugExist(string slug)
+    {
+       return context.Categories.Any(c => c.Slug == slug);
     }
 }

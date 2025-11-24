@@ -6,7 +6,7 @@ namespace Blog.Domain.core.Category.AppService;
 public interface ICategoryAppService
 {
     Result<bool> CreateCategory(CreateCategoryDto createDto);
-    Result<bool> UpdateCategory(int categoryId, EditCategoryDto editDto);
+    Result<bool> UpdateCategory(EditCategoryDto editDto);
     List<CategoryDto> GetAllCategories();
     Result<CategoryDto> GetCategoryBy(int id);
     Result<CategoryDto> GetCategoryBy(string slug);

@@ -38,7 +38,7 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
         public IActionResult Edit(int id)
         {
             var category = categoryAppService.GetCategoryBy(id);
-            if (category == null)
+            if (category.Data == null)
                 return RedirectToAction("Index");
 
             var model = new EditCategoryViewModel()
@@ -54,7 +54,7 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, EditCategoryViewModel editModel)
         {
-            var result = categoryAppService.UpdateCategory(id, new EditCategoryDto()
+            var result = categoryAppService.UpdateCategory(new EditCategoryDto()
             {
                 Slug = editModel.Slug,
                 MetaTag = editModel.MetaTag,

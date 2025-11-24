@@ -2,6 +2,7 @@
 using Blog.Domain.core.Category.AppService;
 using Blog.Domain.core.Category.DTOs;
 using Blog.Domain.core.Category.Service;
+using Blog.Framework;
 
 namespace Blog.Domain.AppService;
 
@@ -14,6 +15,9 @@ public class CategoryAppService(ICategoryService categoryService) : ICategoryApp
 
         if (string.IsNullOrWhiteSpace(dto.Slug))
             return Result<bool>.Failure("اسلاگ نمیتواند خالی باشد");
+        dto.Slug = dto.Slug.ToSlug();
+
+         
 
         var success = categoryService.CreateCategory(dto);
 
@@ -23,9 +27,16 @@ public class CategoryAppService(ICategoryService categoryService) : ICategoryApp
         return Result<bool>.Success(true, "دسته بندی با موفقیت ساخته شد");
     }
 
-    public Result<bool> UpdateCategory(int categoryId, EditCategoryDto dto)
+    public Result<bool> UpdateCategory(EditCategoryDto dto)
     {
-        if (categoryId <= 0)
+        var category = categoryService.GetCategoryBy(dto.Id);
+        if (category == null)
+        {
+            return Result<bool>.Failure("دسته بندی معتبری یافت نشد");
+        }
+
+
+        if (dto.Id <= 0)
             return Result<bool>.Failure("آیدی دسته بندی معتبر نیست");
 
         if (string.IsNullOrWhiteSpace(dto.Title))
@@ -33,8 +44,18 @@ public class CategoryAppService(ICategoryService categoryService) : ICategoryApp
 
         if (string.IsNullOrWhiteSpace(dto.Slug))
             return Result<bool>.Failure("اسلاگ نمیتواند خالی باشد");
+        dto.Slug = dto.Slug.ToSlug();
 
-        var success = categoryService.UpdateCategory(categoryId, dto);
+
+        if (dto.Slug !=category.Slug)
+        {
+            if (categoryService.IsSlugExist(dto.Slug))
+            {
+                return Result<bool>.Failure("این slug تکراری است");
+            }
+        }
+
+        var success = categoryService.UpdateCategory(dto);
 
         if (!success)
             return Result<bool>.Failure("اپدیت دسته بندی با خطا مواجه شد");
