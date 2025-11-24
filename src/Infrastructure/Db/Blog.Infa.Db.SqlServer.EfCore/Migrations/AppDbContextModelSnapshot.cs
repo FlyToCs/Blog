@@ -48,6 +48,9 @@ namespace Blog.Infa.Db.SqlServer.EfCore.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Slug")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -62,6 +65,11 @@ namespace Blog.Infa.Db.SqlServer.EfCore.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
+
+                    b.HasIndex("Slug")
+                        .IsUnique();
 
                     b.ToTable("Categories", (string)null);
                 });
@@ -212,6 +220,16 @@ namespace Blog.Infa.Db.SqlServer.EfCore.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
+            modelBuilder.Entity("Blog.Domain.core.Category.Entities.Category", b =>
+                {
+                    b.HasOne("Blog.Domain.core.Category.Entities.Category", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Parent");
+                });
+
             modelBuilder.Entity("Blog.Domain.core.Post.Entities.Post", b =>
                 {
                     b.HasOne("Blog.Domain.core.User.Entities.User", "Author")
@@ -252,6 +270,8 @@ namespace Blog.Infa.Db.SqlServer.EfCore.Migrations
 
             modelBuilder.Entity("Blog.Domain.core.Category.Entities.Category", b =>
                 {
+                    b.Navigation("Children");
+
                     b.Navigation("Posts");
                 });
 

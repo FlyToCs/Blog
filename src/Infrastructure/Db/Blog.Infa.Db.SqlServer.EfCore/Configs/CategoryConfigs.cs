@@ -19,6 +19,7 @@ public class CategoryConfigs : IEntityTypeConfiguration<Category>
         builder.Property(c => c.Slug)
             .IsRequired()
             .HasMaxLength(200);
+        builder.HasIndex(c => c.Slug).IsUnique();
 
         builder.Property(c => c.MetaTag)
             .HasMaxLength(150);
@@ -34,5 +35,10 @@ public class CategoryConfigs : IEntityTypeConfiguration<Category>
             .WithOne(p => p.Category)
             .HasForeignKey(p => p.CategoryId)
             .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasOne(c => c.Parent)
+            .WithMany(c => c.Children)
+            .HasForeignKey(c => c.ParentId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

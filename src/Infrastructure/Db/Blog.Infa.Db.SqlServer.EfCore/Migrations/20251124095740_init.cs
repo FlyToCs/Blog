@@ -21,6 +21,7 @@ namespace Blog.Infa.Db.SqlServer.EfCore.Migrations
                     Slug = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     MetaTag = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     MetaDesctiption = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
+                    ParentId = table.Column<int>(type: "int", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GetDate()"),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -28,6 +29,12 @@ namespace Blog.Infa.Db.SqlServer.EfCore.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Categories_Categories_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -110,6 +117,17 @@ namespace Blog.Infa.Db.SqlServer.EfCore.Migrations
                         principalTable: "Users",
                         principalColumn: "Id");
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_ParentId",
+                table: "Categories",
+                column: "ParentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_Slug",
+                table: "Categories",
+                column: "Slug",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_PostComments_PostId",
