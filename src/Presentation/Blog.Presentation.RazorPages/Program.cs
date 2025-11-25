@@ -2,12 +2,16 @@ using Blog.Domain.AppService;
 using Blog.Domain.core.Category.AppService;
 using Blog.Domain.core.Category.Data;
 using Blog.Domain.core.Category.Service;
+using Blog.Domain.core.Post.AppService;
+using Blog.Domain.core.Post.Data;
+using Blog.Domain.core.Post.Service;
 using Blog.Domain.core.User.AppService;
 using Blog.Domain.core.User.Data;
 using Blog.Domain.core.User.Service;
 using Blog.Domain.Service;
 using Blog.Infa.DataAccess.Repo.EfCore.Repositories;
 using Blog.Infa.Db.SqlServer.EfCore.DbContexts;
+using Blog.Presentation.RazorPages.Services.FileManager;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,6 +33,15 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICategoryAppService, CategoryAppService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+
+builder.Services.AddScoped<IPostService, PostService>();
+builder.Services.AddScoped<IPostAppService, PostAppService>();
+builder.Services.AddScoped<IPostRepository, PostRepository>();
+
+
+
+builder.Services.AddScoped<IFileManager, FileManager>();
 
 
 builder.Services.AddAuthentication(options =>

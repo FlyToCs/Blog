@@ -8,6 +8,7 @@ public interface ICategoryAppService
     Result<bool> CreateCategory(CreateCategoryDto createDto);
     Result<bool> UpdateCategory(EditCategoryDto editDto);
     List<CategoryDto> GetAllCategories();
+    List<CategoryDto> GetChildCategories(int parentId);
     Result<CategoryDto> GetCategoryBy(int id);
     Result<CategoryDto> GetCategoryBy(string slug);
 }

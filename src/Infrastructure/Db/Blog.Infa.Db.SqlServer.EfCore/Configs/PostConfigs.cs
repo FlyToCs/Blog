@@ -27,6 +27,8 @@ public class PostConfigs : IEntityTypeConfiguration<Post>
             .IsRequired()
             .HasMaxLength(200);
 
+        builder.Property(p => p.Img).HasMaxLength(100);
+
         builder.Property(u => u.CreatedAt)
             .HasDefaultValueSql("GetDate()")
             .ValueGeneratedOnAdd();
@@ -37,9 +39,16 @@ public class PostConfigs : IEntityTypeConfiguration<Post>
             .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasOne(p => p.Category)
-            .WithMany(c=>c.Posts)
-            .HasForeignKey(p=>p.CategoryId)
+            .WithMany(c => c.Posts)
+            .HasForeignKey(p => p.CategoryId)
             .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasOne(p => p.SubCategory)
+            .WithMany()
+            .HasForeignKey(p => p.SubCategoryId)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.NoAction);
+
 
         builder.HasMany(p => p.PostComments)
             .WithOne(pc => pc.Post)

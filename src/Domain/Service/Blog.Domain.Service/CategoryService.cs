@@ -21,6 +21,11 @@ public class CategoryService(ICategoryRepository categoryRepo) : ICategoryServic
         return categoryRepo.GetAllCategories();
     }
 
+    public List<CategoryDto> GetChildCategories(int parentId)
+    {
+        return categoryRepo.GetChildCategories(parentId);
+    }
+
     public CategoryDto? GetCategoryBy(int id)
     {
         return categoryRepo.GetCategoryBy(id);

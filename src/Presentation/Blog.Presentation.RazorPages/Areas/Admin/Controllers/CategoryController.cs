@@ -69,5 +69,13 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
             }
             return RedirectToAction("Index");
         }
+
+
+        public IActionResult GetChildCategories(int parentId)
+        {
+            var categoy = categoryAppService.GetChildCategories(parentId);
+
+            return new JsonResult(categoy);
+        }
     }
 }

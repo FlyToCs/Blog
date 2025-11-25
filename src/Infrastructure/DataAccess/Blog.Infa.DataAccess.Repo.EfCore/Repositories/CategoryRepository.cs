@@ -49,6 +49,21 @@ public class CategoryRepository(AppDbContext context) : ICategoryRepository
             }).ToList();
     }
 
+    public List<CategoryDto> GetChildCategories(int parentId)
+    {
+        return context.Categories
+            .Where(c=>c.ParentId == parentId)
+            .Select(c => new CategoryDto()
+            {
+                Id = c.Id,
+                Title = c.Title,
+                ParentId = c.ParentId,
+                Slug = c.Slug,
+                MetaDescription = c.MetaDescription,
+                MetaTag = c.MetaTag
+            }).ToList();
+    }
+
     public CategoryDto? GetCategoryBy(int id)
     {
         return context.Categories.Where(x=>x.Id == id)

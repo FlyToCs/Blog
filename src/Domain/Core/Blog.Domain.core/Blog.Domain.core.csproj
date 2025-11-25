@@ -13,11 +13,7 @@
     <Folder Include="PostComment\DTOs\" />
     <Folder Include="PostComment\Enums\" />
     <Folder Include="PostComment\Service\" />
-    <Folder Include="Post\AppService\" />
-    <Folder Include="Post\Data\" />
-    <Folder Include="Post\DTOs\" />
     <Folder Include="Post\Enums\" />
-    <Folder Include="Post\Service\" />
     <Folder Include="User\AppService\" />
     <Folder Include="User\Service\" />
   </ItemGroup>

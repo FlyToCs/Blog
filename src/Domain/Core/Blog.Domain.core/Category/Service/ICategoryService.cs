@@ -7,6 +7,7 @@ public interface ICategoryService
     bool CreateCategory(CreateCategoryDto createDto);
     bool UpdateCategory(EditCategoryDto editDto);
     List<CategoryDto> GetAllCategories();
+    List<CategoryDto> GetChildCategories(int parentId);
     CategoryDto? GetCategoryBy(int id);
     CategoryDto? GetCategoryBy(string slug);
     bool IsSlugExist(string slug);

@@ -10,7 +10,7 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Models.Categories
         [Required(ErrorMessage = "وارد کردن {0} اجباری است")]
         public string Title { get; set; }
 
-        [Display(Name = "Slug")]
+        [Display(Name = "CategorySlug")]
         [Required(ErrorMessage = "وارد کردن {0} اجباری است")]
         public string Slug { get; set; }
         public int? ParentId { get; set; }
