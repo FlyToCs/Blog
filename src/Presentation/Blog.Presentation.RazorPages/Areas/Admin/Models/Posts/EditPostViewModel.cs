@@ -19,11 +19,14 @@ public class EditPostViewModel
     [Display(Name = "slug")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
     public string Slug { get; set; }
-
     [Display(Name = "توضیحات")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-    [UIHint("Ckeditor4")]
     public string Description { get; set; }
+
+    [Display(Name = "متن پست")]
+    [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+    [UIHint("Ckeditor4")]
+    public string Context { get; set; }
 
     [Display(Name = "عکس")]
     public IFormFile ImageFile { get; set; }

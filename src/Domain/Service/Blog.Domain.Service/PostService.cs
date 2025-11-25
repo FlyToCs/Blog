@@ -16,6 +16,11 @@ public class PostService(IPostRepository postRepo) : IPostService
         return postRepo.Edit(postDto);
     }
 
+    public PostDto? GetBy(string slug)
+    {
+        return postRepo.GetBy(slug);
+    }
+
     public PostDto? GetBy(int id)
     {
         return postRepo.GetBy(id);
@@ -29,5 +34,10 @@ public class PostService(IPostRepository postRepo) : IPostService
     public PostFilterDto GetPostByFilter(PostFilterParams filterParams)
     {
         return postRepo.GetPostByFilter(filterParams);
+    }
+
+    public List<PostDto> GetRecentlyPosts(int count)
+    {
+        return postRepo.GetRecentlyPosts(count);
     }
 }

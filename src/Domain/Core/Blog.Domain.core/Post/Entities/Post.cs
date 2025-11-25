@@ -7,6 +7,7 @@ public class Post : BaseEntity
 {
     public string Title { get; set; }
     public string Description { get; set; }
+    public string Context { get; set; }
     public int visits { get; set; }
     public string Slug { get; set; }
     public string Img { get; set; }

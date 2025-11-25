@@ -23,8 +23,12 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Models.Posts
 
         [Display(Name = "توضیحات")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        [UIHint("Ckeditor4")]
         public string Description { get; set; }
+
+        [Display(Name = "متن پست")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        [UIHint("Ckeditor4")]
+        public string Context { get; set; }
 
         [Display(Name = "عکس")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]

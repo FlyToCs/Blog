@@ -39,6 +39,7 @@ public class PostAppService(IPostService postService) : IPostAppService
 
     public Result<bool> Edit(EditPostDto postDto)
     {
+        var post = postService.GetBy(postDto.PostId);
         if (postDto.PostId <= 0)
             return Result<bool>.Failure("پست ایدی معتبر نیست");
 
@@ -55,9 +56,11 @@ public class PostAppService(IPostService postService) : IPostAppService
         if (postDto.CategoryId <= 0)
             return Result<bool>.Failure("Invalid CategoryId.");
 
-
-        if (postService.IsSlugExist(postDto.Slug))
-            return Result<bool>.Failure("slug تکراری است");
+        if (post.Slug != postDto.Slug)
+        {
+            if (postService.IsSlugExist(postDto.Slug))
+                return Result<bool>.Failure("slug تکراری است");
+        }
 
         var success = postService.Edit(postDto);
 
@@ -81,8 +84,24 @@ public class PostAppService(IPostService postService) : IPostAppService
         return Result<PostDto>.Success(post);
     }
 
+    public Result<PostDto> GetBy(string slug)
+    {
+        var post = postService.GetBy(slug);
+        if (post == null)
+        {
+            return Result<PostDto>.Failure("پست یافت نشد");
+        }
+
+        return Result<PostDto>.Success(post);
+    }
+
     public PostFilterDto GetPostsByFilter(PostFilterParams filterParams)
     {
         return postService.GetPostByFilter(filterParams);
+    }
+
+    public List<PostDto> GetRecentlyPosts(int count)
+    {
+        return postService.GetRecentlyPosts(count);
     }
 }

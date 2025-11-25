@@ -40,6 +40,7 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
             {
                 CategoryId = createViewModel.CategoryId,
                 Description = createViewModel.Description,
+                Context = createViewModel.Context,
                 Img = fileManager.SaveFileAndReturnName(createViewModel.ImageFile, Directories.PostImage),
                 Slug = createViewModel.Slug,
                 SubCategoryId = createViewModel.SubCategoryId == 0 ? null : createViewModel.SubCategoryId,
@@ -64,6 +65,7 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
             {
                 CategoryId = post.Data.CategoryId,
                 Description = post.Data.Description,
+                Context = post.Data.Context,
                 Slug = post.Data.Slug,
                 SubCategoryId = post.Data.SubCategoryId,
                 Title = post.Data.Title
@@ -90,6 +92,7 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
             {
                 CategoryId = editViewModel.CategoryId,
                 Description = editViewModel.Description,
+                Context = editViewModel.Context,
                 Img = newImgName,
                 Slug = editViewModel.Slug,
                 SubCategoryId = editViewModel.SubCategoryId == 0 ? null : editViewModel.SubCategoryId,

@@ -7,6 +7,8 @@ public interface IPostRepository
     bool Create(CreatePostDto postDto);
     bool Edit(EditPostDto postDto);
     PostDto? GetBy(int id);
+    PostDto? GetBy(string slug);
+    List<PostDto> GetRecentlyPosts(int count);
     bool IsSlugExist(string slug);
     PostFilterDto GetPostByFilter(PostFilterParams filterParams);
 }

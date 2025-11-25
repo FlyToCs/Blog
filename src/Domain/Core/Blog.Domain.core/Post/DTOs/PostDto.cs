@@ -8,6 +8,9 @@ public class PostDto
     public string Title { get; set; }
     public string Description { get; set; }
     public string Slug { get; set; }
+    public int PostViews { get; set; }
+    public string AuthorName { get; set; }
+    public string Context { get; set; }
 
     public int AuthorId { get; set; }
 

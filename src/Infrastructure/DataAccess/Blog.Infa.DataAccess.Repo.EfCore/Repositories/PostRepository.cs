@@ -19,7 +19,8 @@ public class PostRepository(AppDbContext context) : IPostRepository
             CategoryId = postDto.CategoryId,
             AuthorId = postDto.AuthorId,
             Img = postDto.Img,
-            SubCategoryId = postDto.SubCategoryId
+            SubCategoryId = postDto.SubCategoryId,
+            Context = postDto.Context
         };
         context.Add(post);
         return context.SaveChanges() > 0;
@@ -54,7 +55,10 @@ public class PostRepository(AppDbContext context) : IPostRepository
                 CategoryId = p.CategoryId,
                 PostId = p.Id,
                 AuthorId = p.AuthorId,
+                AuthorName = $"{p.Author.FirstName} {p.Author.LastName}",
                 Img = p.Img,
+                Context = p.Context,
+                PostViews = p.visits,
                 CreatedAt = p.CreatedAt,
                 SubCategoryId = p.SubCategoryId,
 
@@ -79,6 +83,97 @@ public class PostRepository(AppDbContext context) : IPostRepository
                 }
             }).FirstOrDefault();
     }
+
+    public PostDto? GetBy(string slug)
+    {
+        return context.Posts
+            .Where(p=>p.Slug == slug)
+            .Include(p => p.Category)
+            .Include(p => p.SubCategory)
+            .Include(p=>p.Author)
+            .Select(p => new PostDto()
+        {
+            Title = p.Title,
+            Slug = p.Slug,
+            Description = p.Description,
+            CategoryId = p.CategoryId,
+            AuthorName = $"{p.Author.FirstName} {p.Author.LastName}",
+            PostId = p.Id,
+            AuthorId = p.AuthorId,
+            Context = p.Context,
+            Img = p.Img,
+            PostViews = p.visits,
+            CreatedAt = p.CreatedAt,
+            SubCategoryId = p.SubCategoryId,
+
+            Category = new CategoryDto()
+            {
+                Id = p.Category.Id,
+                MetaDescription = p.Category.MetaDescription,
+                MetaTag = p.Category.MetaTag,
+                ParentId = p.Category.ParentId,
+                Slug = p.Category.Slug,
+                Title = p.Category.Title
+            },
+
+            SubCategory = p.SubCategory == null ? null : new CategoryDto()
+            {
+                Id = p.SubCategory.Id,
+                MetaDescription = p.SubCategory.MetaDescription,
+                MetaTag = p.SubCategory.MetaTag,
+                ParentId = p.SubCategory.ParentId,
+                Slug = p.SubCategory.Slug,
+                Title = p.SubCategory.Title
+            }
+        }).FirstOrDefault();
+    }
+
+    public List<PostDto> GetRecentlyPosts(int count)
+    {
+        return context.Posts
+            .Include(p => p.Category)
+            .Include(p => p.SubCategory)
+            .Include(p => p.Author)
+            .OrderByDescending(p => p.CreatedAt) 
+            .Take(count)                          
+            .Select(p => new PostDto()
+            {
+                Title = p.Title,
+                Slug = p.Slug,
+                Description = p.Description,
+                CategoryId = p.CategoryId,
+                AuthorName = $"{p.Author.FirstName} {p.Author.LastName}",
+                PostId = p.Id,
+                AuthorId = p.AuthorId,
+                Context = p.Context,
+                Img = p.Img,
+                PostViews = p.visits,
+                CreatedAt = p.CreatedAt,
+                SubCategoryId = p.SubCategoryId,
+
+                Category = new CategoryDto()
+                {
+                    Id = p.Category.Id,
+                    MetaDescription = p.Category.MetaDescription,
+                    MetaTag = p.Category.MetaTag,
+                    ParentId = p.Category.ParentId,
+                    Slug = p.Category.Slug,
+                    Title = p.Category.Title
+                },
+
+                SubCategory = p.SubCategory == null ? null : new CategoryDto()
+                {
+                    Id = p.SubCategory.Id,
+                    MetaDescription = p.SubCategory.MetaDescription,
+                    MetaTag = p.SubCategory.MetaTag,
+                    ParentId = p.SubCategory.ParentId,
+                    Slug = p.SubCategory.Slug,
+                    Title = p.SubCategory.Title
+                }
+            })
+            .ToList();
+    }
+
 
 
     public bool IsSlugExist(string slug)
