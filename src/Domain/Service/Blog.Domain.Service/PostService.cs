@@ -40,4 +40,9 @@ public class PostService(IPostRepository postRepo) : IPostService
     {
         return postRepo.GetRecentlyPosts(count);
     }
+
+    public bool IncreasePostViews(int postId)
+    {
+        return postRepo.IncreasePostViews(postId);
+    }
 }

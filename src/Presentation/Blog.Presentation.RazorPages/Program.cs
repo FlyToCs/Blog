@@ -5,6 +5,9 @@ using Blog.Domain.core.Category.Service;
 using Blog.Domain.core.Post.AppService;
 using Blog.Domain.core.Post.Data;
 using Blog.Domain.core.Post.Service;
+using Blog.Domain.core.PostComment.AppService;
+using Blog.Domain.core.PostComment.Data;
+using Blog.Domain.core.PostComment.Service;
 using Blog.Domain.core.User.AppService;
 using Blog.Domain.core.User.Data;
 using Blog.Domain.core.User.Service;
@@ -18,7 +21,6 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
 
@@ -40,6 +42,9 @@ builder.Services.AddScoped<IPostAppService, PostAppService>();
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 
 
+builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<ICommentAppService, CommentAppService>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 
 builder.Services.AddScoped<IFileManager, FileManager>();
 
@@ -59,11 +64,9 @@ builder.Services.AddAuthentication(options =>
 });
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 

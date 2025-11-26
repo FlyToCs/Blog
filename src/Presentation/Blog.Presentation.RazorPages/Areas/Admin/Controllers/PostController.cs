@@ -1,7 +1,7 @@
 ﻿using Blog.Domain.core.Post.AppService;
 using Blog.Domain.core.Post.DTOs;
+using Blog.Domain.core.PostComment.AppService;
 using Blog.Presentation.RazorPages.Areas.Admin.Models.Posts;
-using Blog.Presentation.RazorPages.Services;
 using Blog.Presentation.RazorPages.Services.FileManager;
 using Microsoft.AspNetCore.Mvc;
 

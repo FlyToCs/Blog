@@ -10,7 +10,6 @@
     <Folder Include="Category\Enums\" />
     <Folder Include="PostComment\AppService\" />
     <Folder Include="PostComment\Data\" />
-    <Folder Include="PostComment\DTOs\" />
     <Folder Include="PostComment\Enums\" />
     <Folder Include="PostComment\Service\" />
     <Folder Include="Post\Enums\" />

@@ -243,4 +243,15 @@ public class PostRepository(AppDbContext context) : IPostRepository
         };
     }
 
+    public bool IncreasePostViews(int postId)
+    {
+        var effectedRows = context.Posts
+            .Where(p => p.Id == postId)
+            .ExecuteUpdate(set => set
+                .SetProperty(p => p.visits, p => p.visits + 1)
+            );
+
+        return effectedRows >0;
+    }
+
 }

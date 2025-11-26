@@ -104,4 +104,9 @@ public class PostAppService(IPostService postService) : IPostAppService
     {
         return postService.GetRecentlyPosts(count);
     }
+
+    public bool IncreasePostViews(int postId)
+    {
+        return postService.IncreasePostViews(postId);
+    }
 }

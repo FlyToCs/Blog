@@ -61,149 +61,58 @@
                             <h2 class="comments-title">
                                 <i class="fa fa-comment-o"></i>
                                 نظرات کاربران
-                                <p class="count-comment">253 نظر</p>
+                                <p class="count-comment">@Model.Comments.Count نظر</p>
                             </h2>
                             <ol class="comment-list">
                                 <li class="comment-even">
                                     <div class="comment-body">
-                                        <header class="comment-meta">
-                                            <div class="comment-author">
-                                                <img src="assets/images/man.png" class="avator">
-                                                توسط حسن شجاعی در تاریخ 14 اردیبهشت ۱۳۹۹
+                                        @foreach (var item in Model.Comments)
+                                        {
+                                            <header class="comment-meta">
+                                                <div class="comment-author">
+                                                    <img src="assets/images/man.png" class="avator">
+                                                    توسط @item.FullName در تاریخ @item.CreatedAt
+                                                </div>
+                                            </header>
+                                            <p>
+                                                @item.Text
+                                            </p>
+                                            <div class="reply text-left">
+                                                <a href="#" class="comment-reply-link">پاسخ دادن</a>
                                             </div>
-                                        </header>
-                                        <p>
-                                            لوریم ایپسوم به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی
-                                            گرافیک گفته می‌شود. طراح گرافیک از این متن به‌عنوان عنصری از ترکیب‌بندی
-                                            برای پُر کردن صفحه و ارائهٔ اولیهٔ شکل ظاهری و کلیِ طرح
-                                            سفارش‌گرفته‌شده‌استفاده می‌کند، تا ازنظر گرافیکی نشانگر چگونگی نوع و
-                                            اندازهٔ قلم و ظاهرِ متن باشد
-                                        </p>
-                                        <div class="reply text-left">
-                                            <a href="#" class="comment-reply-link">پاسخ دادن</a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="comment-even">
-                                    <div class="comment-body">
-                                        <header class="comment-meta">
-                                            <div class="comment-author">
-                                                <img src="assets/images/man.png" class="avator">
-                                                توسط حسن شجاعی در تاریخ 14 اردیبهشت ۱۳۹۹
-                                            </div>
-                                        </header>
-                                        <p>
-                                            لوریم ایپسوم به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی
-                                            گرافیک گفته می‌شود. طراح گرافیک از این متن به‌عنوان عنصری از ترکیب‌بندی
-                                            برای پُر کردن صفحه و ارائهٔ اولیهٔ شکل ظاهری و کلیِ طرح
-                                            سفارش‌گرفته‌شده‌استفاده می‌کند، تا ازنظر گرافیکی نشانگر چگونگی نوع و
-                                            اندازهٔ قلم و ظاهرِ متن باشد
-                                        </p>
-                                        <div class="reply text-left">
-                                            <a href="#" class="comment-reply-link">پاسخ دادن</a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="comment-even">
-                                    <div class="comment-body">
-                                        <header class="comment-meta">
-                                            <div class="comment-author">
-                                                <img src="assets/images/man.png" class="avator">
-                                                توسط حسن شجاعی در تاریخ 14 اردیبهشت ۱۳۹۹
-                                            </div>
-                                        </header>
-                                        <p>
-                                            لوریم ایپسوم به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی
-                                            گرافیک گفته می‌شود. طراح گرافیک از این متن به‌عنوان عنصری از ترکیب‌بندی
-                                            برای پُر کردن صفحه و ارائهٔ اولیهٔ شکل ظاهری و کلیِ طرح
-                                            سفارش‌گرفته‌شده‌استفاده می‌کند، تا ازنظر گرافیکی نشانگر چگونگی نوع و
-                                            اندازهٔ قلم و ظاهرِ متن باشد
-                                        </p>
-                                        <div class="reply text-left">
-                                            <a href="#" class="comment-reply-link">پاسخ دادن</a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="comment-even">
-                                    <div class="comment-body">
-                                        <header class="comment-meta">
-                                            <div class="comment-author">
-                                                <img src="assets/images/man.png" class="avator">
-                                                توسط حسن شجاعی در تاریخ 14 اردیبهشت ۱۳۹۹
-                                            </div>
-                                        </header>
-                                        <p>
-                                            لوریم ایپسوم به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی
-                                            گرافیک گفته می‌شود. طراح گرافیک از این متن به‌عنوان عنصری از ترکیب‌بندی
-                                            برای پُر کردن صفحه و ارائهٔ اولیهٔ شکل ظاهری و کلیِ طرح
-                                            سفارش‌گرفته‌شده‌استفاده می‌کند، تا ازنظر گرافیکی نشانگر چگونگی نوع و
-                                            اندازهٔ قلم و ظاهرِ متن باشد
-                                        </p>
-                                        <div class="reply text-left">
-                                            <a href="#" class="comment-reply-link">پاسخ دادن</a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="comment-even">
-                                    <div class="comment-body">
-                                        <header class="comment-meta">
-                                            <div class="comment-author">
-                                                <img src="assets/images/man.png" class="avator">
-                                                توسط حسن شجاعی در تاریخ 14 اردیبهشت ۱۳۹۹
-                                            </div>
-                                        </header>
-                                        <p>
-                                            لوریم ایپسوم به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی
-                                            گرافیک گفته می‌شود. طراح گرافیک از این متن به‌عنوان عنصری از ترکیب‌بندی
-                                            برای پُر کردن صفحه و ارائهٔ اولیهٔ شکل ظاهری و کلیِ طرح
-                                            سفارش‌گرفته‌شده‌استفاده می‌کند، تا ازنظر گرافیکی نشانگر چگونگی نوع و
-                                            اندازهٔ قلم و ظاهرِ متن باشد
-                                        </p>
-                                        <div class="reply text-left">
-                                            <a href="#" class="comment-reply-link">پاسخ دادن</a>
-                                        </div>
+                                        }
                                     </div>
                                 </li>
                             </ol>
-                            <div class="form-comment">
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="form-ui">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <br>
-                                                <br>
-                                                <div class="form-row-title mb-2"> نام شما (اجباری)</div>
-                                                <div class="form-row">
-                                                    <input class="input-ui pr-2" type="text"
-                                                           placeholder=" نام خود را بنویسید">
+                            <form method="post">
+                                <input type="hidden" asp-for="Post.PostId" />
+
+                                <div class="form-comment">
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="form-ui">
+                                            <div class="row">
+                                                <div class="col-12 mt-5">
+                                                    <div class="form-row-title mb-2">متن نظر شما</div>
+                                                    <div class="form-row">
+                                                        <textarea asp-for="Comment" 
+                                      class="input-ui pr-2 pt-2" rows="5"
+                                      placeholder="متن خود را بنویسید"
+                                      style="height:120px;"></textarea>
+                                                        <span asp-validation-for="Comment" class="text-danger"></span>
+
+                                                    </div>
                                                 </div>
-                                                <br>
-                                                <div class="form-row-title mb-2">عنوان نظر شما (اجباری)</div>
-                                                <div class="form-row">
-                                                    <input class="input-ui pr-2" type="text"
-                                                           placeholder="عنوان نظر خود را بنویسید">
+                                                <div class="col-12 mt-5 px-0">
+                                                    <button class="btn comment-submit-button">
+                                                        ثبت نظر
+                                                    </button>
                                                 </div>
-                                            </div>
-                                            <div class="col-12 mt-5">
-                                                <div class="form-row-title mb-2">متن نظر شما (اجباری)</div>
-                                                <div class="form-row">
-                                                    <textarea class="input-ui pr-2 pt-2" rows="5"
-                                                              placeholder="متن خود را بنویسید"
-                                                              style="height:120px;"></textarea>
-                                                </div>
-                                            </div>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <div class="col-12 mt-5 px-0">
-                                                <button class="btn comment-submit-button">
-                                                    ثبت نظر
-                                                </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
+
                         </div>
                     </div>
                 </section>
@@ -228,7 +137,7 @@
                                         <div class="title">
                                             <a href="#">
                                                 <h2 class="title-tag">
-                                                 @item.Description
+                                                    @item.Description
                                                 </h2>
                                             </a>
                                             <span class="post-date">
@@ -236,82 +145,6 @@
                                             </span>
                                         </div>
                                     }
-
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="item-inner">
-                                    <div class="item-thumb">
-                                        <a href="#" class="img-holder d-block">
-                                            <img src="assets/images/blog/2017 Home Selling Results.jpg"
-                                                 alt="رسیدن به بهترین نتیجه در کمترین زمان ممکن!">
-                                        </a>
-                                    </div>
-                                    <div class="title">
-                                        <a href="#">
-                                            <h2 class="title-tag">رسیدن به بهترین نتیجه در کمترین زمان ممکن!</h2>
-                                        </a>
-                                        <span class="post-date">
-                                            14 اردیبهشت 1399
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="item-inner">
-                                    <div class="item-thumb">
-                                        <a href="#" class="img-holder d-block">
-                                            <img src="assets/images/blog/iphone-7-plus-water-damage-repair-.jpg"
-                                                 alt="آیفون ۲۰۱۹ از آنتن بهتری بهره خواهد برد">
-                                        </a>
-                                    </div>
-                                    <div class="title">
-                                        <a href="#">
-                                            <h2 class="title-tag">آیفون ۲۰۱۹ از آنتن بهتری بهره خواهد برد</h2>
-                                        </a>
-                                        <span class="post-date">
-                                            14 اردیبهشت 1399
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="item-inner">
-                                    <div class="item-thumb">
-                                        <a href="#" class="img-holder d-block">
-                                            <img src="assets/images/blog/women-calligrapher-in-cozy-home-working.jpg"
-                                                 alt="۴ فایده مهم نگهداری از گیاهان در منزل">
-                                        </a>
-                                    </div>
-                                    <div class="title">
-                                        <a href="#">
-                                            <h2 class="title-tag">۴ فایده مهم نگهداری از گیاهان در منزل</h2>
-                                        </a>
-                                        <span class="post-date">
-                                            14 اردیبهشت 1399
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="item-inner">
-                                    <div class="item-thumb">
-                                        <a href="#" class="img-holder d-block">
-                                            <img src="assets/images/blog/inRqLEr.jpg"
-                                                 alt="منتقدان می‌گویند «نمای دور» جان تازه‌ای به کمدی رمانتیک بخشیده">
-                                        </a>
-                                    </div>
-                                    <div class="title">
-                                        <a href="#">
-                                            <h2 class="title-tag">
-                                                منتقدان می‌گویند «نمای دور» جان تازه‌ای به کمدی
-                                                رمانتیک بخشیده
-                                            </h2>
-                                        </a>
-                                        <span class="post-date">
-                                            14 اردیبهشت 1399
-                                        </span>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -321,3 +154,6 @@
         </div>
     </div>
 </main>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+

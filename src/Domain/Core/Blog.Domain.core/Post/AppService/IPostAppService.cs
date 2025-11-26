@@ -11,5 +11,6 @@ public interface IPostAppService
     Result<PostDto> GetBy(string slug);
     PostFilterDto GetPostsByFilter(PostFilterParams filterParams);
     List<PostDto> GetRecentlyPosts(int count);
+    bool IncreasePostViews(int postId);
 
 }

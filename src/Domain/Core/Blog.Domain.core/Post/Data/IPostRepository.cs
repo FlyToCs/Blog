@@ -11,4 +11,5 @@ public interface IPostRepository
     List<PostDto> GetRecentlyPosts(int count);
     bool IsSlugExist(string slug);
     PostFilterDto GetPostByFilter(PostFilterParams filterParams);
+    bool IncreasePostViews(int postId);
 }
