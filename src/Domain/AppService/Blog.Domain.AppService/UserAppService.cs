@@ -17,7 +17,7 @@ public class UserAppService(IUserService userService) : IUserAppService
         }
         else
         {
-            if (PasswordHasherSha256.VerifyPassword(password, user.PasswordHash))
+            if (!PasswordHasherSha256.VerifyPassword(password, user.PasswordHash))
             {
                 return Result<UserDto>.Failure("نام کاربری یا رمز عبور اشتباه است");
             }

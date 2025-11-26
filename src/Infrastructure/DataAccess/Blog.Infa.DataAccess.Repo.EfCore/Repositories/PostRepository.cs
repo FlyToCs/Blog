@@ -2,6 +2,7 @@
 using Blog.Domain.core.Post.Data;
 using Blog.Domain.core.Post.DTOs;
 using Blog.Domain.core.Post.Entities;
+using Blog.Domain.core.User.Entities;
 using Blog.Infa.Db.SqlServer.EfCore.DbContexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -39,6 +40,46 @@ public class PostRepository(AppDbContext context) : IPostRepository
 
             );
         return effectedRows > 0;
+    }
+
+    public List<PostDto> GetAllBy(int userId)
+    {
+        return context.Posts.Where(p => p.AuthorId == userId)
+            .Select(p => new PostDto()
+            {
+                Title = p.Title,
+                Slug = p.Slug,
+                Description = p.Description,
+                CategoryId = p.CategoryId,
+                PostId = p.Id,
+                AuthorId = p.AuthorId,
+                AuthorName = $"{p.Author.FirstName} {p.Author.LastName}",
+                Img = p.Img,
+                Context = p.Context,
+                PostViews = p.visits,
+                CreatedAt = p.CreatedAt,
+                SubCategoryId = p.SubCategoryId,
+            }).ToList();
+    }
+
+    public List<PostDto> GetAll()
+    {
+        return context.Posts
+            .Select(p => new PostDto()
+            {
+                Title = p.Title,
+                Slug = p.Slug,
+                Description = p.Description,
+                CategoryId = p.CategoryId,
+                PostId = p.Id,
+                AuthorId = p.AuthorId,
+                AuthorName = $"{p.Author.FirstName} {p.Author.LastName}",
+                Img = p.Img,
+                Context = p.Context,
+                PostViews = p.visits,
+                CreatedAt = p.CreatedAt,
+                SubCategoryId = p.SubCategoryId,
+            }).ToList();
     }
 
     public PostDto? GetBy(int id)

@@ -6,6 +6,8 @@ public interface IPostRepository
 {
     bool Create(CreatePostDto postDto);
     bool Edit(EditPostDto postDto);
+    List<PostDto> GetAllBy(int userId);
+    List<PostDto> GetAll();
     PostDto? GetBy(int id);
     PostDto? GetBy(string slug);
     List<PostDto> GetRecentlyPosts(int count);

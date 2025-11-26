@@ -109,4 +109,14 @@ public class PostAppService(IPostService postService) : IPostAppService
     {
         return postService.IncreasePostViews(postId);
     }
+
+    public List<PostDto> GetAllBy(int userId)
+    {
+        return postService.GetAllBy(userId);
+    }
+
+    public List<PostDto> GetAll()
+    {
+        return postService.GetAll();
+    }
 }

@@ -12,5 +12,7 @@ public interface IPostService
     PostFilterDto GetPostByFilter(PostFilterParams filterParams);
     List<PostDto> GetRecentlyPosts(int count);
     bool IncreasePostViews(int postId);
+    List<PostDto> GetAllBy(int userId);
+    List<PostDto> GetAll();
 
 }

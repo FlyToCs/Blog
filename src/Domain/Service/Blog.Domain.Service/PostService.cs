@@ -45,4 +45,14 @@ public class PostService(IPostRepository postRepo) : IPostService
     {
         return postRepo.IncreasePostViews(postId);
     }
+
+    public List<PostDto> GetAllBy(int userId)
+    {
+        return postRepo.GetAllBy(userId);
+    }
+
+    public List<PostDto> GetAll()
+    {
+        return postRepo.GetAll();
+    }
 }

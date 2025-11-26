@@ -1,14 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
-using Blog.Domain.core.User.AppService;
+﻿using Blog.Domain.core.User.AppService;
+using Blog.Domain.core.User.Entities;
+using Blog.Infa.Db.SqlServer.EfCore.Migrations;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
+using Blog.Domain.core.User.Enums;
+using CodeYad_Blog.Web.Pages.Category;
 
 namespace Blog.Presentation.RazorPages.Pages
 {
-    public class LoginModel(IUserAppService userAppService) : PageModel
+    public class LoginModel(IUserAppService userAppService,CookieManagementService cookieService) : PageModel
     {
         [Required(ErrorMessage = "نام کاربری نمیتواند خالی باشد")]
         [Display(Name = "نام کاربری")]
@@ -36,21 +40,24 @@ namespace Blog.Presentation.RazorPages.Pages
             {
                 ModelState.AddModelError(string.Empty, result.Message);
             }
-
-            List<Claim> claims = new List<Claim>()
+            else
             {
-                new Claim(ClaimTypes.NameIdentifier, result.Data!.Id.ToString()),
-                new Claim(ClaimTypes.Role, result.Data.Role.ToString())
-            };
+                cookieService.SignIn(
+                    result.Data.Id,
+                    result.Data.UserName,
+                    result.Data.Role.ToString(),
+                    false);
 
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var claimPrincipal = new ClaimsPrincipal(identity);
-            var properties = new AuthenticationProperties()
-            {
-                IsPersistent = true
-            };
-            HttpContext.SignInAsync(claimPrincipal, properties);
-            return RedirectToPage("./Index");
+                if (result.Data.Role != RoleEnum.User)
+                {
+                    return RedirectToAction("Index", "Home", new { area = "Admin" });
+
+                }
+
+
+            }
+
+            return RedirectToPage("/index");
 
         }
     }

@@ -58,6 +58,7 @@ public class UserRepository(AppDbContext context) : IUserRepository
     {
         return context.Users.Where(u => u.UserName == username).Select(u => new UserWithPasswordDto()
         {
+            Id = u.Id,
             FirstName = u.FirstName,
             LastName = u.LastName,
             UserName = u.UserName,
