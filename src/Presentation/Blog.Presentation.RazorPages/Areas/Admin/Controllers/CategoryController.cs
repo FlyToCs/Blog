@@ -2,11 +2,13 @@
 using Blog.Domain.core.Category.DTOs;
 using Blog.Presentation.RazorPages.Areas.Admin.Models.Categories;
 using CodeYad_Blog.Web.Areas.Admin.Models.Categories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin,Writer")]
     public class CategoryController(ICategoryAppService categoryAppService) : Controller
     {
 

@@ -2,11 +2,13 @@
 using Blog.Domain.core.Post.DTOs;
 using Blog.Presentation.RazorPages.Areas.Admin.Models.Posts;
 using Blog.Presentation.RazorPages.Services.FileManager;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin,Writer")]
     public class PostController(IPostAppService postAppService, IFileManager fileManager) : Controller
     {
         public IActionResult Index(int pageId = 1, string title = "", string categorySlug = "")
