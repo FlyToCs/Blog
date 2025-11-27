@@ -11,15 +11,16 @@ public class PostDto
     public int PostViews { get; set; }
     public string AuthorName { get; set; }
     public string Context { get; set; }
-
     public int AuthorId { get; set; }
-
     public int PostId { get; set; }
     public string Img { get; set; }
     public DateTime CreatedAt { get; set; }
     public int CategoryId { get; set; }
-    public CategoryDto Category { get; set; }
+    public string CategoryTitle { get; set; }
+    public string CategorySlug { get; set; }
+
     public int? SubCategoryId { get; set; }
-    public CategoryDto SubCategory { get; set; }
+    public string? SubCategoryTitle { get; set; }
+    public string? SubCategorySlug { get; set; }
 
 }

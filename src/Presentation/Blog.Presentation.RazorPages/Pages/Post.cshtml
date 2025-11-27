@@ -24,14 +24,14 @@
                                 <i class="mdi mdi-folder"></i>
 
                                 <a href="#">
-                                    @Model.Post.Category?.Title
+                                    @Model.Post.CategoryTitle
                                 </a>
 
-                                @if (Model.Post.SubCategory != null)
+                                @if (Model.Post.SubCategoryTitle != null)
                                 {
                                     <span> ، </span>
                                     <a href="#">
-                                        @Model.Post.SubCategory.Title
+                                        @Model.Post.SubCategoryTitle
                                     </a>
                                 }
                             </div>

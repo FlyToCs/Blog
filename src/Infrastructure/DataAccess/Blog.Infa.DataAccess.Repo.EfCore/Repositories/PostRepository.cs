@@ -90,9 +90,6 @@ public class PostRepository(AppDbContext context) : IPostRepository
     public async Task<PostDto?> GetByAsync(int id)
     {
         return await context.Posts
-            .Include(p => p.Category)
-            .Include(p => p.SubCategory)
-            .Include(p => p.Author)
             .Where(p => p.Id == id)
             .Select(p => new PostDto()
             {
@@ -108,26 +105,10 @@ public class PostRepository(AppDbContext context) : IPostRepository
                 PostViews = p.visits,
                 CreatedAt = p.CreatedAt,
                 SubCategoryId = p.SubCategoryId,
-
-                Category = new CategoryDto()
-                {
-                    Id = p.Category.Id,
-                    MetaDescription = p.Category.MetaDescription,
-                    MetaTag = p.Category.MetaTag,
-                    ParentId = p.Category.ParentId,
-                    Slug = p.Category.Slug,
-                    Title = p.Category.Title
-                },
-
-                SubCategory = p.SubCategory == null ? null : new CategoryDto()
-                {
-                    Id = p.SubCategory.Id,
-                    MetaDescription = p.SubCategory.MetaDescription,
-                    MetaTag = p.SubCategory.MetaTag,
-                    ParentId = p.SubCategory.ParentId,
-                    Slug = p.SubCategory.Slug,
-                    Title = p.SubCategory.Title
-                }
+                CategorySlug = p.Category.Slug,
+                SubCategorySlug = p.SubCategory.Slug,
+                SubCategoryTitle = p.SubCategory.Title,
+                CategoryTitle = p.Category.Title
             }).FirstOrDefaultAsync();
     }
 
@@ -136,43 +117,24 @@ public class PostRepository(AppDbContext context) : IPostRepository
     {
         return await context.Posts
             .Where(p => p.Slug == slug)
-            .Include(p => p.Category)
-            .Include(p => p.SubCategory)
-            .Include(p => p.Author)
             .Select(p => new PostDto()
             {
                 Title = p.Title,
                 Slug = p.Slug,
                 Description = p.Description,
                 CategoryId = p.CategoryId,
-                AuthorName = $"{p.Author.FirstName} {p.Author.LastName}",
                 PostId = p.Id,
                 AuthorId = p.AuthorId,
-                Context = p.Context,
+                AuthorName = $"{p.Author.FirstName} {p.Author.LastName}",
                 Img = p.Img,
+                Context = p.Context,
                 PostViews = p.visits,
                 CreatedAt = p.CreatedAt,
                 SubCategoryId = p.SubCategoryId,
-
-                Category = new CategoryDto()
-                {
-                    Id = p.Category.Id,
-                    MetaDescription = p.Category.MetaDescription,
-                    MetaTag = p.Category.MetaTag,
-                    ParentId = p.Category.ParentId,
-                    Slug = p.Category.Slug,
-                    Title = p.Category.Title
-                },
-
-                SubCategory = p.SubCategory == null ? null : new CategoryDto()
-                {
-                    Id = p.SubCategory.Id,
-                    MetaDescription = p.SubCategory.MetaDescription,
-                    MetaTag = p.SubCategory.MetaTag,
-                    ParentId = p.SubCategory.ParentId,
-                    Slug = p.SubCategory.Slug,
-                    Title = p.SubCategory.Title
-                }
+                CategorySlug = p.Category.Slug,
+                SubCategorySlug = p.SubCategory.Slug,
+                SubCategoryTitle = p.SubCategory.Title,
+                CategoryTitle = p.Category.Title
             }).FirstOrDefaultAsync();
     }
 
@@ -180,9 +142,6 @@ public class PostRepository(AppDbContext context) : IPostRepository
     public async Task<List<PostDto>> GetRecentlyPostsAsync(int count)
     {
         return await context.Posts
-            .Include(p => p.Category)
-            .Include(p => p.SubCategory)
-            .Include(p => p.Author)
             .OrderByDescending(p => p.CreatedAt)
             .Take(count)
             .Select(p => new PostDto()
@@ -191,34 +150,19 @@ public class PostRepository(AppDbContext context) : IPostRepository
                 Slug = p.Slug,
                 Description = p.Description,
                 CategoryId = p.CategoryId,
-                AuthorName = $"{p.Author.FirstName} {p.Author.LastName}",
                 PostId = p.Id,
                 AuthorId = p.AuthorId,
-                Context = p.Context,
+                AuthorName = $"{p.Author.FirstName} {p.Author.LastName}",
                 Img = p.Img,
+                Context = p.Context,
                 PostViews = p.visits,
                 CreatedAt = p.CreatedAt,
                 SubCategoryId = p.SubCategoryId,
+                CategorySlug = p.Category.Slug,
+                SubCategorySlug = p.SubCategory.Slug,
+                SubCategoryTitle = p.SubCategory.Title,
+                CategoryTitle = p.Category.Title
 
-                Category = new CategoryDto()
-                {
-                    Id = p.Category.Id,
-                    MetaDescription = p.Category.MetaDescription,
-                    MetaTag = p.Category.MetaTag,
-                    ParentId = p.Category.ParentId,
-                    Slug = p.Category.Slug,
-                    Title = p.Category.Title
-                },
-
-                SubCategory = p.SubCategory == null ? null : new CategoryDto()
-                {
-                    Id = p.SubCategory.Id,
-                    MetaDescription = p.SubCategory.MetaDescription,
-                    MetaTag = p.SubCategory.MetaTag,
-                    ParentId = p.SubCategory.ParentId,
-                    Slug = p.SubCategory.Slug,
-                    Title = p.SubCategory.Title
-                }
             })
             .ToListAsync();
     }
@@ -265,29 +209,16 @@ public class PostRepository(AppDbContext context) : IPostRepository
                     CategoryId = p.CategoryId,
                     PostId = p.Id,
                     AuthorId = p.AuthorId,
+                    AuthorName = $"{p.Author.FirstName} {p.Author.LastName}",
                     Img = p.Img,
+                    Context = p.Context,
+                    PostViews = p.visits,
                     CreatedAt = p.CreatedAt,
                     SubCategoryId = p.SubCategoryId,
-
-                    Category = p.Category == null ? null : new CategoryDto()
-                    {
-                        Id = p.CategoryId,
-                        MetaDescription = p.Category.MetaDescription,
-                        MetaTag = p.Category.MetaTag,
-                        ParentId = p.Category.ParentId,
-                        Slug = p.Category.Slug,
-                        Title = p.Category.Title
-                    },
-
-                    SubCategory = p.SubCategory == null ? null : new CategoryDto()
-                    {
-                        Id = p.SubCategoryId.Value,
-                        MetaDescription = p.SubCategory.MetaDescription,
-                        MetaTag = p.SubCategory.MetaTag,
-                        ParentId = p.SubCategory.ParentId,
-                        Slug = p.SubCategory.Slug,
-                        Title = p.SubCategory.Title
-                    }
+                    CategorySlug = p.Category.Slug,
+                    SubCategorySlug = p.SubCategory.Slug,
+                    SubCategoryTitle = p.SubCategory.Title,
+                    CategoryTitle = p.Category.Title
                 })
                 .ToListAsync()
         };
