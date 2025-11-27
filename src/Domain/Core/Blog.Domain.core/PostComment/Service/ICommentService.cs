@@ -6,4 +6,7 @@ public interface ICommentService
 {
     bool CreateComment(CreateCommentDto commentDto);
     List<CommentDto> GetCommentsPost(int postId);
+    bool ApproveComment(int commentId);
+    bool RejectComment(int commentId);
+    bool DeleteComment(int commentId);
 }

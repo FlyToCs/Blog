@@ -15,4 +15,19 @@ public class CommentService(ICommentRepository commentRepo) : ICommentService
     {
         return commentRepo.GetCommentsPost(postId);
     }
+
+    public bool ApproveComment(int commentId)
+    {
+        return commentRepo.ApproveComment(commentId);
+    }
+
+    public bool RejectComment(int commentId)
+    {
+        return commentRepo.RejectComment(commentId);
+    }
+
+    public bool DeleteComment(int commentId)
+    {
+        return commentRepo.DeleteComment(commentId);
+    }
 }

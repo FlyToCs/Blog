@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Blog.Domain.core.Post.AppService;
+﻿using Blog.Domain.core.Post.AppService;
 using Blog.Domain.core.Post.DTOs;
 using Blog.Domain.core.Post.Entities;
 using Blog.Domain.core.PostComment.AppService;
 using Blog.Domain.core.PostComment.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 
 
 namespace Blog.Presentation.RazorPages.Pages
@@ -45,7 +46,7 @@ namespace Blog.Presentation.RazorPages.Pages
             {
                 PostId = Post.PostId,
                 Text = Comment,
-                UserId = 1
+                UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!)
             };
             commentAppService.CreateComment(comment);
             ReloadPageData(slug);

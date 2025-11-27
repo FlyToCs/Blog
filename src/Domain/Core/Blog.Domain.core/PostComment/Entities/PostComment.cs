@@ -1,11 +1,13 @@
 ﻿using Blog.Domain.core._common;
+using Blog.Domain.core.PostComment.Enums;
 
 namespace Blog.Domain.core.PostComment.Entities;
 
 public class PostComment : BaseEntity
 {
     public string Text { get; set; }
-
+    public RateEnum Rate { get; set; }
+    public CommentStatus Status { get; set; }
     public int PostId { get; set; }
     public Post.Entities.Post Post { get; set; }
     public int UserId { get; set; }
