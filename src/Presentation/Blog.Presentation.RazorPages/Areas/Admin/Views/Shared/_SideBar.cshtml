@@ -37,6 +37,11 @@
                     <i class="fa fa-th"></i> <span>مدیریت مقالات</span>
                 </a>
             </li>
+            <li class="@(selected == "posts" ? "active" : null)">
+                <a asp-area="Admin" asp-controller="Comment" asp-action="Index">
+                    <i class="fa fa-th"></i> <span>مدیریت کامنت ها</span>
+                </a>
+            </li>
         </ul>
     </section>
     <!-- /.sidebar -->

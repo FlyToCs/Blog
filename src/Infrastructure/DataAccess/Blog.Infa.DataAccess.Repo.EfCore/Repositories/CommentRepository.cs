@@ -23,11 +23,12 @@ public class CommentRepository(AppDbContext context) : ICommentRepository
         return context.SaveChanges() > 0;
     }
 
-    public List<CommentDto> GetCommentsPost(int postId)
+    public List<CommentDto> GetCommentsPost(int userId)
     {
-        return context.PostComments.Where(c => c.PostId == postId)
+        return context.PostComments.Where(c => c.Post.AuthorId == userId && c.Status == CommentStatus.Approved)
             .Select(c => new CommentDto()
             {
+                Id = c.Id,
                 PostId = c.PostId,
                 Text = c.Text,
                 Status = c.Status,

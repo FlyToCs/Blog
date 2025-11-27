@@ -1,0 +1,103 @@
+﻿
+@using Blog.Domain.core.PostComment.Enums
+@model List<Blog.Domain.core.PostComment.DTOs.CommentDto>
+
+@{
+    ViewData["title"] = "مدیریت نظرات من";
+    var counter = 1;
+}
+
+<section class="content-header">
+    <h1>@ViewData["title"]</h1>
+    <ol class="breadcrumb">
+        <li><a asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="fa fa-dashboard"></i> خانه</a></li>
+        <li class="active">@ViewData["title"]</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title">لیست نظرات دریافتی</h3>
+        </div>
+
+        <div class="box-body table-responsive no-padding">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th style="width: 50px">#</th>
+                        <th>نام کاربر</th>
+                        <th>متن نظر</th>
+                        <th>شناسه پست</th>
+                        <th>تاریخ</th>
+                        <th>وضعیت</th>
+                        <th style="width: 200px">عملیات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@counter</td>
+                                <td>@item.FullName</td>
+                                <td>
+                                    <span title="@item.Text">
+                                        @(item.Text.Length > 50 ? item.Text.Substring(0, 50) + "..." : item.Text)
+                                    </span>
+                                </td>
+                                <td>@item.PostId</td>
+                                <td>@item.CreatedAt.ToShortDateString()</td>
+                                <td>
+                                    @switch (item.Status)
+                                    {
+                                        case CommentStatus.Pending:
+                                            <span class="label label-warning">در انتظار</span>
+                                            break;
+                                        case CommentStatus.Approved:
+                                            <span class="label label-success">تایید شده</span>
+                                            break;
+                                        case CommentStatus.Rejected:
+                                            <span class="label label-danger">رد شده</span>
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.Status != CommentStatus.Approved)
+                                    {
+                                        <a asp-action="ApproveComment" asp-route-id="@item.Id" asp-route-status="@CommentStatus.Approved"
+                                           class="btn btn-success btn-xs" title="تایید">
+                                            <i class="fa fa-check"></i>
+                                        </a>
+                                    }
+
+                                    @if (item.Status != CommentStatus.Rejected)
+                                    {
+                                        <a asp-action="RejectComment" asp-route-id="@item.Id"
+                                           class="btn btn-warning btn-xs" title="رد">
+                                            <i class="fa fa-ban"></i>
+                                        </a>
+                                    }
+
+                                    <a asp-action="Delete" asp-route-id="@item.Id"
+                                       onclick="return confirm('آیا از حذف این نظر اطمینان دارید؟')"
+                                       class="btn btn-danger btn-xs" title="حذف">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            counter++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center">هیچ نظری یافت نشد.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

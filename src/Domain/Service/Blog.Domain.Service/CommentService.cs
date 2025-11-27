@@ -11,9 +11,9 @@ public class CommentService(ICommentRepository commentRepo) : ICommentService
         return commentRepo.CreateComment(commentDto);
     }
 
-    public List<CommentDto> GetCommentsPost(int postId)
+    public List<CommentDto> GetCommentsPost(int userId)
     {
-        return commentRepo.GetCommentsPost(postId);
+        return commentRepo.GetCommentsPost(userId);
     }
 
     public bool ApproveComment(int commentId)

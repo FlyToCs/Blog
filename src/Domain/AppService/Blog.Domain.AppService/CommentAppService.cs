@@ -21,9 +21,9 @@ public class CommentAppService(ICommentService commentService) : ICommentAppServ
 
     }
 
-    public List<CommentDto> GetCommentsPost(int postId)
+    public List<CommentDto> GetCommentsPost(int userId)
     {
-        return commentService.GetCommentsPost(postId);
+        return commentService.GetCommentsPost(userId);
     }
 
     public Result<bool> ApproveComment(int commentId)
