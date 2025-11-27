@@ -50,10 +50,7 @@ namespace Blog.Presentation.RazorPages.Pages
                 if (result.Data.Role != RoleEnum.User)
                 {
                     return RedirectToAction("Index", "Home", new { area = "Admin" });
-
                 }
-
-
             }
 
             return RedirectToPage("/index");

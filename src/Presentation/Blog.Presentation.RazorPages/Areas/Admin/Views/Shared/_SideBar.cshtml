@@ -16,6 +16,12 @@
                 <li><a href="/admin/index2.html"><i class="fa fa-circle-o"></i> داشبرد دوم</a></li>
             </ul>
         </li>*@
+
+            <li class="@(selected == "index" ? "active" : null)">
+                <a asp-area="Admin" asp-controller="Home" asp-action="GoToUserBlog">
+                    <i class="fa fa-dashboard"></i> <span>نمایش وبلاگ</span>
+                </a>
+            </li>
             <li class="@(selected == "index" ? "active" : null)">
                 <a asp-area="Admin" asp-controller="Home" asp-action="Index">
                     <i class="fa fa fa-dashboard"></i> <span>داشبرد</span>

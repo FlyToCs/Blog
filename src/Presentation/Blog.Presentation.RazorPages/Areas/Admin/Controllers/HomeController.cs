@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
 {
@@ -11,5 +12,14 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
         {
             return View();
         }
+
+        public IActionResult GoToUserBlog()
+        {
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
+            return RedirectToPage("/Posts", new { area = "", userId = userId });
+        }
     }
+
+    
 }
