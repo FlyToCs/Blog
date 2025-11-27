@@ -48,5 +48,10 @@ public class UserConfigs : IEntityTypeConfiguration<User>
         builder.HasMany(u => u.Posts).WithOne(p=>p.Author)
             .HasForeignKey(p=>p.AuthorId)
             .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasMany(u => u.Categories).WithOne(c => c.User)
+            .HasForeignKey(p => p.UserId)
+            .OnDelete(DeleteBehavior.NoAction);
+
     }
 }

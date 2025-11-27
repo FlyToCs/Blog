@@ -4,6 +4,7 @@ using Blog.Presentation.RazorPages.Areas.Admin.Models.Posts;
 using Blog.Presentation.RazorPages.Services.FileManager;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
 {
@@ -46,7 +47,7 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
                 Slug = createViewModel.Slug,
                 SubCategoryId = createViewModel.SubCategoryId == 0 ? null : createViewModel.SubCategoryId,
                 Title = createViewModel.Title,
-                AuthorId = 5
+                AuthorId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!)
             });
 
             if (!result.IsSuccess)

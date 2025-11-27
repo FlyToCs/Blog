@@ -15,4 +15,6 @@ public class Category : BaseEntity
     public List<Category> Children { get; set; } = new();
 
     public List<Post.Entities.Post> Posts { get; set; }
+    public int UserId { get; set; }
+    public User.Entities.User User { get; set; }
 }

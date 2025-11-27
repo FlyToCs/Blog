@@ -20,6 +20,7 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Models.Categories
         [DataType(DataType.MultilineText)]
         public string MetaDescription { get; set; }
 
+        public int UserId { get; set; }
 
         public CreateCategoryDto MapToDto()
         {
@@ -29,7 +30,8 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Models.Categories
                 MetaDescription = MetaDescription,
                 Slug = Slug,
                 ParentId = ParentId,
-                MetaTag = MetaTag
+                MetaTag = MetaTag,
+                UserId = UserId
             };
         }
     }

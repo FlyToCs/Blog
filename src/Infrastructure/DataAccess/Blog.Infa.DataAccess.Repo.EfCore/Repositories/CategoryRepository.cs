@@ -16,7 +16,8 @@ public class CategoryRepository(AppDbContext context) : ICategoryRepository
             ParentId = createDto.ParentId,
             MetaDescription = createDto.MetaDescription,
             Slug = createDto.Slug,
-            MetaTag = createDto.MetaTag
+            MetaTag = createDto.MetaTag,
+            UserId = createDto.UserId
         };
         context.Add(category);
         return context.SaveChanges() > 0;
@@ -45,7 +46,24 @@ public class CategoryRepository(AppDbContext context) : ICategoryRepository
                 ParentId = c.ParentId,
                 Slug = c.Slug,
                 MetaDescription = c.MetaDescription,
-                MetaTag = c.MetaTag
+                MetaTag = c.MetaTag,
+                UserId = c.UserId
+            }).ToList();
+    }
+
+    public List<CategoryDto> GetAllCategoriesBy(int userId)
+    {
+        return context.Categories
+            .Where(c=>c.UserId == userId)
+            .Select(c => new CategoryDto()
+            {
+                Id = c.Id,
+                Title = c.Title,
+                ParentId = c.ParentId,
+                Slug = c.Slug,
+                MetaDescription = c.MetaDescription,
+                MetaTag = c.MetaTag,
+                UserId = c.UserId
             }).ToList();
     }
 
@@ -60,7 +78,8 @@ public class CategoryRepository(AppDbContext context) : ICategoryRepository
                 ParentId = c.ParentId,
                 Slug = c.Slug,
                 MetaDescription = c.MetaDescription,
-                MetaTag = c.MetaTag
+                MetaTag = c.MetaTag,
+                UserId = c.UserId
             }).ToList();
     }
 
@@ -74,8 +93,9 @@ public class CategoryRepository(AppDbContext context) : ICategoryRepository
             ParentId = c.ParentId,
             Slug = c.Slug,
             MetaDescription = c.MetaDescription,
-            MetaTag = c.MetaTag
-        }).FirstOrDefault();
+            MetaTag = c.MetaTag,
+            UserId = c.UserId
+            }).FirstOrDefault();
     }
 
     public CategoryDto? GetCategoryBy(string slug)
@@ -88,8 +108,9 @@ public class CategoryRepository(AppDbContext context) : ICategoryRepository
             ParentId = c.ParentId,
             Slug = c.Slug,
             MetaDescription = c.MetaDescription,
-            MetaTag = c.MetaTag
-        }).FirstOrDefault();
+            MetaTag = c.MetaTag,
+            UserId = c.UserId
+            }).FirstOrDefault();
     }
 
     public bool IsSlugExist(string slug)

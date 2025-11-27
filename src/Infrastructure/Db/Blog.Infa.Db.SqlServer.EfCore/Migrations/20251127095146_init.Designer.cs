@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Blog.Infa.Db.SqlServer.EfCore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251124182932_init")]
+    [Migration("20251127095146_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -67,12 +67,17 @@ namespace Blog.Infa.Db.SqlServer.EfCore.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ParentId");
 
                     b.HasIndex("Slug")
                         .IsUnique();
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Categories", (string)null);
                 });
@@ -90,6 +95,10 @@ namespace Blog.Infa.Db.SqlServer.EfCore.Migrations
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Context")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -113,7 +122,7 @@ namespace Blog.Infa.Db.SqlServer.EfCore.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("SubCategoryId")
+                    b.Property<int?>("SubCategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -240,7 +249,15 @@ namespace Blog.Infa.Db.SqlServer.EfCore.Migrations
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("Blog.Domain.core.User.Entities.User", "User")
+                        .WithMany("Categories")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.Navigation("Parent");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Blog.Domain.core.Post.Entities.Post", b =>
@@ -260,8 +277,7 @@ namespace Blog.Infa.Db.SqlServer.EfCore.Migrations
                     b.HasOne("Blog.Domain.core.Category.Entities.Category", "SubCategory")
                         .WithMany()
                         .HasForeignKey("SubCategoryId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Author");
 
@@ -303,6 +319,8 @@ namespace Blog.Infa.Db.SqlServer.EfCore.Migrations
 
             modelBuilder.Entity("Blog.Domain.core.User.Entities.User", b =>
                 {
+                    b.Navigation("Categories");
+
                     b.Navigation("PostComments");
 
                     b.Navigation("Posts");

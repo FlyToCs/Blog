@@ -1,6 +1,5 @@
 ﻿using Blog.Domain.core.User.AppService;
 using Blog.Domain.core.User.Entities;
-using Blog.Infa.Db.SqlServer.EfCore.Migrations;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;

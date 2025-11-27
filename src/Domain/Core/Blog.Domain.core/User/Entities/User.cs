@@ -17,4 +17,5 @@ public class User : BaseEntity
 
     public List<PostComment.Entities.PostComment> PostComments { get; set; }
     public List<Post.Entities.Post> Posts { get; set; }
+    public List<Category.Entities.Category> Categories { get; set; }
 }

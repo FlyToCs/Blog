@@ -64,12 +64,17 @@ namespace Blog.Infa.Db.SqlServer.EfCore.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ParentId");
 
                     b.HasIndex("Slug")
                         .IsUnique();
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Categories", (string)null);
                 });
@@ -241,7 +246,15 @@ namespace Blog.Infa.Db.SqlServer.EfCore.Migrations
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("Blog.Domain.core.User.Entities.User", "User")
+                        .WithMany("Categories")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.Navigation("Parent");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Blog.Domain.core.Post.Entities.Post", b =>
@@ -303,6 +316,8 @@ namespace Blog.Infa.Db.SqlServer.EfCore.Migrations
 
             modelBuilder.Entity("Blog.Domain.core.User.Entities.User", b =>
                 {
+                    b.Navigation("Categories");
+
                     b.Navigation("PostComments");
 
                     b.Navigation("Posts");

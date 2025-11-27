@@ -1,9 +1,11 @@
 ﻿using Blog.Domain.core.Category.AppService;
 using Blog.Domain.core.Category.DTOs;
+using Blog.Domain.core.User.Entities;
 using Blog.Presentation.RazorPages.Areas.Admin.Models.Categories;
 using CodeYad_Blog.Web.Areas.Admin.Models.Categories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
 {
@@ -14,7 +16,9 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            var categories = categoryAppService.GetAllCategories();
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            var categories = categoryAppService.GetAllCategoriesBy(userId);
             return View(categories);
         }
 
@@ -27,6 +31,7 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
         [HttpPost("/admin/category/add/{parentId?}")]
         public IActionResult Add(int? parentId, CreateCategoryViewModel createViewModel)
         {
+            createViewModel.UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             createViewModel.ParentId = parentId;
             var result = categoryAppService.CreateCategory(createViewModel.MapToDto());
             if (!result.IsSuccess)

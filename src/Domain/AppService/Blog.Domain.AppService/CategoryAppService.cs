@@ -68,6 +68,11 @@ public class CategoryAppService(ICategoryService categoryService) : ICategoryApp
         return categoryService.GetAllCategories();
     }
 
+    public List<CategoryDto> GetAllCategoriesBy(int userId)
+    {
+        return categoryService.GetAllCategoriesBy(userId);
+    }
+
     public List<CategoryDto> GetChildCategories(int parentId)
     {
         return categoryService.GetChildCategories(parentId);
