@@ -11,31 +11,31 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
     public class CommentController(ICommentAppService commentAppService) : Controller
     {
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var authorId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            var comments = commentAppService.GetCommentsPostAsync(authorId);
+            var comments = await commentAppService.GetCommentsPostAsync(authorId);
             return View(comments);
         }
 
         [HttpGet]
-        public IActionResult ApproveComment(int id, CommentStatus status)
+        public async Task<IActionResult> ApproveComment(int id, CommentStatus status)
         {
           
-            commentAppService.ApproveCommentAsync(id);
+            await commentAppService.ApproveCommentAsync(id);
             return RedirectToAction("Index");
         }
-        public IActionResult RejectComment(int id)
+        public async Task<IActionResult> RejectComment(int id)
         {
 
-            commentAppService.ApproveCommentAsync(id);
+            await commentAppService.ApproveCommentAsync(id);
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            commentAppService.DeleteCommentAsync(id);
+           await commentAppService.DeleteCommentAsync(id);
             return RedirectToAction("Index");
         }
     }

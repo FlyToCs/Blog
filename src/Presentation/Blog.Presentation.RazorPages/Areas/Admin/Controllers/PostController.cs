@@ -46,7 +46,9 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
                 Slug = createViewModel.Slug,
                 CategoryId = createViewModel.CategoryId,
                 SubCategoryId = createViewModel.SubCategoryId == 0 ? null : createViewModel.SubCategoryId,
-                AuthorId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!)
+                AuthorId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!),
+                Context = createViewModel.Context,
+                Img = fileManager.SaveFileAndReturnName(createViewModel.ImageFile,Directories.PostImage)
             };
 
             var result = await postAppService.CreateAsync(postDto);
@@ -72,7 +74,7 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
                 Context = post.Data.Context,
                 Slug = post.Data.Slug,
                 SubCategoryId = post.Data.SubCategoryId,
-                Title = post.Data.Title
+                Title = post.Data.Title,
             };
             return View(model);
         }

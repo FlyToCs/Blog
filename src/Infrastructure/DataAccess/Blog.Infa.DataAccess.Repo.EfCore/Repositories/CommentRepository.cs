@@ -27,7 +27,7 @@ public class CommentRepository(AppDbContext context) : ICommentRepository
     public async Task<List<CommentDto>> GetCommentsPostAsync(int userId)
     {
         return await context.PostComments
-            .Where(c => c.Post.AuthorId == userId && c.Status == CommentStatus.Approved)
+            .Where(c => c.Post.AuthorId == userId)
             .Select(c => new CommentDto()
             {
                 Id = c.Id,
