@@ -1,184 +1,181 @@
 ﻿@page
-@using Blog.Presentation.RazorPages.Services.FileManager
-@model IndexModel
+@model Blog.Presentation.RazorPages.Pages.IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    Layout = "";
 }
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نویستا | پلتفرم ساخت وبلاگ حرفه‌ای</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
 
-<main class="main-row d-inline-block mb-2 mt-4">
-    <div class="container-main">
-        <div class="d-block">
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+        }
 
-            <div class="col-lg-9 col-md-8 col-xs-12 pr mt-3">
-                <section class="content-widget">
+        .gradient-text {
+            background: linear-gradient(to left, #4f46e5, #9333ea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
 
-                    @foreach (var item in Model.Posts)
-                    {
-                        <article class="post-item">
-                            <div class="post-thumb">
-                                <a href="#" class="d-block">
-                                    <img src="@Directories.GetPostImage(item.Img)"
-                                         alt="@item.Title">
-                                </a>
-                            </div>
-                            <div class="post-content">
-                                <div class="title">
-                                    <a href="#">
-                                        <h2 class="title-tag">
-                                            @item.Title
-                                        </h2>
-                                    </a>
-                                </div>
-                                <div class="excerpt">
-                                    @item.Description
-                                </div>
-                                <span class="post-date">
-                                    <i class="fa fa-calendar"></i>
-                                    @item.CreatedAt
-                                </span>
-                            </div>
-                        </article>
-                    }
-                </section>
-            </div>
-            <div class="col-lg-3 col-md-4 col-xs-12 pr mt-3 sticky-sidebar">
-                <div class="shortcode-widget-area-sidebar">
-                    <section class="widget-posts">
-                        <div class="header-sidebar mb-3">
-                            <h3>جدیدترین نوشته ها</h3>
-                        </div>
-                        <div class="content-sidebar">
-                            <div class="item">
-                                <div class="item-inner">
-                                    <div class="item-thumb">
-                                        <a href="#" class="img-holder d-block">
-                                            <img src="assets/images/blog/fortnite-battle-royale-iphone.jpg"
-                                                 alt="تعداد بازی‌کننده‌های فورتنایت، به خاطر آپدیت اخیر کاهش پیدا کرد">
-                                        </a>
-                                    </div>
-                                    <div class="title">
-                                        <a href="#">
-                                            <h2 class="title-tag">
-                                                تعداد بازی‌کننده‌های فورتنایت، به خاطر آپدیت اخیر
-                                                کاهش پیدا کرد
-                                            </h2>
-                                        </a>
-                                        <span class="post-date">
-                                            14 اردیبهشت 1399
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="item-inner">
-                                    <div class="item-thumb">
-                                        <a href="#" class="img-holder d-block">
-                                            <img src="assets/images/blog/2017 Home Selling Results.jpg"
-                                                 alt="رسیدن به بهترین نتیجه در کمترین زمان ممکن!">
-                                        </a>
-                                    </div>
-                                    <div class="title">
-                                        <a href="#">
-                                            <h2 class="title-tag">رسیدن به بهترین نتیجه در کمترین زمان ممکن!</h2>
-                                        </a>
-                                        <span class="post-date">
-                                            14 اردیبهشت 1399
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="item-inner">
-                                    <div class="item-thumb">
-                                        <a href="#" class="img-holder d-block">
-                                            <img src="assets/images/blog/iphone-7-plus-water-damage-repair-.jpg"
-                                                 alt="آیفون ۲۰۱۹ از آنتن بهتری بهره خواهد برد">
-                                        </a>
-                                    </div>
-                                    <div class="title">
-                                        <a href="#">
-                                            <h2 class="title-tag">آیفون ۲۰۱۹ از آنتن بهتری بهره خواهد برد</h2>
-                                        </a>
-                                        <span class="post-date">
-                                            14 اردیبهشت 1399
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="item-inner">
-                                    <div class="item-thumb">
-                                        <a href="#" class="img-holder d-block">
-                                            <img src="assets/images/blog/women-calligrapher-in-cozy-home-working.jpg"
-                                                 alt="۴ فایده مهم نگهداری از گیاهان در منزل">
-                                        </a>
-                                    </div>
-                                    <div class="title">
-                                        <a href="#">
-                                            <h2 class="title-tag">۴ فایده مهم نگهداری از گیاهان در منزل</h2>
-                                        </a>
-                                        <span class="post-date">
-                                            14 اردیبهشت 1399
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="item-inner">
-                                    <div class="item-thumb">
-                                        <a href="#" class="img-holder d-block">
-                                            <img src="assets/images/blog/inRqLEr.jpg"
-                                                 alt="منتقدان می‌گویند «نمای دور» جان تازه‌ای به کمدی رمانتیک بخشیده">
-                                        </a>
-                                    </div>
-                                    <div class="title">
-                                        <a href="#">
-                                            <h2 class="title-tag">
-                                                منتقدان می‌گویند «نمای دور» جان تازه‌ای به کمدی
-                                                رمانتیک بخشیده
-                                            </h2>
-                                        </a>
-                                        <span class="post-date">
-                                            14 اردیبهشت 1399
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+    <nav class="fixed w-full z-50 top-0 start-0 border-b border-gray-200 bg-white/80 backdrop-blur-md">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="#" class="flex items-center space-x-3 space-x-reverse rtl:space-x-reverse">
+                <div class="bg-indigo-600 text-white p-2 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                    </svg>
                 </div>
-            </div>
-            <div class="pagination-product pr-3 pl-3 pr">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">«</span>
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link active" href="#">1</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">2</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">3</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">...</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">8</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">»</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+                <span class="self-center text-2xl font-bold whitespace-nowrap text-gray-900">نویستا</span>
+            </a>
+            <div class="flex md:order-2 space-x-3 space-x-reverse md:space-x-reverse">
+                <a asp-page="Login"  class="text-gray-900 hover:text-indigo-600 font-medium px-4 py-2 transition">ورود</a>
+                <a asp-page="Register" class="text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all shadow-lg shadow-indigo-500/30">ثبت نام رایگان</a>
             </div>
         </div>
-    </div>
-</main>
+    </nav>
+
+    <section class="bg-white pt-32 pb-20 overflow-hidden">
+        <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+            <div class="mr-auto place-self-center lg:col-span-7">
+                <h1 class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl text-gray-900">
+                    داستان خود را در <br>
+                    <span class="gradient-text">فضایی بی‌نهایت</span> بنویسید
+                </h1>
+                <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl leading-relaxed">
+                    نویستا ساده‌ترین راه برای ساخت وبلاگ شخصی و حرفه‌ای است. بدون نیاز به دانش فنی، افکار خود را با دنیا به اشتراک بگذارید و جامعه مخاطبین خود را بسازید.
+                </p>
+                <div class="flex flex-col space-y-4 sm:flex-row sm:justify-start sm:space-y-0 sm:space-x-4 sm:space-x-reverse">
+                    <a href="#" class="inline-flex justify-center items-center py-3 px-6 text-base font-medium text-center text-white rounded-xl bg-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-300 shadow-xl shadow-indigo-600/20 transition-transform hover:-translate-y-1">
+                        همین حالا شروع کنید
+                        <svg class="w-3.5 h-3.5 mr-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+                        </svg>
+                    </a>
+                    <a href="#" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-gray-900 rounded-xl border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 transition">
+                        نمونه بلاگ‌ها
+                    </a>
+                </div>
+            </div>
+            <div class="hidden lg:mt-0 lg:col-span-5 lg:flex relative">
+                <div class="absolute top-0 right-0 -mr-20 -mt-20 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-2xl opacity-70 animate-blob"></div>
+                <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-72 h-72 bg-indigo-300 rounded-full mix-blend-multiply filter blur-2xl opacity-70 animate-blob animation-delay-2000"></div>
+
+                <img src="/Img/How-to-Write-a-Blog-Post.png" alt="mockup" class="relative rounded-2xl shadow-2xl transform rotate-2 hover:rotate-0 transition duration-500 border-4 border-white">
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-gray-50 py-20">
+        <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+            <div class="max-w-screen-md mb-8 lg:mb-16 mx-auto text-center">
+                <h2 class="mb-4 text-3xl tracking-tight font-extrabold text-gray-900">چرا نویستا را انتخاب کنید؟</h2>
+                <p class="text-gray-500 sm:text-xl">تمام ابزارهایی که برای نویسندگی و دیده شدن نیاز دارید، در یک پلتفرم زیبا.</p>
+            </div>
+            <div class="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow duration-300 border border-gray-100">
+                    <div class="flex justify-center items-center mb-4 w-12 h-12 rounded-full bg-indigo-100 lg:h-14 lg:w-14">
+                        <svg class="w-6 h-6 text-indigo-600 lg:w-8 lg:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                    </div>
+                    <h3 class="mb-2 text-xl font-bold text-gray-900">ویرایشگر قدرتمند</h3>
+                    <p class="text-gray-500">تجربه‌ای لذت‌بخش از نوشتن با ادیتوری مدرن، مینیمال و بدون حواس‌پرتی. پشتیبانی کامل از مارک‌داون.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow duration-300 border border-gray-100">
+                    <div class="flex justify-center items-center mb-4 w-12 h-12 rounded-full bg-purple-100 lg:h-14 lg:w-14">
+                        <svg class="w-6 h-6 text-purple-600 lg:w-8 lg:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <h3 class="mb-2 text-xl font-bold text-gray-900">سرعت فوق‌العاده</h3>
+                    <p class="text-gray-500">وبلاگ شما با تکنولوژی‌های روز دنیا میزبانی می‌شود تا خوانندگان شما هیچ مکثی را احساس نکنند.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow duration-300 border border-gray-100">
+                    <div class="flex justify-center items-center mb-4 w-12 h-12 rounded-full bg-pink-100 lg:h-14 lg:w-14">
+                        <svg class="w-6 h-6 text-pink-600 lg:w-8 lg:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                    </div>
+                    <h3 class="mb-2 text-xl font-bold text-gray-900">آمار و تحلیل بازدید</h3>
+                    <p class="text-gray-500">مشاهده کنید چه کسانی مطالب شما را می‌خوانند. آمار دقیق بازدیدها و تعامل کاربران در داشبورد شما.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-indigo-900 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        <div class="py-16 px-4 mx-auto max-w-screen-xl text-center lg:py-24 lg:px-12 relative z-10">
+            <h2 class="mb-4 text-3xl font-extrabold tracking-tight leading-none text-white md:text-4xl lg:text-5xl">آماده‌اید صدای خود را به گوش دنیا برسانید؟</h2>
+            <p class="mb-8 text-lg font-light text-indigo-200 lg:text-xl sm:px-16 xl:px-48">پیوستن به نویستا کاملاً رایگان است. در کمتر از ۲ دقیقه وبلاگ خود را راه‌اندازی کنید.</p>
+            <div class="flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4 sm:space-x-reverse">
+                <a asp-page="Register" class="inline-flex justify-center items-center py-3 px-8 text-base font-bold text-center text-indigo-900 rounded-full bg-white hover:bg-indigo-50 focus:ring-4 focus:ring-indigo-300 transition shadow-lg">
+                    ثبت نام و ساخت بلاگ
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-white border-t border-gray-200">
+        <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+            <div class="md:flex md:justify-between">
+                <div class="mb-6 md:mb-0">
+                    <a href="#" class="flex items-center">
+                        <div class="bg-indigo-600 text-white p-1.5 rounded mr-3 ml-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                            </svg>
+                        </div>
+                        <span class="self-center text-xl font-bold whitespace-nowrap text-gray-900">نویستا</span>
+                    </a>
+                    <p class="mt-4 text-sm text-gray-500 max-w-xs">پلتفرمی برای نویسندگان، متفکران و کسانی که داستانی برای گفتن دارند.</p>
+                </div>
+                <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
+                    <div>
+                        <h2 class="mb-4 text-sm font-semibold text-gray-900 uppercase">امکانات</h2>
+                        <ul class="text-gray-600 font-medium">
+                            <li class="mb-2"><a href="#" class="hover:underline hover:text-indigo-600">قالب‌ها</a></li>
+                            <li class="mb-2"><a href="#" class="hover:underline hover:text-indigo-600">ویرایشگر</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="mb-4 text-sm font-semibold text-gray-900 uppercase">راهنما</h2>
+                        <ul class="text-gray-600 font-medium">
+                            <li class="mb-2"><a href="#" class="hover:underline hover:text-indigo-600">سوالات متداول</a></li>
+                            <li class="mb-2"><a href="#" class="hover:underline hover:text-indigo-600">تماس با ما</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="mb-4 text-sm font-semibold text-gray-900 uppercase">قوانین</h2>
+                        <ul class="text-gray-600 font-medium">
+                            <li class="mb-2"><a href="#" class="hover:underline hover:text-indigo-600">حریم خصوصی</a></li>
+                            <li><a href="#" class="hover:underline hover:text-indigo-600">شرایط استفاده</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-6 border-gray-200 sm:mx-auto lg:my-8" />
+            <div class="sm:flex sm:items-center sm:justify-between">
+                <span class="text-sm text-gray-500 sm:text-center">
+                    © ۱۴۰۳ <a href="#" class="hover:underline">نویستا</a>. تمامی حقوق محفوظ است.
+                </span>
+                <div class="flex mt-4 space-x-5 space-x-reverse sm:justify-center sm:mt-0">
+                    <a href="#" class="text-gray-500 hover:text-indigo-600">
+                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 8 19">
+                            <path fill-rule="evenodd" d="M6.135 3H8V0H6.135a4.147 4.147 0 0 0-4.142 4.142V6H0v3h2v9.938h3V9h2.021l.592-3H5V3.591A.6.6 0 0 1 5.592 3h.543Z" clip-rule="evenodd" />
+                        </svg>
+                        <span class="sr-only">Facebook page</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
