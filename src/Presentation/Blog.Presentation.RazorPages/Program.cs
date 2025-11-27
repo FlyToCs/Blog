@@ -14,6 +14,7 @@ using Blog.Domain.core.User.Service;
 using Blog.Domain.Service;
 using Blog.Infa.DataAccess.Repo.EfCore.Repositories;
 using Blog.Infa.Db.SqlServer.EfCore.DbContexts;
+using Blog.Presentation.RazorPages.Services;
 using Blog.Presentation.RazorPages.Services.FileManager;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;

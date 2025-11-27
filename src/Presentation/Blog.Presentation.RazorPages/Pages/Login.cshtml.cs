@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using Blog.Domain.core.User.Enums;
+using Blog.Presentation.RazorPages.Services;
 using CodeYad_Blog.Web.Pages.Category;
 
 namespace Blog.Presentation.RazorPages.Pages

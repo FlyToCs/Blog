@@ -1,17 +1,12 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using System.Security.Claims;
 
+namespace Blog.Presentation.RazorPages.Services;
 
-public class CookieManagementService
+public class CookieManagementService(IHttpContextAccessor httpContextAccessor)
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
     private const string AuthenticationScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-
-    public CookieManagementService(IHttpContextAccessor httpContextAccessor)
-    {
-        _httpContextAccessor = httpContextAccessor;
-    }
 
     public void SignIn(int userId, string username, string userRole, bool isPersistent)
     {
@@ -31,20 +26,22 @@ public class CookieManagementService
         };
 
 
-        _httpContextAccessor.HttpContext.SignInAsync(
-            AuthenticationScheme,
-            new ClaimsPrincipal(claimsIdentity),
-            authProperties).GetAwaiter().GetResult();
+        if (httpContextAccessor.HttpContext != null)
+            httpContextAccessor.HttpContext.SignInAsync(
+                AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity),
+                authProperties).GetAwaiter().GetResult();
     }
 
 
     public void SignOut()
     {
-        _httpContextAccessor.HttpContext.SignOutAsync(AuthenticationScheme).GetAwaiter().GetResult();
+        if (httpContextAccessor.HttpContext != null)
+            httpContextAccessor.HttpContext.SignOutAsync(AuthenticationScheme).GetAwaiter().GetResult();
     }
 
     public ClaimsPrincipal? GetCurrentUser()
     {
-        return _httpContextAccessor.HttpContext?.User;
+        return httpContextAccessor.HttpContext?.User;
     }
 }
