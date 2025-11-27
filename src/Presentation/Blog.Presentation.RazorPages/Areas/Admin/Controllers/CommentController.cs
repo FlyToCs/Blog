@@ -14,7 +14,7 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var authorId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            var comments = commentAppService.GetCommentsPost(authorId);
+            var comments = commentAppService.GetCommentsPostAsync(authorId);
             return View(comments);
         }
 
@@ -22,20 +22,20 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
         public IActionResult ApproveComment(int id, CommentStatus status)
         {
           
-            commentAppService.ApproveComment(id);
+            commentAppService.ApproveCommentAsync(id);
             return RedirectToAction("Index");
         }
         public IActionResult RejectComment(int id)
         {
 
-            commentAppService.ApproveComment(id);
+            commentAppService.ApproveCommentAsync(id);
             return RedirectToAction("Index");
         }
 
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            commentAppService.DeleteComment(id);
+            commentAppService.DeleteCommentAsync(id);
             return RedirectToAction("Index");
         }
     }

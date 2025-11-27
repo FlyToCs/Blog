@@ -5,11 +5,11 @@ namespace Blog.Domain.core.Category.AppService;
 
 public interface ICategoryAppService
 {
-    Result<bool> CreateCategory(CreateCategoryDto createDto);
-    Result<bool> UpdateCategory(EditCategoryDto editDto);
-    List<CategoryDto> GetAllCategories();
-    List<CategoryDto> GetAllCategoriesBy(int userId);
-    List<CategoryDto> GetChildCategories(int parentId);
-    Result<CategoryDto> GetCategoryBy(int id);
-    Result<CategoryDto> GetCategoryBy(string slug);
+    Task<Result<bool>> CreateCategoryAsync(CreateCategoryDto createDto);
+    Task<Result<bool>> UpdateCategoryAsync(EditCategoryDto editDto);
+    Task<List<CategoryDto>> GetAllCategoriesAsync();
+    Task<List<CategoryDto>> GetAllCategoriesByAsync(int userId);
+    Task<List<CategoryDto>> GetChildCategoriesAsync(int parentId);
+    Task<Result<CategoryDto?>> GetCategoryByIdAsync(int id);
+    Task<Result<CategoryDto?>> GetCategoryBySlugAsync(string slug);
 }

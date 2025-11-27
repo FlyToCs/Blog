@@ -11,16 +11,16 @@ namespace Blog.Presentation.RazorPages.Pages
     {
         public List<CategoryDto> Categories { get; set; }
         public List<PostDto> Posts { get; set; }
-        public void OnGet(int? userId)
+        public async Task OnGet(int? userId)
         {
-            Categories = categoryAppService.GetAllCategories();
+            Categories = await categoryAppService.GetAllCategoriesAsync();
             if (userId == null)
             {
-                Posts = postAppService.GetAll();
+                Posts = await postAppService.GetAllAsync();
             }
             else
             {
-                Posts = postAppService.GetAllBy(userId.Value);
+                Posts = await postAppService.GetAllByAsync(userId.Value);
             }
         }
     }

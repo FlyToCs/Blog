@@ -28,13 +28,13 @@ namespace Blog.Presentation.RazorPages.Pages
         {
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPost()
         {
             if (!ModelState.IsValid)
             {
                return Page(); 
             }
-            var result = userAppService.Login(Username, Password);
+            var result = await userAppService.LoginAsync(Username, Password);
             if (!result.IsSuccess)
             {
                 ModelState.AddModelError(string.Empty, result.Message);

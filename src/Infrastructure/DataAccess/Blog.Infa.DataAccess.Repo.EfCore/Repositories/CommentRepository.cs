@@ -9,7 +9,7 @@ namespace Blog.Infa.DataAccess.Repo.EfCore.Repositories;
 
 public class CommentRepository(AppDbContext context) : ICommentRepository 
 {
-    public bool CreateComment(CreateCommentDto commentDto)
+    public async Task<bool> CreateCommentAsync(CreateCommentDto commentDto)
     {
         var comment = new PostComment()
         {
@@ -19,13 +19,15 @@ public class CommentRepository(AppDbContext context) : ICommentRepository
             Rate = commentDto.Rate,
             Status = CommentStatus.Pending
         };
-        context.Add(comment);
-        return context.SaveChanges() > 0;
+
+        await context.AddAsync(comment);
+        return await context.SaveChangesAsync() > 0;
     }
 
-    public List<CommentDto> GetCommentsPost(int userId)
+    public async Task<List<CommentDto>> GetCommentsPostAsync(int userId)
     {
-        return context.PostComments.Where(c => c.Post.AuthorId == userId && c.Status == CommentStatus.Approved)
+        return await context.PostComments
+            .Where(c => c.Post.AuthorId == userId && c.Status == CommentStatus.Approved)
             .Select(c => new CommentDto()
             {
                 Id = c.Id,
@@ -34,35 +36,36 @@ public class CommentRepository(AppDbContext context) : ICommentRepository
                 Status = c.Status,
                 Rate = c.Rate,
                 CreatedAt = c.CreatedAt,
-                FullName = c.User.FirstName +" " +c.User.LastName,
+                FullName = c.User.FirstName + " " + c.User.LastName,
                 UserId = c.UserId
-            }).ToList();
+            })
+            .ToListAsync();
     }
 
-    public bool ApproveComment(int commentId)
+    public async Task<bool> ApproveCommentAsync(int commentId)
     {
-       var effectedRows =  context.PostComments.Where(c => c.Id == commentId)
-            .ExecuteUpdate(setter => setter
-                .SetProperty(c => c.Status, CommentStatus.Approved));
+        var comment = await context.PostComments.FindAsync(commentId);
+        if (comment == null) return false;
 
-       return effectedRows > 0;
+        comment.Status = CommentStatus.Approved;
+        return await context.SaveChangesAsync() > 0;
     }
 
-    public bool RejectComment(int commentId)
+    public async Task<bool> RejectCommentAsync(int commentId)
     {
-        var effectedRows = context.PostComments.Where(c => c.Id == commentId)
-            .ExecuteUpdate(setter => setter
-                .SetProperty(c => c.Status, CommentStatus.Rejected));
+        var comment = await context.PostComments.FindAsync(commentId);
+        if (comment == null) return false;
 
-        return effectedRows > 0;
+        comment.Status = CommentStatus.Rejected;
+        return await context.SaveChangesAsync() > 0;
     }
 
-    public bool DeleteComment(int commentId)
+    public async Task<bool> DeleteCommentAsync(int commentId)
     {
-        var effectedRows = context.PostComments.Where(c => c.Id == commentId)
-            .ExecuteUpdate(setter => setter
-                .SetProperty(c => c.IsDeleted, true));
+        var comment = await context.PostComments.FindAsync(commentId);
+        if (comment == null) return false;
 
-        return effectedRows > 0;
+        comment.IsDeleted = true;
+        return await context.SaveChangesAsync() > 0;
     }
 }

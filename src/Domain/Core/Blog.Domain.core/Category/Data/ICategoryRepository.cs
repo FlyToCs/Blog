@@ -4,13 +4,12 @@ namespace Blog.Domain.core.Category.Data;
 
 public interface ICategoryRepository
 {
-    bool CreateCategory(CreateCategoryDto createDto);
-    bool UpdateCategory(EditCategoryDto editDto);
-
-    List<CategoryDto> GetAllCategories();
-    List<CategoryDto> GetAllCategoriesBy(int userId);
-    List<CategoryDto> GetChildCategories(int parentId);
-    CategoryDto? GetCategoryBy(int id);
-    CategoryDto? GetCategoryBy(string slug);
-    bool IsSlugExist(string slug);
+    Task<bool> CreateCategoryAsync(CreateCategoryDto createDto);
+    Task<bool> UpdateCategoryAsync(EditCategoryDto editDto);
+    Task<List<CategoryDto>> GetAllCategoriesAsync();
+    Task<List<CategoryDto>> GetAllCategoriesByAsync(int userId);
+    Task<List<CategoryDto>> GetChildCategoriesAsync(int parentId);
+    Task<CategoryDto?> GetCategoryByIdAsync(int id);
+    Task<CategoryDto?> GetCategoryBySlugAsync(string slug);
+    Task<bool> IsSlugExistAsync(string slug);
 }

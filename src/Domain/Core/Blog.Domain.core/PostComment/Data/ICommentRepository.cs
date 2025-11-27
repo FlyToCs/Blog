@@ -4,9 +4,9 @@ namespace Blog.Domain.core.PostComment.Data;
 
 public interface ICommentRepository
 {
-    bool CreateComment(CreateCommentDto commentDto);
-    List<CommentDto> GetCommentsPost(int userId);
-    bool ApproveComment(int commentId);
-    bool RejectComment(int commentId);
-    bool DeleteComment(int commentId);
+    Task<bool> CreateCommentAsync(CreateCommentDto commentDto);
+    Task<List<CommentDto>> GetCommentsPostAsync(int userId);
+    Task<bool> ApproveCommentAsync(int commentId);
+    Task<bool> RejectCommentAsync(int commentId);
+    Task<bool> DeleteCommentAsync(int commentId);
 }

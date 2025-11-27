@@ -4,13 +4,13 @@ namespace Blog.Domain.core.User.Data;
 
 public interface IUserRepository
 {
-    bool Create(CreateUserDto userDto);
-    List<UserDto> GetAll();
-    UserDto? GetById(int id);
-    UserWithPasswordDto? GetByUserName(string username);
-    bool Update(int userId, UserWithPasswordDto userDto);
-    bool ChangePassword(int userId, string newPassword);
-    bool Activate(int userId);
-    bool DeActivate(int userId);
+    Task<bool> CreateAsync(CreateUserDto userDto);
+    Task<List<UserDto>> GetAllAsync();
+    Task<UserDto?> GetByIdAsync(int id);
+    Task<UserWithPasswordDto?> GetByUserNameAsync(string username);
+    Task<bool> UpdateAsync(int userId, UserWithPasswordDto userDto);
+    Task<bool> ChangePasswordAsync(int userId, string newPassword);
+    Task<bool> ActivateAsync(int userId);
+    Task<bool> DeActivateAsync(int userId);
 
 }

@@ -6,53 +6,53 @@ namespace Blog.Domain.Service;
 
 public class PostService(IPostRepository postRepo) : IPostService
 {
-    public bool Create(CreatePostDto postDto)
+    public async Task<bool> CreateAsync(CreatePostDto postDto)
     {
-        return postRepo.Create(postDto);
+        return await postRepo.CreateAsync(postDto);
     }
 
-    public bool Edit(EditPostDto postDto)
+    public async Task<bool> EditAsync(EditPostDto postDto)
     {
-        return postRepo.Edit(postDto);
+        return await postRepo.EditAsync(postDto);
     }
 
-    public PostDto? GetBy(string slug)
+    public async Task<PostDto?> GetByAsync(string slug)
     {
-        return postRepo.GetBy(slug);
+        return await postRepo.GetByAsync(slug);
     }
 
-    public PostDto? GetBy(int id)
+    public async Task<PostDto?> GetByAsync(int id)
     {
-        return postRepo.GetBy(id);
+        return await postRepo.GetByAsync(id);
     }
 
-    public bool IsSlugExist(string slug)
+    public async Task<bool> IsSlugExistAsync(string slug)
     {
-        return postRepo.IsSlugExist(slug);
+        return await postRepo.IsSlugExistAsync(slug);
     }
 
-    public PostFilterDto GetPostByFilter(PostFilterParams filterParams)
+    public async Task<PostFilterDto> GetPostByFilterAsync(PostFilterParams filterParams)
     {
-        return postRepo.GetPostByFilter(filterParams);
+        return await postRepo.GetPostByFilterAsync(filterParams);
     }
 
-    public List<PostDto> GetRecentlyPosts(int count)
+    public async Task<List<PostDto>> GetRecentlyPostsAsync(int count)
     {
-        return postRepo.GetRecentlyPosts(count);
+        return await postRepo.GetRecentlyPostsAsync(count);
     }
 
-    public bool IncreasePostViews(int postId)
+    public async Task<bool> IncreasePostViewsAsync(int postId)
     {
-        return postRepo.IncreasePostViews(postId);
+        return await postRepo.IncreasePostViewsAsync(postId);
     }
 
-    public List<PostDto> GetAllBy(int userId)
+    public async Task<List<PostDto>> GetAllByAsync(int userId)
     {
-        return postRepo.GetAllBy(userId);
+        return await postRepo.GetAllByAsync(userId);
     }
 
-    public List<PostDto> GetAll()
+    public async Task<List<PostDto>> GetAllAsync()
     {
-        return postRepo.GetAll();
+        return await postRepo.GetAllAsync();
     }
 }

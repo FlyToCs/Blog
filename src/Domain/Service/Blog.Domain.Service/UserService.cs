@@ -6,43 +6,44 @@ namespace Blog.Domain.Service;
 
 public class UserService(IUserRepository userRepo) : IUserService
 {
-    public bool Create(CreateUserDto userDto)
+
+    public async Task<bool> CreateAsync(CreateUserDto userDto)
     {
-        return userRepo.Create(userDto);
+        return await userRepo.CreateAsync(userDto);
     }
 
-    public List<UserDto> GetAll()
+    public async Task<List<UserDto>> GetAllAsync()
     {
-        return userRepo.GetAll();
+        return await userRepo.GetAllAsync();
     }
 
-    public UserDto? GetById(int id)
+    public async Task<UserDto?> GetByIdAsync(int id)
     {
-        return userRepo.GetById(id);
+        return await userRepo.GetByIdAsync(id);
     }
 
-    public UserWithPasswordDto? GetByUserName(string username)
+    public async Task<UserWithPasswordDto?> GetByUserNameAsync(string username)
     {
-        return userRepo.GetByUserName(username);
+        return await userRepo.GetByUserNameAsync(username);
     }
 
-    public bool Update(int userId, UserWithPasswordDto userDto)
+    public async Task<bool> UpdateAsync(int userId, UserWithPasswordDto userDto)
     {
-        return userRepo.Update(userId, userDto);
+        return await userRepo.UpdateAsync(userId, userDto);
     }
 
-    public bool ChangePassword(int userId, string newPassword)
+    public async Task<bool> ChangePasswordAsync(int userId, string newPassword)
     {
-        return userRepo.ChangePassword(userId, newPassword);
+        return await userRepo.ChangePasswordAsync(userId, newPassword);
     }
 
-    public bool Activate(int userId)
+    public async Task<bool> ActivateAsync(int userId)
     {
-        return userRepo.Activate(userId);
+        return await userRepo.ActivateAsync(userId);
     }
 
-    public bool DeActivate(int userId)
+    public async Task<bool> DeActivateAsync(int userId)
     {
-        return userRepo.DeActivate(userId);
+        return await userRepo.DeActivateAsync(userId);
     }
 }

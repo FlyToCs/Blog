@@ -6,43 +6,43 @@ namespace Blog.Domain.Service;
 
 public class CategoryService(ICategoryRepository categoryRepo) : ICategoryService
 {
-    public bool CreateCategory(CreateCategoryDto createDto)
+    public async Task<bool> CreateCategoryAsync(CreateCategoryDto createDto)
     {
-        return categoryRepo.CreateCategory(createDto);
+        return await categoryRepo.CreateCategoryAsync(createDto);
     }
 
-    public bool UpdateCategory(EditCategoryDto editDto)
+    public async Task<bool> UpdateCategoryAsync(EditCategoryDto editDto)
     {
-        return categoryRepo.UpdateCategory(editDto);
+        return await categoryRepo.UpdateCategoryAsync(editDto);
     }
 
-    public List<CategoryDto> GetAllCategories()
+    public async Task<List<CategoryDto>> GetAllCategoriesAsync()
     {
-        return categoryRepo.GetAllCategories();
+        return await categoryRepo.GetAllCategoriesAsync();
     }
 
-    public List<CategoryDto> GetAllCategoriesBy(int userId)
+    public async Task<List<CategoryDto>> GetAllCategoriesByAsync(int userId)
     {
-        return categoryRepo.GetAllCategoriesBy(userId);
+        return await categoryRepo.GetAllCategoriesByAsync(userId);
     }
 
-    public List<CategoryDto> GetChildCategories(int parentId)
+    public async Task<List<CategoryDto>> GetChildCategoriesAsync(int parentId)
     {
-        return categoryRepo.GetChildCategories(parentId);
+        return await categoryRepo.GetChildCategoriesAsync(parentId);
     }
 
-    public CategoryDto? GetCategoryBy(int id)
+    public async Task<CategoryDto?> GetCategoryByIdAsync(int id)
     {
-        return categoryRepo.GetCategoryBy(id);
+        return await categoryRepo.GetCategoryByIdAsync(id);
     }
 
-    public CategoryDto? GetCategoryBy(string slug)
+    public async Task<CategoryDto?> GetCategoryBySlugAsync(string slug)
     {
-        return categoryRepo.GetCategoryBy(slug);
+        return await categoryRepo.GetCategoryBySlugAsync(slug);
     }
 
-    public bool IsSlugExist(string slug)
+    public async Task<bool> IsSlugExistAsync(string slug)
     {
-        return categoryRepo.IsSlugExist(slug);
+        return await categoryRepo.IsSlugExistAsync(slug);
     }
 }

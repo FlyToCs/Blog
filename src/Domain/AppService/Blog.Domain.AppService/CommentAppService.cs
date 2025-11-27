@@ -7,39 +7,26 @@ namespace Blog.Domain.AppService;
 
 public class CommentAppService(ICommentService commentService) : ICommentAppService
 {
-    public Result<bool> CreateComment(CreateCommentDto commentDto)
+    public async Task<Result<bool>> CreateCommentAsync(CreateCommentDto commentDto)
     {
-
-        //validation
-        var result = commentService.CreateComment(commentDto);
+ 
+        var result = await commentService.CreateCommentAsync(commentDto);
         if (!result)
         {
             return Result<bool>.Failure("ارسال کامنت با شکست مواجه شد");
         }
 
-        return Result<bool>.Failure("کامت با موفقیت ارسال شد");
-
+        return Result<bool>.Success(true, "کامنت با موفقیت ارسال شد");
     }
 
-    public List<CommentDto> GetCommentsPost(int userId)
+    public async Task<List<CommentDto>> GetCommentsPostAsync(int userId)
     {
-        return commentService.GetCommentsPost(userId);
+        return await commentService.GetCommentsPostAsync(userId);
     }
 
-    public Result<bool> ApproveComment(int commentId)
+    public async Task<Result<bool>> ApproveCommentAsync(int commentId)
     {
-        var result = commentService.ApproveComment(commentId);
-        if (!result)
-        {
-            return Result<bool>.Failure("رد کامنت با شکست مواجه شد");
-        }
-
-        return Result<bool>.Success(true,"عملیات با موفقیت انجام شد");
-    }
-
-    public Result<bool> RejectComment(int commentId)
-    {
-        var result = commentService.RejectComment(commentId);
+        var result = await commentService.ApproveCommentAsync(commentId);
         if (!result)
         {
             return Result<bool>.Failure("تایید کامنت با شکست مواجه شد");
@@ -48,9 +35,20 @@ public class CommentAppService(ICommentService commentService) : ICommentAppServ
         return Result<bool>.Success(true, "عملیات با موفقیت انجام شد");
     }
 
-    public Result<bool> DeleteComment(int commentId)
+    public async Task<Result<bool>> RejectCommentAsync(int commentId)
     {
-        var result = commentService.DeleteComment(commentId);
+        var result = await commentService.RejectCommentAsync(commentId);
+        if (!result)
+        {
+            return Result<bool>.Failure("رد کامنت با شکست مواجه شد");
+        }
+
+        return Result<bool>.Success(true, "عملیات با موفقیت انجام شد");
+    }
+
+    public async Task<Result<bool>> DeleteCommentAsync(int commentId)
+    {
+        var result = await commentService.DeleteCommentAsync(commentId);
         if (!result)
         {
             return Result<bool>.Failure("حذف کامنت با شکست مواجه شد");
@@ -58,4 +56,5 @@ public class CommentAppService(ICommentService commentService) : ICommentAppServ
 
         return Result<bool>.Success(true, "عملیات با موفقیت انجام شد");
     }
+
 }

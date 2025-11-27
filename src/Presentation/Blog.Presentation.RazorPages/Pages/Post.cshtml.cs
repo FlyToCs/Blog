@@ -11,67 +11,62 @@ using System.Security.Claims;
 
 namespace Blog.Presentation.RazorPages.Pages
 {
-    public class PostModel(IPostAppService postAppService, ICommentAppService commentAppService) : PageModel
+    public class PostModel(IPostAppService postAppService, ICommentAppService commentAppService)
+        : PageModel
     {
         [BindProperty]
         [Required(ErrorMessage = "پر کردن این فیلد اجباری است")]
-        [MinLength(4,ErrorMessage = "طول پیام حداقل باید 4 کاراکتر باشد")]
-        public string Comment { get; set; }
-        public List<CommentDto> Comments { get; set; }
-        public PostDto Post { get; set; }
-        public List<PostDto> ResentlyPosts { get; set; }
+        [MinLength(4, ErrorMessage = "طول پیام حداقل باید 4 کاراکتر باشد")]
+        public string Comment { get; set; } = string.Empty;
 
+        public List<CommentDto> Comments { get; set; } = new();
+        public PostDto Post { get; set; } = null!;
+        public List<PostDto> ResentlyPosts { get; set; } = new();
 
-        public IActionResult OnGet(string slug)
+        public async Task<IActionResult> OnGetAsync(string slug)
         {
-            var result = ReloadPageData(slug);
-
-            if (result != null!)
+            var result = await ReloadPageDataAsync(slug);
+            if (result != null)
                 return result;
-            postAppService.IncreasePostViews(Post.PostId);
+
+            await postAppService.IncreasePostViewsAsync(Post.PostId);
             return Page();
         }
 
-        public IActionResult OnPost(string slug)
+        public async Task<IActionResult> OnPostAsync(string slug)
         {
-           
-            var loadResult = ReloadPageData(slug);
-            if (loadResult != null!)
-                return loadResult;   
+            var loadResult = await ReloadPageDataAsync(slug);
+            if (loadResult != null)
+                return loadResult;
 
             if (!ModelState.IsValid)
                 return Page();
-            
+
             var comment = new CreateCommentDto()
             {
                 PostId = Post.PostId,
                 Text = Comment,
                 UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!)
             };
-            commentAppService.CreateComment(comment);
-            ReloadPageData(slug);
+
+            await commentAppService.CreateCommentAsync(comment);
+            await ReloadPageDataAsync(slug);
             return Page();
         }
 
-
-        private IActionResult ReloadPageData(string slug)
+        private async Task<IActionResult?> ReloadPageDataAsync(string slug)
         {
-            ResentlyPosts = postAppService.GetRecentlyPosts(5);
+            ResentlyPosts = await postAppService.GetRecentlyPostsAsync(5);
 
-            var postResult = postAppService.GetBy(slug);
+            var postResult = await postAppService.GetByAsync(slug);
 
             if (!postResult.IsSuccess)
-            {
                 return NotFound();
-            }
 
             Post = postResult.Data!;
-            Comments = commentAppService.GetCommentsPost(Post.PostId);
+            Comments = await commentAppService.GetCommentsPostAsync(Post.PostId);
 
-            return null!; 
+            return null;
         }
-
-
-
     }
 }

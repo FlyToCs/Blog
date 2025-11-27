@@ -4,15 +4,15 @@ namespace Blog.Domain.core.Post.Service;
 
 public interface IPostService
 {
-    bool Create(CreatePostDto postDto);
-    bool Edit(EditPostDto postDto);
-    PostDto? GetBy(string slug);
-    PostDto? GetBy(int id);
-    bool IsSlugExist(string slug);
-    PostFilterDto GetPostByFilter(PostFilterParams filterParams);
-    List<PostDto> GetRecentlyPosts(int count);
-    bool IncreasePostViews(int postId);
-    List<PostDto> GetAllBy(int userId);
-    List<PostDto> GetAll();
+    Task<bool> CreateAsync(CreatePostDto postDto);
+    Task<bool> EditAsync(EditPostDto postDto);
+    Task<List<PostDto>> GetAllByAsync(int userId);
+    Task<List<PostDto>> GetAllAsync();
+    Task<PostDto?> GetByAsync(int id);
+    Task<PostDto?> GetByAsync(string slug);
+    Task<List<PostDto>> GetRecentlyPostsAsync(int count);
+    Task<bool> IsSlugExistAsync(string slug);
+    Task<PostFilterDto> GetPostByFilterAsync(PostFilterParams filterParams);
+    Task<bool> IncreasePostViewsAsync(int postId);
 
 }

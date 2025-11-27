@@ -8,7 +8,7 @@ namespace Blog.Infa.DataAccess.Repo.EfCore.Repositories;
 
 public class CategoryRepository(AppDbContext context) : ICategoryRepository
 {
-    public bool CreateCategory(CreateCategoryDto createDto)
+    public async Task<bool> CreateCategoryAsync(CreateCategoryDto createDto)
     {
         var category = new Category()
         {
@@ -19,26 +19,28 @@ public class CategoryRepository(AppDbContext context) : ICategoryRepository
             MetaTag = createDto.MetaTag,
             UserId = createDto.UserId
         };
-        context.Add(category);
-        return context.SaveChanges() > 0;
+
+        await context.AddAsync(category);
+        return await context.SaveChangesAsync() > 0;
     }
 
-    public bool UpdateCategory(EditCategoryDto editDto)
+    public async Task<bool> UpdateCategoryAsync(EditCategoryDto editDto)
     {
-        var effectedRows = context.Categories.Where(c => c.Id == editDto.Id)
-            .ExecuteUpdate(setter => setter
-                .SetProperty(c => c.Title, editDto.Title)
-                .SetProperty(c => c.Slug, editDto.Slug)
-                .SetProperty(c => c.MetaDescription, editDto.MetaDescription)
-                .SetProperty(c => c.MetaTag, editDto.MetaTag)
-                .SetProperty(c => c.ParentId, editDto.ParentId)
-            );
-        return effectedRows > 0;
+        var category = await context.Categories.FindAsync(editDto.Id);
+        if (category == null) return false;
+
+        category.Title = editDto.Title;
+        category.Slug = editDto.Slug;
+        category.MetaDescription = editDto.MetaDescription;
+        category.MetaTag = editDto.MetaTag;
+        category.ParentId = editDto.ParentId;
+
+        return await context.SaveChangesAsync() > 0;
     }
 
-    public List<CategoryDto> GetAllCategories()
+    public async Task<List<CategoryDto>> GetAllCategoriesAsync()
     {
-        return context.Categories
+        return await context.Categories
             .Select(c => new CategoryDto()
             {
                 Id = c.Id,
@@ -48,13 +50,13 @@ public class CategoryRepository(AppDbContext context) : ICategoryRepository
                 MetaDescription = c.MetaDescription,
                 MetaTag = c.MetaTag,
                 UserId = c.UserId
-            }).ToList();
+            }).ToListAsync();
     }
 
-    public List<CategoryDto> GetAllCategoriesBy(int userId)
+    public async Task<List<CategoryDto>> GetAllCategoriesByAsync(int userId)
     {
-        return context.Categories
-            .Where(c=>c.UserId == userId)
+        return await context.Categories
+            .Where(c => c.UserId == userId)
             .Select(c => new CategoryDto()
             {
                 Id = c.Id,
@@ -64,13 +66,13 @@ public class CategoryRepository(AppDbContext context) : ICategoryRepository
                 MetaDescription = c.MetaDescription,
                 MetaTag = c.MetaTag,
                 UserId = c.UserId
-            }).ToList();
+            }).ToListAsync();
     }
 
-    public List<CategoryDto> GetChildCategories(int parentId)
+    public async Task<List<CategoryDto>> GetChildCategoriesAsync(int parentId)
     {
-        return context.Categories
-            .Where(c=>c.ParentId == parentId)
+        return await context.Categories
+            .Where(c => c.ParentId == parentId)
             .Select(c => new CategoryDto()
             {
                 Id = c.Id,
@@ -80,41 +82,43 @@ public class CategoryRepository(AppDbContext context) : ICategoryRepository
                 MetaDescription = c.MetaDescription,
                 MetaTag = c.MetaTag,
                 UserId = c.UserId
-            }).ToList();
+            }).ToListAsync();
     }
 
-    public CategoryDto? GetCategoryBy(int id)
+    public async Task<CategoryDto?> GetCategoryByIdAsync(int id)
     {
-        return context.Categories.Where(x=>x.Id == id)
+        return await context.Categories
+            .Where(c => c.Id == id)
             .Select(c => new CategoryDto()
-        {
-            Id = c.Id,
-            Title = c.Title,
-            ParentId = c.ParentId,
-            Slug = c.Slug,
-            MetaDescription = c.MetaDescription,
-            MetaTag = c.MetaTag,
-            UserId = c.UserId
-            }).FirstOrDefault();
+            {
+                Id = c.Id,
+                Title = c.Title,
+                ParentId = c.ParentId,
+                Slug = c.Slug,
+                MetaDescription = c.MetaDescription,
+                MetaTag = c.MetaTag,
+                UserId = c.UserId
+            }).FirstOrDefaultAsync();
     }
 
-    public CategoryDto? GetCategoryBy(string slug)
+    public async Task<CategoryDto?> GetCategoryBySlugAsync(string slug)
     {
-        return context.Categories
+        return await context.Categories
+            .Where(c => c.Slug == slug)
             .Select(c => new CategoryDto()
-        {
-            Id = c.Id,
-            Title = c.Title,
-            ParentId = c.ParentId,
-            Slug = c.Slug,
-            MetaDescription = c.MetaDescription,
-            MetaTag = c.MetaTag,
-            UserId = c.UserId
-            }).FirstOrDefault();
+            {
+                Id = c.Id,
+                Title = c.Title,
+                ParentId = c.ParentId,
+                Slug = c.Slug,
+                MetaDescription = c.MetaDescription,
+                MetaTag = c.MetaTag,
+                UserId = c.UserId
+            }).FirstOrDefaultAsync();
     }
 
-    public bool IsSlugExist(string slug)
+    public async Task<bool> IsSlugExistAsync(string slug)
     {
-       return context.Categories.Any(c => c.Slug == slug);
+        return await context.Categories.AnyAsync(c => c.Slug == slug);
     }
 }

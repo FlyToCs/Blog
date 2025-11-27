@@ -12,7 +12,7 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
     [Authorize(Roles = "Admin,Writer")]
     public class PostController(IPostAppService postAppService, IFileManager fileManager) : Controller
     {
-        public IActionResult Index(int pageId = 1, string title = "", string categorySlug = "")
+        public async Task<IActionResult> Index(int pageId = 1, string title = "", string categorySlug = "")
         {
             var param = new PostFilterParams()
             {
@@ -21,7 +21,8 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
                 Take = 1,
                 Title = title
             };
-            var model = postAppService.GetPostsByFilter(param);
+
+            var model = await postAppService.GetPostsByFilterAsync(param);
             return View(model);
         }
 
@@ -31,35 +32,36 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Add(CreatePostViewModel createViewModel)
+        public async Task<IActionResult> Add(CreatePostViewModel createViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return View(createViewModel);
             }
-            var result = postAppService.Create(new CreatePostDto()
+
+            var postDto = new CreatePostDto
             {
-                CategoryId = createViewModel.CategoryId,
-                Description = createViewModel.Description,
-                Context = createViewModel.Context,
-                Img = fileManager.SaveFileAndReturnName(createViewModel.ImageFile, Directories.PostImage),
-                Slug = createViewModel.Slug,
-                SubCategoryId = createViewModel.SubCategoryId == 0 ? null : createViewModel.SubCategoryId,
                 Title = createViewModel.Title,
+                Description = createViewModel.Description,
+                Slug = createViewModel.Slug,
+                CategoryId = createViewModel.CategoryId,
+                SubCategoryId = createViewModel.SubCategoryId == 0 ? null : createViewModel.SubCategoryId,
                 AuthorId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!)
-            });
+            };
+
+            var result = await postAppService.CreateAsync(postDto);
 
             if (!result.IsSuccess)
             {
                 ModelState.AddModelError(nameof(CreatePostViewModel.Slug), result.Message);
                 return View(createViewModel);
             }
+
             return RedirectToAction("Index");
         }
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var post = postAppService.GetBy(id);
+            var post =await postAppService.GetByAsync(id);
             if (post == null)
                 return RedirectToAction("Index");
 
@@ -76,8 +78,7 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, EditPostViewModel editViewModel)
+        public async Task<IActionResult> Edit(int id, EditPostViewModel editViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -90,7 +91,7 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
                 newImgName = fileManager.SaveFileAndReturnName(editViewModel.ImageFile, Directories.PostImage);
             }
 
-            var result = postAppService.Edit(new EditPostDto()
+            var result =await postAppService.EditAsync(new EditPostDto()
             {
                 CategoryId = editViewModel.CategoryId,
                 Description = editViewModel.Description,

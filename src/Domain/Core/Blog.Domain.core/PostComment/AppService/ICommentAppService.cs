@@ -5,9 +5,9 @@ namespace Blog.Domain.core.PostComment.AppService;
 
 public interface ICommentAppService
 {
-    Result<bool> CreateComment(CreateCommentDto commentDto);
-    List<CommentDto> GetCommentsPost(int userId);
-    Result<bool> ApproveComment(int commentId);
-    Result<bool> RejectComment(int commentId);
-    Result<bool> DeleteComment(int commentId);
+    Task<Result<bool>> CreateCommentAsync(CreateCommentDto commentDto);
+    Task<List<CommentDto>> GetCommentsPostAsync(int userId);
+    Task<Result<bool>> ApproveCommentAsync(int commentId);
+    Task<Result<bool>> RejectCommentAsync(int commentId);
+    Task<Result<bool>> DeleteCommentAsync(int commentId);
 }

@@ -8,7 +8,7 @@ namespace Blog.Domain.AppService;
 
 public class PostAppService(IPostService postService) : IPostAppService
 {
-    public Result<bool> Create(CreatePostDto postDto)
+    public async Task<Result<bool>> CreateAsync(CreatePostDto postDto)
     {
         if (string.IsNullOrWhiteSpace(postDto.Title))
             return Result<bool>.Failure("عنوان پست نمیتواند خالی باشد");
@@ -18,7 +18,8 @@ public class PostAppService(IPostService postService) : IPostAppService
 
         if (string.IsNullOrWhiteSpace(postDto.Slug))
             return Result<bool>.Failure("slug نمیتواند خالی باشد");
-        postDto.Slug.ToSlug();
+
+        postDto.Slug = postDto.Slug.ToSlug();
 
         if (postDto.AuthorId <= 0)
             return Result<bool>.Failure("ایدی نویسنده معتبر نیست");
@@ -26,22 +27,25 @@ public class PostAppService(IPostService postService) : IPostAppService
         if (postDto.CategoryId <= 0)
             return Result<bool>.Failure("دسته بندی معتبر نیست");
 
-        if (postService.IsSlugExist(postDto.Slug))
+        if (await postService.IsSlugExistAsync(postDto.Slug))
             return Result<bool>.Failure("این slug از قبل وجود دارد امکان ثبت تکراری نیست");
 
-        var success = postService.Create(postDto);
+        var success = await postService.CreateAsync(postDto);
 
         if (!success)
             return Result<bool>.Failure("ساخت پست با خطا مواجه شد");
 
-        return Result<bool>.Success(true, "پست با موقفیت ساخته شد");
+        return Result<bool>.Success(true, "پست با موفقیت ساخته شد");
     }
 
-    public Result<bool> Edit(EditPostDto postDto)
+    public async Task<Result<bool>> EditAsync(EditPostDto postDto)
     {
-        var post = postService.GetBy(postDto.PostId);
         if (postDto.PostId <= 0)
             return Result<bool>.Failure("پست ایدی معتبر نیست");
+
+        var post = await postService.GetByAsync(postDto.PostId);
+        if (post == null)
+            return Result<bool>.Failure("پست یافت نشد");
 
         if (string.IsNullOrWhiteSpace(postDto.Title))
             return Result<bool>.Failure("عنوان نمیتواند خالی باشد");
@@ -51,72 +55,75 @@ public class PostAppService(IPostService postService) : IPostAppService
 
         if (string.IsNullOrWhiteSpace(postDto.Slug))
             return Result<bool>.Failure("slug نمیتواند خالی باشد");
-        postDto.Slug.ToSlug();
+
+        postDto.Slug = postDto.Slug.ToSlug();
 
         if (postDto.CategoryId <= 0)
-            return Result<bool>.Failure("Invalid CategoryId.");
+            return Result<bool>.Failure("دسته بندی معتبر نیست");
 
         if (post.Slug != postDto.Slug)
         {
-            if (postService.IsSlugExist(postDto.Slug))
+            if (await postService.IsSlugExistAsync(postDto.Slug))
                 return Result<bool>.Failure("slug تکراری است");
         }
 
-        var success = postService.Edit(postDto);
+        var success = await postService.EditAsync(postDto);
 
         if (!success)
-            return Result<bool>.Failure("ساخت پست با خطا مواجه شد");
+            return Result<bool>.Failure("ویرایش پست با خطا مواجه شد");
 
-        return Result<bool>.Success(true, "پست با موفقیت ساخته شد");
+        return Result<bool>.Success(true, "پست با موفقیت ویرایش شد");
     }
 
-
-    public Result<PostDto> GetBy(int id)
+    public async Task<Result<PostDto>> GetByAsync(int id)
     {
         if (id <= 0)
             return Result<PostDto>.Failure("ایدی معتبر نیست");
 
-        var post = postService.GetBy(id);
+        var post = await postService.GetByAsync(id);
 
-        if (post is null)
-            return Result<PostDto>.Failure("پستی یافت نشد");
-
-        return Result<PostDto>.Success(post);
-    }
-
-    public Result<PostDto> GetBy(string slug)
-    {
-        var post = postService.GetBy(slug);
         if (post == null)
-        {
             return Result<PostDto>.Failure("پست یافت نشد");
-        }
 
         return Result<PostDto>.Success(post);
     }
 
-    public PostFilterDto GetPostsByFilter(PostFilterParams filterParams)
+    public async Task<Result<PostDto>> GetByAsync(string slug)
     {
-        return postService.GetPostByFilter(filterParams);
+        if (string.IsNullOrWhiteSpace(slug))
+            return Result<PostDto>.Failure("اسلاگ نمیتواند خالی باشد");
+
+        var post = await postService.GetByAsync(slug);
+
+        if (post == null)
+            return Result<PostDto>.Failure("پست یافت نشد");
+
+        return Result<PostDto>.Success(post);
     }
 
-    public List<PostDto> GetRecentlyPosts(int count)
+    public async Task<PostFilterDto> GetPostsByFilterAsync(PostFilterParams filterParams)
     {
-        return postService.GetRecentlyPosts(count);
+        return await postService.GetPostByFilterAsync(filterParams);
     }
 
-    public bool IncreasePostViews(int postId)
+    public async Task<List<PostDto>> GetRecentlyPostsAsync(int count)
     {
-        return postService.IncreasePostViews(postId);
+        return await postService.GetRecentlyPostsAsync(count);
     }
 
-    public List<PostDto> GetAllBy(int userId)
+    public async Task<bool> IncreasePostViewsAsync(int postId)
     {
-        return postService.GetAllBy(userId);
+        return await postService.IncreasePostViewsAsync(postId);
     }
 
-    public List<PostDto> GetAll()
+    public async Task<List<PostDto>> GetAllByAsync(int userId)
     {
-        return postService.GetAll();
+        return await postService.GetAllByAsync(userId);
     }
+
+    public async Task<List<PostDto>> GetAllAsync()
+    {
+        return await postService.GetAllAsync();
+    }
+
 }

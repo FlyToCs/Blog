@@ -9,7 +9,7 @@ namespace Blog.Infa.DataAccess.Repo.EfCore.Repositories;
 
 public class UserRepository(AppDbContext context) : IUserRepository
 {
-    public bool Create(CreateUserDto userDto)
+    public async Task<bool> CreateAsync(CreateUserDto userDto)
     {
         var user = new User()
         {
@@ -22,29 +22,35 @@ public class UserRepository(AppDbContext context) : IUserRepository
             IsActive = true,
             IsDeleted = false
         };
-        context.Add(user);
-        return context.SaveChanges() > 0;
+
+        await context.AddAsync(user);
+        return await context.SaveChangesAsync() > 0;
     }
 
-    public List<UserDto> GetAll()
+    public async Task<List<UserDto>> GetAllAsync()
     {
-        return context.Users.Select(u => new UserDto()
-        {
-            Id = u.Id,
-            FirstName = u.FirstName,
-            LastName = u.LastName,
-            UserName = u.UserName,
-            ImgUrl = u.ImgUrl,
-            Role = u.Role,
-            IsActive = u.IsActive
-        }).ToList();
+        return await context.Users
+            .Select(u => new UserDto()
+            {
+                Id = u.Id,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                UserName = u.UserName,
+                ImgUrl = u.ImgUrl,
+                Role = u.Role,
+                IsActive = u.IsActive
+            })
+            .ToListAsync();
     }
 
-    public UserDto? GetById(int id)
+    public async Task<UserDto?> GetByIdAsync(int id)
     {
-        var user = context.Users.Find(id);
+        var user = await context.Users.FindAsync(id);
+        if (user == null) return null;
+
         return new UserDto()
         {
+            Id = user.Id,
             FirstName = user.FirstName,
             LastName = user.LastName,
             UserName = user.UserName,
@@ -54,56 +60,64 @@ public class UserRepository(AppDbContext context) : IUserRepository
         };
     }
 
-    public UserWithPasswordDto? GetByUserName(string username)
+    public async Task<UserWithPasswordDto?> GetByUserNameAsync(string username)
     {
-        return context.Users.Where(u => u.UserName == username).Select(u => new UserWithPasswordDto()
-        {
-            Id = u.Id,
-            FirstName = u.FirstName,
-            LastName = u.LastName,
-            UserName = u.UserName,
-            PasswordHash = u.PasswordHash,
-            ImgUrl = u.ImgUrl,
-            Role = u.Role,
-            IsActive = u.IsActive
-        }).FirstOrDefault();
+        return await context.Users
+            .Where(u => u.UserName == username)
+            .Select(u => new UserWithPasswordDto()
+            {
+                Id = u.Id,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                UserName = u.UserName,
+                PasswordHash = u.PasswordHash,
+                ImgUrl = u.ImgUrl,
+                Role = u.Role,
+                IsActive = u.IsActive
+            })
+            .FirstOrDefaultAsync();
     }
 
-    public bool Update(int userId, UserWithPasswordDto userDto)
+    public async Task<bool> UpdateAsync(int userId, UserWithPasswordDto userDto)
     {
-        var effectedRows = context.Users.Where(u => u.Id == userId)
-            .ExecuteUpdate(setter => setter
-                .SetProperty(u => u.FirstName, userDto.FirstName)
-                .SetProperty(u => u.LastName, userDto.LastName)
-                .SetProperty(u => u.UserName, userDto.UserName)
-                .SetProperty(u => u.PasswordHash, userDto.PasswordHash)
-                .SetProperty(u => u.ImgUrl, userDto.ImgUrl)
-                .SetProperty(u => u.Role, userDto.Role)
-                .SetProperty(u => u.IsActive, userDto.IsActive));
-        return effectedRows > 0;
+        var user = await context.Users.FindAsync(userId);
+        if (user == null) return false;
+
+        user.FirstName = userDto.FirstName;
+        user.LastName = userDto.LastName;
+        user.UserName = userDto.UserName;
+        user.PasswordHash = userDto.PasswordHash;
+        user.ImgUrl = userDto.ImgUrl;
+        user.Role = userDto.Role;
+        user.IsActive = userDto.IsActive;
+
+        return await context.SaveChangesAsync() > 0;
     }
 
-    public bool ChangePassword(int userId, string newPassword)
+    public async Task<bool> ChangePasswordAsync(int userId, string newPassword)
     {
-        var effectedRows = context.Users.Where(u => u.Id == userId)
-            .ExecuteUpdate(setter => setter
-                .SetProperty(u => u.PasswordHash, newPassword));
-        return effectedRows > 0;
+        var user = await context.Users.FindAsync(userId);
+        if (user == null) return false;
+
+        user.PasswordHash = newPassword;
+        return await context.SaveChangesAsync() > 0;
     }
 
-    public bool Activate(int userId)
+    public async Task<bool> ActivateAsync(int userId)
     {
-        var effectedRows = context.Users.Where(u => u.Id == userId)
-            .ExecuteUpdate(setter => setter
-                .SetProperty(u => u.IsActive, true));
-        return effectedRows > 0;
+        var user = await context.Users.FindAsync(userId);
+        if (user == null) return false;
+
+        user.IsActive = true;
+        return await context.SaveChangesAsync() > 0;
     }
 
-    public bool DeActivate(int userId)
+    public async Task<bool> DeActivateAsync(int userId)
     {
-        var effectedRows = context.Users.Where(u => u.Id == userId)
-            .ExecuteUpdate(setter => setter
-                .SetProperty(u => u.IsActive, false));
-        return effectedRows > 0;
+        var user = await context.Users.FindAsync(userId);
+        if (user == null) return false;
+
+        user.IsActive = false;
+        return await context.SaveChangesAsync() > 0;
     }
 }

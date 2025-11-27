@@ -6,28 +6,28 @@ namespace Blog.Domain.Service;
 
 public class CommentService(ICommentRepository commentRepo) : ICommentService
 {
-    public bool CreateComment(CreateCommentDto commentDto)
+    public async Task<bool> CreateCommentAsync(CreateCommentDto commentDto)
     {
-        return commentRepo.CreateComment(commentDto);
+        return await commentRepo.CreateCommentAsync(commentDto);
     }
 
-    public List<CommentDto> GetCommentsPost(int userId)
+    public async Task<List<CommentDto>> GetCommentsPostAsync(int userId)
     {
-        return commentRepo.GetCommentsPost(userId);
+        return await commentRepo.GetCommentsPostAsync(userId);
     }
 
-    public bool ApproveComment(int commentId)
+    public async Task<bool> ApproveCommentAsync(int commentId)
     {
-        return commentRepo.ApproveComment(commentId);
+        return await commentRepo.ApproveCommentAsync(commentId);
     }
 
-    public bool RejectComment(int commentId)
+    public async Task<bool> RejectCommentAsync(int commentId)
     {
-        return commentRepo.RejectComment(commentId);
+        return await commentRepo.RejectCommentAsync(commentId);
     }
 
-    public bool DeleteComment(int commentId)
+    public async Task<bool> DeleteCommentAsync(int commentId)
     {
-        return commentRepo.DeleteComment(commentId);
+        return await commentRepo.DeleteCommentAsync(commentId);
     }
 }

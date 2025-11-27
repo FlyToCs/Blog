@@ -5,7 +5,7 @@
 @{
     ViewData["title"] = "افزودن دسته بندی";
     ViewData["selected"] = "category";
-    var categories = _categoreyService.GetAllCategories();
+    var categories = await _categoreyService.GetAllCategoriesAsync();
 }
 <section class="content-header">
     <h1>
