@@ -39,7 +39,7 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
                 return View(createViewModel);
             }
 
-            if (createViewModel.ImageFile != null)
+            if (createViewModel.ImageFile != null!)
             {
                 var allowedExtensions = new[] { ".png", ".jpg", ".jpeg" };
                 var extension = Path.GetExtension(createViewModel.ImageFile.FileName)?.ToLower();

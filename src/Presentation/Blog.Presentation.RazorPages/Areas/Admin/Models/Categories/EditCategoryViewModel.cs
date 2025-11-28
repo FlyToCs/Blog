@@ -1,15 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CodeYad_Blog.Web.Areas.Admin.Models.Categories
+namespace Blog.Presentation.RazorPages.Areas.Admin.Models.Categories
 {
     public class EditCategoryViewModel
     {
         [Display(Name = " عنوان")]
-        [Required(ErrorMessage = "وارد کردن {0} اجباری است")]
+        [Required(ErrorMessage = "وارد کردن عنوان اجباری است")]
         public string Title { get; set; }
 
         [Display(Name = "CategorySlug")]
-        [Required(ErrorMessage = "وارد کردن {0} اجباری است")]
+        [Required(ErrorMessage = "وارد کردن CategorySlug اجباری است")]
         public string Slug { get; set; }
 
         [Display(Name = "MetaTag (با - از هم جدا کنید )")]
