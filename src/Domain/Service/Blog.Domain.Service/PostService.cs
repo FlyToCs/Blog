@@ -51,9 +51,9 @@ public class PostService(IPostRepository postRepo) : IPostService
         return await postRepo.DeleteAsync(postId);
     }
 
-    public async Task<List<PostDto>> GetAllByAsync(int userId)
+    public async Task<List<PostDto>> GetAllByAsync(PostSearchFilter filter)
     {
-        return await postRepo.GetAllByAsync(userId);
+        return await postRepo.GetAllByAsync(filter);
     }
 
     public async Task<List<PostDto>> GetAllAsync()

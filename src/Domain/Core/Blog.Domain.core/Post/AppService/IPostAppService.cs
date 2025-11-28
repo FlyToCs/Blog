@@ -12,7 +12,7 @@ public interface IPostAppService
     Task<PostFilterDto> GetPostsByFilterAsync(PostFilterParams filterParams);
     Task<List<PostDto>> GetRecentlyPostsAsync(int count);
     Task<bool> IncreasePostViewsAsync(int postId);
-    Task<List<PostDto>> GetAllByAsync(int userId);
+    Task<List<PostDto>> GetAllByAsync(PostSearchFilter filter);
     Task<List<PostDto>> GetAllAsync();
     Task<Result<bool>> DeleteAsync(int postId);
 }

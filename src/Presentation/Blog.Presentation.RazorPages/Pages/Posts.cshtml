@@ -9,6 +9,24 @@
 <main class="main-row d-inline-block mb-2 mt-4">
     <div class="container-main">
         <div class="d-block">
+            
+            
+            <form method="get" class="mb-4">
+                <input type="hidden" asp-for="PostSearchFilter.UserId" />
+                <div class="form-row">
+                    <div class="col">
+                        <input asp-for="PostSearchFilter.Title" placeholder="جستجو بر اساس عنوان" class="form-control" />
+                    </div>
+                    <div class="col">
+                        <input asp-for="PostSearchFilter.CategoryName" placeholder="جستجو بر اساس دسته بندی" class="form-control" />
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">جستجو</button>
+                    </div>
+                </div>
+            </form>
+
+
 
             <div class="col-lg-9 col-md-8 col-xs-12 pr mt-3">
                 <section class="content-widget">

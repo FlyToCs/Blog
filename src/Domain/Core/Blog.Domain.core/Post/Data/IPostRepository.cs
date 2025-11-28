@@ -6,7 +6,7 @@ public interface IPostRepository
 {
     Task<bool> CreateAsync(CreatePostDto postDto);
     Task<bool> EditAsync(EditPostDto postDto);
-    Task<List<PostDto>> GetAllByAsync(int userId);
+    Task<List<PostDto>> GetAllByAsync(PostSearchFilter postSearchFilter);
     Task<List<PostDto>> GetAllAsync();
     Task<PostDto?> GetByAsync(int id);
     Task<PostDto?> GetByAsync(string slug);

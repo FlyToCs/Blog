@@ -25,7 +25,6 @@ public class PostRepository(AppDbContext context) : IPostRepository
         };
 
         await context.Posts.AddAsync(post);
-
         return await context.SaveChangesAsync() > 0;
     }
 
@@ -45,9 +44,18 @@ public class PostRepository(AppDbContext context) : IPostRepository
         return await effectedRows > 0;
     }
 
-    public async Task<List<PostDto>> GetAllByAsync(int userId)
+    public async Task<List<PostDto>> GetAllByAsync(PostSearchFilter filter)
     {
-        return await context.Posts.Where(p => p.AuthorId == userId)
+        var query = context.Posts.AsQueryable();
+        query = query.Where(p => p.AuthorId == filter.UserId);
+
+        if (!string.IsNullOrWhiteSpace(filter.Title))
+            query = query.Where(p => p.Title.Contains(filter.Title));
+
+        if (!string.IsNullOrWhiteSpace(filter.CategoryName))
+            query = query.Where(p => p.Category.Title.Contains(filter.CategoryName));
+
+        return await query
             .Select(p => new PostDto()
             {
                 Title = p.Title,
@@ -62,9 +70,9 @@ public class PostRepository(AppDbContext context) : IPostRepository
                 PostViews = p.visits,
                 CreatedAt = p.CreatedAt,
                 SubCategoryId = p.SubCategoryId,
-            }).ToListAsync();
+            })
+            .ToListAsync();
     }
-
 
     public async Task<List<PostDto>> GetAllAsync()
     {

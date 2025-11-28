@@ -131,9 +131,9 @@ public class PostAppService(IPostService postService) : IPostAppService
         return await postService.IncreasePostViewsAsync(postId);
     }
 
-    public async Task<List<PostDto>> GetAllByAsync(int userId)
+    public async Task<List<PostDto>> GetAllByAsync(PostSearchFilter filter)
     {
-        return await postService.GetAllByAsync(userId);
+        return await postService.GetAllByAsync(filter);
     }
 
     public async Task<List<PostDto>> GetAllAsync()
