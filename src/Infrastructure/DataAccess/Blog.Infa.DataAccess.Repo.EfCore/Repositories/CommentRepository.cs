@@ -20,8 +20,8 @@ public class CommentRepository(AppDbContext context) : ICommentRepository
             Status = CommentStatus.Pending
         };
 
-        await context.AddAsync(comment);
-        return await context.SaveChangesAsync() > 0;
+        await context.AddAsync(comment,cancellationToken);
+        return await context.SaveChangesAsync(cancellationToken) > 0;
     }
 
     public async Task<List<CommentDto>> GetCommentsPostAsync(int userId, CancellationToken cancellationToken)
@@ -39,33 +39,33 @@ public class CommentRepository(AppDbContext context) : ICommentRepository
                 FullName = c.User.FirstName + " " + c.User.LastName,
                 UserId = c.UserId
             })
-            .ToListAsync();
+            .ToListAsync(cancellationToken: cancellationToken);
     }
 
     public async Task<bool> ApproveCommentAsync(int commentId, CancellationToken cancellationToken)
     {
-        var comment = await context.PostComments.FindAsync(commentId);
+        var comment = await context.PostComments.FirstOrDefaultAsync(c=>c.Id == commentId, cancellationToken);
         if (comment == null) return false;
 
         comment.Status = CommentStatus.Approved;
-        return await context.SaveChangesAsync() > 0;
+        return await context.SaveChangesAsync(cancellationToken) > 0;
     }
 
     public async Task<bool> RejectCommentAsync(int commentId, CancellationToken cancellationToken)
     {
-        var comment = await context.PostComments.FindAsync(commentId);
+        var comment = await context.PostComments.FirstOrDefaultAsync(c=>c.Id == commentId, cancellationToken);
         if (comment == null) return false;
 
         comment.Status = CommentStatus.Rejected;
-        return await context.SaveChangesAsync() > 0;
+        return await context.SaveChangesAsync(cancellationToken) > 0;
     }
 
     public async Task<bool> DeleteCommentAsync(int commentId, CancellationToken cancellationToken)
     {
-        var comment = await context.PostComments.FindAsync(commentId);
+        var comment = await context.PostComments.FirstOrDefaultAsync(c=>c.Id == commentId, cancellationToken);
         if (comment == null) return false;
 
         comment.IsDeleted = true;
-        return await context.SaveChangesAsync() > 0;
+        return await context.SaveChangesAsync(cancellationToken) > 0;
     }
 }
