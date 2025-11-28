@@ -10,6 +10,19 @@ public class UserAppService(IUserService userService) : IUserAppService
 {
     public async Task<Result<UserDto>> LoginAsync(string username, string password)
     {
+        if (string.IsNullOrWhiteSpace(username))
+            return Result<UserDto>.Failure("نام کاربری نمیتواند خالی باشد");
+
+        if (username.Length<3)
+            return Result<UserDto>.Failure("نام کاربری نمیتواند کمتر از 3 کاراکتر باشد");
+
+        if (string.IsNullOrWhiteSpace(password))
+            return Result<UserDto>.Failure("رمز عبور نمیتواند خالی باشد");
+
+        if (username.Length < 6)
+            return Result<UserDto>.Failure("نام کاربری نمیتواند کمتر از 6 کاراکتر باشد");
+
+
         var user = await userService.GetByUserNameAsync(username);
         if (user == null || !PasswordHasherSha256.VerifyPassword(password, user.PasswordHash))
             return Result<UserDto>.Failure("نام کاربری یا رمز عبور اشتباه است");
@@ -31,6 +44,24 @@ public class UserAppService(IUserService userService) : IUserAppService
 
     public async Task<Result<bool>> RegisterAsync(CreateUserDto userDto)
     {
+        if (string.IsNullOrWhiteSpace(userDto.FirstName))
+            return Result<bool>.Failure("نام نمی‌تواند خالی باشد.");
+
+        if (string.IsNullOrWhiteSpace(userDto.LastName))
+            return Result<bool>.Failure("نام خانوادگی نمی‌تواند خالی باشد.");
+
+        if (string.IsNullOrWhiteSpace(userDto.UserName))
+            return Result<bool>.Failure("نام کاربری نمی‌تواند خالی باشد.");
+
+        if (userDto.UserName.Length < 3)
+            return Result<bool>.Failure("نام کاربری باید حداقل ۳ کاراکتر باشد.");
+
+        if (string.IsNullOrWhiteSpace(userDto.Password))
+            return Result<bool>.Failure("رمز عبور نمی‌تواند خالی باشد.");
+
+        if (userDto.Password.Length < 6)
+            return Result<bool>.Failure("رمز عبور باید حداقل ۶ کاراکتر باشد.");
+
         var success = await userService.CreateAsync(userDto);
         if (!success)
             return Result<bool>.Failure("ثبت نام با خطا مواجه شد");
