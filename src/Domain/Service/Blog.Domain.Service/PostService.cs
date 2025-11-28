@@ -46,6 +46,11 @@ public class PostService(IPostRepository postRepo) : IPostService
         return await postRepo.IncreasePostViewsAsync(postId);
     }
 
+    public async Task<bool> DeleteAsync(int postId)
+    {
+        return await postRepo.DeleteAsync(postId);
+    }
+
     public async Task<List<PostDto>> GetAllByAsync(int userId)
     {
         return await postRepo.GetAllByAsync(userId);

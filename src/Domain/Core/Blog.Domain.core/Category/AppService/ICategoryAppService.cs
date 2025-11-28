@@ -10,6 +10,8 @@ public interface ICategoryAppService
     Task<List<CategoryDto>> GetAllCategoriesAsync();
     Task<List<CategoryDto>> GetAllCategoriesByAsync(int userId);
     Task<List<CategoryDto>> GetChildCategoriesAsync(int parentId);
-    Task<Result<CategoryDto?>> GetCategoryByIdAsync(int id);
-    Task<Result<CategoryDto?>> GetCategoryBySlugAsync(string slug);
+    Task<Result<CategoryDto>> GetCategoryByIdAsync(int id);
+    Task<Result<CategoryDto>> GetCategoryBySlugAsync(string slug);
+    Task<Result<bool>> DeleteAsync(int categoryId);
+
 }

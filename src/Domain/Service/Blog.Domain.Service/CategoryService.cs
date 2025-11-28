@@ -45,4 +45,9 @@ public class CategoryService(ICategoryRepository categoryRepo) : ICategoryServic
     {
         return await categoryRepo.IsSlugExistAsync(slug);
     }
+
+    public async Task<bool> DeleteAsync(int categoryId)
+    {
+        return await categoryRepo.DeleteAsync(categoryId);
+    }
 }

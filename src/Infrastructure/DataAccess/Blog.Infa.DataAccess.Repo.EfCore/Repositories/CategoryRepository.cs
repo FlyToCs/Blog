@@ -121,4 +121,12 @@ public class CategoryRepository(AppDbContext context) : ICategoryRepository
     {
         return await context.Categories.AnyAsync(c => c.Slug == slug);
     }
+
+    public async Task<bool> DeleteAsync(int categoryId)
+    {
+        var effectedRows = await context.Categories.Where(c => c.Id == categoryId)
+            .ExecuteUpdateAsync(setter => setter
+                .SetProperty(c => c.IsDeleted, true));
+        return effectedRows > 0;
+    }
 }

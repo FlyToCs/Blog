@@ -8,6 +8,7 @@ public class UserConfigs : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
+        builder.HasQueryFilter(c => !c.IsDeleted);
 
         builder.ToTable("Users");
 

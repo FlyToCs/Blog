@@ -235,5 +235,11 @@ public class PostRepository(AppDbContext context) : IPostRepository
         return affectedRows > 0;
     }
 
-
+    public async Task<bool> DeleteAsync(int postId)
+    {
+        var effectedRows = await context.Posts
+            .Where(p => p.Id == postId)
+            .ExecuteUpdateAsync(setter => setter.SetProperty(p => p.IsDeleted, true));
+        return effectedRows > 0;
+    }
 }

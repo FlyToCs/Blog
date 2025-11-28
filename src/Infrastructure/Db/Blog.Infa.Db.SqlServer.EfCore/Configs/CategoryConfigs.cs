@@ -8,6 +8,9 @@ public class CategoryConfigs : IEntityTypeConfiguration<Category>
 {
     public void Configure(EntityTypeBuilder<Category> builder)
     {
+
+        builder.HasQueryFilter(c => !c.IsDeleted);
+
         builder.ToTable("Categories");
 
         builder.HasKey(x => x.Id);

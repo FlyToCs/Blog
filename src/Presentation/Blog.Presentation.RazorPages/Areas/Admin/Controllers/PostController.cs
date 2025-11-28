@@ -39,6 +39,30 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
                 return View(createViewModel);
             }
 
+            if (createViewModel.ImageFile != null)
+            {
+                var allowedExtensions = new[] { ".png", ".jpg", ".jpeg" };
+                var extension = Path.GetExtension(createViewModel.ImageFile.FileName)?.ToLower();
+
+                if (string.IsNullOrEmpty(extension) || !allowedExtensions.Contains(extension))
+                {
+                    ModelState.AddModelError(nameof(CreatePostViewModel.ImageFile), "پسوند تصویر نامعتبر است. فقط png و jpg مجاز هستند.");
+                    return View(createViewModel);
+                }
+
+                var maxSize = 2 * 1024 * 1024; 
+                if (createViewModel.ImageFile.Length > maxSize)
+                {
+                    ModelState.AddModelError(nameof(CreatePostViewModel.ImageFile), "حجم تصویر نمی‌تواند بیشتر از 2 مگابایت باشد.");
+                    return View(createViewModel);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(nameof(CreatePostViewModel.ImageFile), "لطفا یک تصویر انتخاب کنید.");
+                return View(createViewModel);
+            }
+
             var postDto = new CreatePostDto
             {
                 Title = createViewModel.Title,
@@ -48,7 +72,7 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
                 SubCategoryId = createViewModel.SubCategoryId == 0 ? null : createViewModel.SubCategoryId,
                 AuthorId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!),
                 Context = createViewModel.Context,
-                Img = fileManager.SaveFileAndReturnName(createViewModel.ImageFile,Directories.PostImage)
+                Img = fileManager.SaveFileAndReturnName(createViewModel.ImageFile, Directories.PostImage)
             };
 
             var result = await postAppService.CreateAsync(postDto);
@@ -61,6 +85,7 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
+
         public async Task<IActionResult> Edit(int id)
         {
             var post =await postAppService.GetByAsync(id);

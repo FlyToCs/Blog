@@ -98,4 +98,13 @@ public class CategoryAppService(ICategoryService categoryService) : ICategoryApp
         return Result<CategoryDto>.Success(item);
     }
 
+    public async Task<Result<bool>> DeleteAsync(int categoryId)
+    {
+        var result = await categoryService.DeleteAsync(categoryId);
+        if (!result)
+        {
+            return Result<bool>.Failure("حذف با خطا رخ داد");
+        }
+        return Result<bool>.Failure("حذف با موفقیت انجام شد");
+    }
 }

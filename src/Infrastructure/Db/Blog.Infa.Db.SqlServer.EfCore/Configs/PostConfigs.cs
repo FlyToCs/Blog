@@ -8,6 +8,8 @@ public class PostConfigs : IEntityTypeConfiguration<Post>
 {
     public void Configure(EntityTypeBuilder<Post> builder)
     {
+        builder.HasQueryFilter(c => !c.IsDeleted);
+
         builder.ToTable("Posts");
 
         builder.HasKey(p => p.Id);

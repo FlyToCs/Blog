@@ -8,6 +8,8 @@ public class PostCommentConfigs : IEntityTypeConfiguration<PostComment>
 {
     public void Configure(EntityTypeBuilder<PostComment> builder)
     {
+        builder.HasQueryFilter(c => !c.IsDeleted);
+
         builder.ToTable("PostComments");
 
         builder.HasKey(pc => pc.Id);

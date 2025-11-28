@@ -12,4 +12,6 @@ public interface ICategoryService
     Task<CategoryDto?> GetCategoryByIdAsync(int id);
     Task<CategoryDto?> GetCategoryBySlugAsync(string slug);
     Task<bool> IsSlugExistAsync(string slug);
+    Task<bool> DeleteAsync(int categoryId);
+
 }

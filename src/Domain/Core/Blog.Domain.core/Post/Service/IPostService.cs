@@ -14,5 +14,6 @@ public interface IPostService
     Task<bool> IsSlugExistAsync(string slug);
     Task<PostFilterDto> GetPostByFilterAsync(PostFilterParams filterParams);
     Task<bool> IncreasePostViewsAsync(int postId);
+    Task<bool> DeleteAsync(int postId);
 
 }

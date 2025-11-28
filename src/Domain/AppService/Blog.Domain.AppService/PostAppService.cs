@@ -1,4 +1,6 @@
 ﻿using Blog.Domain.core._common;
+using Blog.Domain.core.Category.Entities;
+using Blog.Domain.core.Category.Service;
 using Blog.Domain.core.Post.AppService;
 using Blog.Domain.core.Post.DTOs;
 using Blog.Domain.core.Post.Service;
@@ -139,4 +141,13 @@ public class PostAppService(IPostService postService) : IPostAppService
         return await postService.GetAllAsync();
     }
 
+    public async Task<Result<bool>> DeleteAsync(int postId)
+    {
+        var result = await postService.DeleteAsync(postId);
+        if (!result)
+        {
+            return Result<bool>.Failure("حذف با خطا رخ داد");
+        }
+        return Result<bool>.Failure("حذف با موفقیت انجام شد");
+    }
 }
