@@ -30,6 +30,19 @@ public class PostAppService(IPostService postService) : IPostAppService
         if (await postService.IsSlugExistAsync(postDto.Slug))
             return Result<bool>.Failure("این slug از قبل وجود دارد امکان ثبت تکراری نیست");
 
+        if (!string.IsNullOrWhiteSpace(postDto.Img))
+        {
+            var allowedExtensions = new[] { ".png", ".jpg", ".jpeg" };
+            var extension = Path.GetExtension(postDto.Img)?.ToLower();
+
+            if (string.IsNullOrEmpty(extension) || !allowedExtensions.Contains(extension))
+                return Result<bool>.Failure("پسوند تصویر نامعتبر است. فقط png و jpg مجاز هستند");
+        }
+        else
+        {
+            return Result<bool>.Failure("تصویر پست نمی‌تواند خالی باشد");
+        }
+
         var success = await postService.CreateAsync(postDto);
 
         if (!success)

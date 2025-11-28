@@ -62,6 +62,7 @@ public class UserAppService(IUserService userService) : IUserAppService
         if (userDto.Password.Length < 6)
             return Result<bool>.Failure("رمز عبور باید حداقل ۶ کاراکتر باشد.");
 
+        userDto.Password = PasswordHasherSha256.HashPassword(userDto.Password);
         var success = await userService.CreateAsync(userDto);
         if (!success)
             return Result<bool>.Failure("ثبت نام با خطا مواجه شد");
