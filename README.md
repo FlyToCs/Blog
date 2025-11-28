@@ -32,7 +32,7 @@ This project is designed for learning, personal projects, or real-world blog app
 
 ### 🎨 Front-End
 - Razor Pages
-- Bootstrap / Tailwind (depending on your choice)
+- Bootstrap / Tailwind 
 - Responsive, clean UI
 
 ---
