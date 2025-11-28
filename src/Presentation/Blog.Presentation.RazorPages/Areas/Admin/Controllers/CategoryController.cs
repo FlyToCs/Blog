@@ -13,10 +13,10 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
     [Authorize(Roles = "Admin,Writer")]
     public class CategoryController(ICategoryAppService categoryAppService) : Controller
     {
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            var categories = await categoryAppService.GetAllCategoriesByAsync(userId);
+            var categories = await categoryAppService.GetAllCategoriesByAsync(userId,cancellationToken);
             return View(categories);
         }
 
@@ -27,12 +27,12 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
         }
 
         [HttpPost("/admin/category/add/{parentId?}")]
-        public async Task<IActionResult> Add(int? parentId, CreateCategoryViewModel createViewModel)
+        public async Task<IActionResult> Add(int? parentId, CreateCategoryViewModel createViewModel, CancellationToken cancellationToken)
         {
             createViewModel.UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             createViewModel.ParentId = parentId;
 
-            var result = await categoryAppService.CreateCategoryAsync(createViewModel.MapToDto());
+            var result = await categoryAppService.CreateCategoryAsync(createViewModel.MapToDto(),cancellationToken);
             if (!result.IsSuccess)
             {
                 ModelState.AddModelError(nameof(createViewModel.Slug), result.Message);
@@ -42,9 +42,9 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
         {
-            var category = await categoryAppService.GetCategoryByIdAsync(id);
+            var category = await categoryAppService.GetCategoryByIdAsync(id,cancellationToken);
             if (!category.IsSuccess || category.Data == null)
                 return RedirectToAction("Index");
 
@@ -60,7 +60,7 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, EditCategoryViewModel editModel)
+        public async Task<IActionResult> Edit(int id, EditCategoryViewModel editModel, CancellationToken cancellationToken)
         {
             var result = await categoryAppService.UpdateCategoryAsync(new EditCategoryDto()
             {
@@ -69,7 +69,7 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
                 MetaTag = editModel.MetaTag,
                 MetaDescription = editModel.MetaDescription,
                 Title = editModel.Title
-            });
+            },cancellationToken);
 
             if (!result.IsSuccess)
             {
@@ -80,9 +80,9 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> GetChildCategories(int parentId)
+        public async Task<IActionResult> GetChildCategories(int parentId, CancellationToken cancellationToken)
         {
-            var categories = await categoryAppService.GetChildCategoriesAsync(parentId);
+            var categories = await categoryAppService.GetChildCategoriesAsync(parentId,cancellationToken);
             return new JsonResult(categories);
         }
     }

@@ -12,7 +12,7 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
     [Authorize(Roles = "Admin,Writer")]
     public class PostController(IPostAppService postAppService, IFileManager fileManager) : Controller
     {
-        public async Task<IActionResult> Index(int pageId = 1, string title = "", string categorySlug = "")
+        public async Task<IActionResult> Index(CancellationToken cancellationToken,int pageId = 1, string title = "", string categorySlug = "")
         {
             var param = new PostFilterParams()
             {
@@ -22,7 +22,7 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
                 Title = title
             };
 
-            var model = await postAppService.GetPostsByFilterAsync(param);
+            var model = await postAppService.GetPostsByFilterAsync(param, cancellationToken);
             return View(model);
         }
 
@@ -32,7 +32,7 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(CreatePostViewModel createViewModel)
+        public async Task<IActionResult> Add(CreatePostViewModel createViewModel, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
@@ -75,7 +75,7 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
                 Img = fileManager.SaveFileAndReturnName(createViewModel.ImageFile, Directories.PostImage)
             };
 
-            var result = await postAppService.CreateAsync(postDto);
+            var result = await postAppService.CreateAsync(postDto, cancellationToken);
 
             if (!result.IsSuccess)
             {
@@ -86,9 +86,9 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
         {
-            var post =await postAppService.GetByAsync(id);
+            var post =await postAppService.GetByAsync(id, cancellationToken);
             if (post == null)
                 return RedirectToAction("Index");
 
@@ -105,7 +105,7 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, EditPostViewModel editViewModel)
+        public async Task<IActionResult> Edit(int id, EditPostViewModel editViewModel, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
@@ -128,7 +128,7 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
                 SubCategoryId = editViewModel.SubCategoryId == 0 ? null : editViewModel.SubCategoryId,
                 Title = editViewModel.Title,
                 PostId = id
-            });
+            }, cancellationToken);
             if (!result.IsSuccess)
             {
                 ModelState.AddModelError(nameof(CreatePostViewModel.Slug), result.Message);

@@ -4,9 +4,9 @@ namespace Blog.Domain.core.PostComment.Service;
 
 public interface ICommentService
 {
-    Task<bool> CreateCommentAsync(CreateCommentDto commentDto);
-    Task<List<CommentDto>> GetCommentsPostAsync(int userId);
-    Task<bool> ApproveCommentAsync(int commentId);
-    Task<bool> RejectCommentAsync(int commentId);
-    Task<bool> DeleteCommentAsync(int commentId);
+    Task<bool> CreateCommentAsync(CreateCommentDto commentDto, CancellationToken cancellationToken);
+    Task<List<CommentDto>> GetCommentsPostAsync(int userId, CancellationToken cancellationToken);
+    Task<bool> ApproveCommentAsync(int commentId, CancellationToken cancellationToken);
+    Task<bool> RejectCommentAsync(int commentId, CancellationToken cancellationToken);
+    Task<bool> DeleteCommentAsync(int commentId, CancellationToken cancellationToken);
 }

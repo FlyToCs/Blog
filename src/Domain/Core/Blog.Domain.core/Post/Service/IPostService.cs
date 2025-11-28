@@ -4,16 +4,16 @@ namespace Blog.Domain.core.Post.Service;
 
 public interface IPostService
 {
-    Task<bool> CreateAsync(CreatePostDto postDto);
-    Task<bool> EditAsync(EditPostDto postDto);
-    Task<List<PostDto>> GetAllByAsync(PostSearchFilter filter);
-    Task<List<PostDto>> GetAllAsync();
-    Task<PostDto?> GetByAsync(int id);
-    Task<PostDto?> GetByAsync(string slug);
-    Task<List<PostDto>> GetRecentlyPostsAsync(int count);
-    Task<bool> IsSlugExistAsync(string slug);
-    Task<PostFilterDto> GetPostByFilterAsync(PostFilterParams filterParams);
-    Task<bool> IncreasePostViewsAsync(int postId);
-    Task<bool> DeleteAsync(int postId);
+    Task<bool> CreateAsync(CreatePostDto postDto, CancellationToken cancellationToken);
+    Task<bool> EditAsync(EditPostDto postDto, CancellationToken cancellationToken);
+    Task<List<PostDto>> GetAllByAsync(PostSearchFilter filter, CancellationToken cancellationToken);
+    Task<List<PostDto>> GetAllAsync(CancellationToken cancellationToken);
+    Task<PostDto?> GetByAsync(int id, CancellationToken cancellationToken);
+    Task<PostDto?> GetByAsync(string slug, CancellationToken cancellationToken);
+    Task<List<PostDto>> GetRecentlyPostsAsync(int count, CancellationToken cancellationToken);
+    Task<bool> IsSlugExistAsync(string slug, CancellationToken cancellationToken);
+    Task<PostFilterDto> GetPostByFilterAsync(PostFilterParams filterParams, CancellationToken cancellationToken);
+    Task<bool> IncreasePostViewsAsync(int postId, CancellationToken cancellationToken);
+    Task<bool> DeleteAsync(int postId, CancellationToken cancellationToken);
 
 }

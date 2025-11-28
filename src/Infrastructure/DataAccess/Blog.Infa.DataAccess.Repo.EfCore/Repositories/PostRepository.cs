@@ -10,7 +10,7 @@ namespace Blog.Infa.DataAccess.Repo.EfCore.Repositories;
 
 public class PostRepository(AppDbContext context) : IPostRepository
 {
-    public async Task<bool> CreateAsync(CreatePostDto postDto)
+    public async Task<bool> CreateAsync(CreatePostDto postDto, CancellationToken cancellationToken)
     {
         var post = new Post
         {
@@ -24,12 +24,12 @@ public class PostRepository(AppDbContext context) : IPostRepository
             Context = postDto.Context
         };
 
-        await context.Posts.AddAsync(post);
-        return await context.SaveChangesAsync() > 0;
+        await context.Posts.AddAsync(post, cancellationToken);
+        return await context.SaveChangesAsync(cancellationToken) > 0;
     }
 
 
-    public async Task<bool> EditAsync(EditPostDto postDto)
+    public async Task<bool> EditAsync(EditPostDto postDto, CancellationToken cancellationToken)
     {
         var effectedRows = context.Posts.Where(p => p.Id == postDto.PostId)
             .ExecuteUpdateAsync(setter => setter
@@ -38,13 +38,11 @@ public class PostRepository(AppDbContext context) : IPostRepository
                 .SetProperty(p => p.Description, postDto.Description)
                 .SetProperty(p => p.CategoryId, postDto.CategoryId)
                 .SetProperty(p => p.SubCategoryId, postDto.SubCategoryId)
-                .SetProperty(p => p.Img, postDto.Img)
-
-            );
+                .SetProperty(p => p.Img, postDto.Img), cancellationToken: cancellationToken);
         return await effectedRows > 0;
     }
 
-    public async Task<List<PostDto>> GetAllByAsync(PostSearchFilter filter)
+    public async Task<List<PostDto>> GetAllByAsync(PostSearchFilter filter, CancellationToken cancellationToken)
     {
         var query = context.Posts.AsQueryable();
         query = query.Where(p => p.AuthorId == filter.UserId);
@@ -71,10 +69,10 @@ public class PostRepository(AppDbContext context) : IPostRepository
                 CreatedAt = p.CreatedAt,
                 SubCategoryId = p.SubCategoryId,
             })
-            .ToListAsync();
+            .ToListAsync(cancellationToken: cancellationToken);
     }
 
-    public async Task<List<PostDto>> GetAllAsync()
+    public async Task<List<PostDto>> GetAllAsync(CancellationToken cancellationToken)
     {
         return await context.Posts
             .Select(p => new PostDto()
@@ -91,11 +89,11 @@ public class PostRepository(AppDbContext context) : IPostRepository
                 PostViews = p.visits,
                 CreatedAt = p.CreatedAt,
                 SubCategoryId = p.SubCategoryId,
-            }).ToListAsync();
+            }).ToListAsync(cancellationToken: cancellationToken);
     }
 
 
-    public async Task<PostDto?> GetByAsync(int id)
+    public async Task<PostDto?> GetByAsync(int id, CancellationToken cancellationToken)
     {
         return await context.Posts
             .Where(p => p.Id == id)
@@ -117,11 +115,11 @@ public class PostRepository(AppDbContext context) : IPostRepository
                 SubCategorySlug = p.SubCategory.Slug,
                 SubCategoryTitle = p.SubCategory.Title,
                 CategoryTitle = p.Category.Title
-            }).FirstOrDefaultAsync();
+            }).FirstOrDefaultAsync(cancellationToken: cancellationToken);
     }
 
 
-    public async Task<PostDto?> GetByAsync(string slug)
+    public async Task<PostDto?> GetByAsync(string slug, CancellationToken cancellationToken)
     {
         return await context.Posts
             .Where(p => p.Slug == slug)
@@ -143,11 +141,11 @@ public class PostRepository(AppDbContext context) : IPostRepository
                 SubCategorySlug = p.SubCategory.Slug,
                 SubCategoryTitle = p.SubCategory.Title,
                 CategoryTitle = p.Category.Title
-            }).FirstOrDefaultAsync();
+            }).FirstOrDefaultAsync(cancellationToken: cancellationToken);
     }
 
 
-    public async Task<List<PostDto>> GetRecentlyPostsAsync(int count)
+    public async Task<List<PostDto>> GetRecentlyPostsAsync(int count, CancellationToken cancellationToken)
     {
         return await context.Posts
             .OrderByDescending(p => p.CreatedAt)
@@ -172,19 +170,20 @@ public class PostRepository(AppDbContext context) : IPostRepository
                 CategoryTitle = p.Category.Title
 
             })
-            .ToListAsync();
+            .ToListAsync(cancellationToken: cancellationToken);
     }
 
 
 
 
-    public async Task<bool> IsSlugExistAsync(string slug)
+    public async Task<bool> IsSlugExistAsync(string slug, CancellationToken cancellationToken)
     {
-        return await context.Posts.AnyAsync(p => p.Slug == slug);
+        return await context.Posts.AnyAsync(p => p.Slug == slug, cancellationToken: cancellationToken);
     }
 
 
-    public async Task<PostFilterDto> GetPostByFilterAsync(PostFilterParams filterParams)
+    public async Task<PostFilterDto> GetPostByFilterAsync(PostFilterParams filterParams,
+        CancellationToken cancellationToken)
     {
         var post = context.Posts
             .Include(p => p.Category)
@@ -200,7 +199,7 @@ public class PostRepository(AppDbContext context) : IPostRepository
 
         var skip = (filterParams.PageId - 1) * filterParams.Take;
 
-        var pageCount = (int)Math.Ceiling(await post.CountAsync() / (double)filterParams.Take);
+        var pageCount = (int)Math.Ceiling(await post.CountAsync(cancellationToken: cancellationToken) / (double)filterParams.Take);
 
         return new PostFilterDto()
         {
@@ -228,26 +227,25 @@ public class PostRepository(AppDbContext context) : IPostRepository
                     SubCategoryTitle = p.SubCategory.Title,
                     CategoryTitle = p.Category.Title
                 })
-                .ToListAsync()
+                .ToListAsync(cancellationToken: cancellationToken)
         };
     }
 
 
-    public async Task<bool> IncreasePostViewsAsync(int postId)
+    public async Task<bool> IncreasePostViewsAsync(int postId, CancellationToken cancellationToken)
     {
         var affectedRows = await context.Posts
             .Where(p => p.Id == postId)
             .ExecuteUpdateAsync(set => set
-                .SetProperty(p => p.visits, p => p.visits + 1)
-            );
+                .SetProperty(p => p.visits, p => p.visits + 1), cancellationToken: cancellationToken);
         return affectedRows > 0;
     }
 
-    public async Task<bool> DeleteAsync(int postId)
+    public async Task<bool> DeleteAsync(int postId, CancellationToken cancellationToken)
     {
         var effectedRows = await context.Posts
             .Where(p => p.Id == postId)
-            .ExecuteUpdateAsync(setter => setter.SetProperty(p => p.IsDeleted, true));
+            .ExecuteUpdateAsync(setter => setter.SetProperty(p => p.IsDeleted, true), cancellationToken: cancellationToken);
         return effectedRows > 0;
     }
 }

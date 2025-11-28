@@ -15,7 +15,7 @@ namespace Blog.Presentation.RazorPages.Pages
         {
         }
 
-        public async Task<IActionResult> OnPost()
+        public async Task<IActionResult> OnPost(CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
                 return Page();
@@ -29,7 +29,7 @@ namespace Blog.Presentation.RazorPages.Pages
                 ImgUrl = "default.jpg"
             };
 
-            var result = await userAppService.CreateAsync(dto);
+            var result = await userAppService.CreateAsync(dto,cancellationToken);
 
             if (!result.IsSuccess)
             {

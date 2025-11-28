@@ -9,7 +9,7 @@ namespace Blog.Infa.DataAccess.Repo.EfCore.Repositories;
 
 public class UserRepository(AppDbContext context) : IUserRepository
 {
-    public async Task<bool> CreateAsync(CreateUserDto userDto)
+    public async Task<bool> CreateAsync(CreateUserDto userDto, CancellationToken cancellationToken)
     {
         var user = new User()
         {
@@ -27,7 +27,7 @@ public class UserRepository(AppDbContext context) : IUserRepository
         return await context.SaveChangesAsync() > 0;
     }
 
-    public async Task<List<UserDto>> GetAllAsync()
+    public async Task<List<UserDto>> GetAllAsync(CancellationToken cancellationToken)
     {
         return await context.Users
             .Select(u => new UserDto()
@@ -43,7 +43,7 @@ public class UserRepository(AppDbContext context) : IUserRepository
             .ToListAsync();
     }
 
-    public async Task<UserDto?> GetByIdAsync(int id)
+    public async Task<UserDto?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
         var user = await context.Users.FindAsync(id);
         if (user == null) return null;
@@ -60,7 +60,7 @@ public class UserRepository(AppDbContext context) : IUserRepository
         };
     }
 
-    public async Task<UserWithPasswordDto?> GetByUserNameAsync(string username)
+    public async Task<UserWithPasswordDto?> GetByUserNameAsync(string username, CancellationToken cancellationToken)
     {
         return await context.Users
             .Where(u => u.UserName == username)
@@ -78,7 +78,7 @@ public class UserRepository(AppDbContext context) : IUserRepository
             .FirstOrDefaultAsync();
     }
 
-    public async Task<bool> UpdateAsync(int userId, UserWithPasswordDto userDto)
+    public async Task<bool> UpdateAsync(int userId, UserWithPasswordDto userDto, CancellationToken cancellationToken)
     {
         var user = await context.Users.FindAsync(userId);
         if (user == null) return false;
@@ -94,7 +94,7 @@ public class UserRepository(AppDbContext context) : IUserRepository
         return await context.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> ChangePasswordAsync(int userId, string newPassword)
+    public async Task<bool> ChangePasswordAsync(int userId, string newPassword, CancellationToken cancellationToken)
     {
         var user = await context.Users.FindAsync(userId);
         if (user == null) return false;
@@ -103,7 +103,7 @@ public class UserRepository(AppDbContext context) : IUserRepository
         return await context.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> ActivateAsync(int userId)
+    public async Task<bool> ActivateAsync(int userId, CancellationToken cancellationToken)
     {
         var user = await context.Users.FindAsync(userId);
         if (user == null) return false;
@@ -112,7 +112,7 @@ public class UserRepository(AppDbContext context) : IUserRepository
         return await context.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> DeActivateAsync(int userId)
+    public async Task<bool> DeActivateAsync(int userId, CancellationToken cancellationToken)
     {
         var user = await context.Users.FindAsync(userId);
         if (user == null) return false;

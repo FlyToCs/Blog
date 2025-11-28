@@ -10,7 +10,7 @@ namespace Blog.Domain.AppService;
 
 public class PostAppService(IPostService postService) : IPostAppService
 {
-    public async Task<Result<bool>> CreateAsync(CreatePostDto postDto)
+    public async Task<Result<bool>> CreateAsync(CreatePostDto postDto, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(postDto.Title))
             return Result<bool>.Failure("عنوان پست نمیتواند خالی باشد");
@@ -29,7 +29,7 @@ public class PostAppService(IPostService postService) : IPostAppService
         if (postDto.CategoryId <= 0)
             return Result<bool>.Failure("دسته بندی معتبر نیست");
 
-        if (await postService.IsSlugExistAsync(postDto.Slug))
+        if (await postService.IsSlugExistAsync(postDto.Slug, cancellationToken))
             return Result<bool>.Failure("این slug از قبل وجود دارد امکان ثبت تکراری نیست");
 
         if (!string.IsNullOrWhiteSpace(postDto.Img))
@@ -45,7 +45,7 @@ public class PostAppService(IPostService postService) : IPostAppService
             return Result<bool>.Failure("تصویر پست نمی‌تواند خالی باشد");
         }
 
-        var success = await postService.CreateAsync(postDto);
+        var success = await postService.CreateAsync(postDto, cancellationToken);
 
         if (!success)
             return Result<bool>.Failure("ساخت پست با خطا مواجه شد");
@@ -53,12 +53,12 @@ public class PostAppService(IPostService postService) : IPostAppService
         return Result<bool>.Success(true, "پست با موفقیت ساخته شد");
     }
 
-    public async Task<Result<bool>> EditAsync(EditPostDto postDto)
+    public async Task<Result<bool>> EditAsync(EditPostDto postDto, CancellationToken cancellationToken)
     {
         if (postDto.PostId <= 0)
             return Result<bool>.Failure("پست ایدی معتبر نیست");
 
-        var post = await postService.GetByAsync(postDto.PostId);
+        var post = await postService.GetByAsync(postDto.PostId, cancellationToken);
         if (post == null)
             return Result<bool>.Failure("پست یافت نشد");
 
@@ -78,11 +78,11 @@ public class PostAppService(IPostService postService) : IPostAppService
 
         if (post.Slug != postDto.Slug)
         {
-            if (await postService.IsSlugExistAsync(postDto.Slug))
+            if (await postService.IsSlugExistAsync(postDto.Slug, cancellationToken))
                 return Result<bool>.Failure("slug تکراری است");
         }
 
-        var success = await postService.EditAsync(postDto);
+        var success = await postService.EditAsync(postDto, cancellationToken);
 
         if (!success)
             return Result<bool>.Failure("ویرایش پست با خطا مواجه شد");
@@ -90,12 +90,12 @@ public class PostAppService(IPostService postService) : IPostAppService
         return Result<bool>.Success(true, "پست با موفقیت ویرایش شد");
     }
 
-    public async Task<Result<PostDto>> GetByAsync(int id)
+    public async Task<Result<PostDto>> GetByAsync(int id, CancellationToken cancellationToken)
     {
         if (id <= 0)
             return Result<PostDto>.Failure("ایدی معتبر نیست");
 
-        var post = await postService.GetByAsync(id);
+        var post = await postService.GetByAsync(id, cancellationToken);
 
         if (post == null)
             return Result<PostDto>.Failure("پست یافت نشد");
@@ -103,12 +103,12 @@ public class PostAppService(IPostService postService) : IPostAppService
         return Result<PostDto>.Success(post);
     }
 
-    public async Task<Result<PostDto>> GetByAsync(string slug)
+    public async Task<Result<PostDto>> GetByAsync(string slug, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(slug))
             return Result<PostDto>.Failure("اسلاگ نمیتواند خالی باشد");
 
-        var post = await postService.GetByAsync(slug);
+        var post = await postService.GetByAsync(slug, cancellationToken);
 
         if (post == null)
             return Result<PostDto>.Failure("پست یافت نشد");
@@ -116,34 +116,35 @@ public class PostAppService(IPostService postService) : IPostAppService
         return Result<PostDto>.Success(post);
     }
 
-    public async Task<PostFilterDto> GetPostsByFilterAsync(PostFilterParams filterParams)
+    public async Task<PostFilterDto> GetPostsByFilterAsync(PostFilterParams filterParams,
+        CancellationToken cancellationToken)
     {
-        return await postService.GetPostByFilterAsync(filterParams);
+        return await postService.GetPostByFilterAsync(filterParams, cancellationToken);
     }
 
-    public async Task<List<PostDto>> GetRecentlyPostsAsync(int count)
+    public async Task<List<PostDto>> GetRecentlyPostsAsync(int count, CancellationToken cancellationToken)
     {
-        return await postService.GetRecentlyPostsAsync(count);
+        return await postService.GetRecentlyPostsAsync(count, cancellationToken);
     }
 
-    public async Task<bool> IncreasePostViewsAsync(int postId)
+    public async Task<bool> IncreasePostViewsAsync(int postId, CancellationToken cancellationToken)
     {
-        return await postService.IncreasePostViewsAsync(postId);
+        return await postService.IncreasePostViewsAsync(postId, cancellationToken);
     }
 
-    public async Task<List<PostDto>> GetAllByAsync(PostSearchFilter filter)
+    public async Task<List<PostDto>> GetAllByAsync(PostSearchFilter filter, CancellationToken cancellationToken)
     {
-        return await postService.GetAllByAsync(filter);
+        return await postService.GetAllByAsync(filter, cancellationToken);
     }
 
-    public async Task<List<PostDto>> GetAllAsync()
+    public async Task<List<PostDto>> GetAllAsync(CancellationToken cancellationToken)
     {
-        return await postService.GetAllAsync();
+        return await postService.GetAllAsync(cancellationToken);
     }
 
-    public async Task<Result<bool>> DeleteAsync(int postId)
+    public async Task<Result<bool>> DeleteAsync(int postId, CancellationToken cancellationToken)
     {
-        var result = await postService.DeleteAsync(postId);
+        var result = await postService.DeleteAsync(postId, cancellationToken);
         if (!result)
         {
             return Result<bool>.Failure("حذف با خطا رخ داد");

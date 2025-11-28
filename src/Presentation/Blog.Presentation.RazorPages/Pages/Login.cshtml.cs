@@ -29,13 +29,13 @@ namespace Blog.Presentation.RazorPages.Pages
         {
         }
 
-        public async Task<IActionResult> OnPost()
+        public async Task<IActionResult> OnPost(CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
                return Page(); 
             }
-            var result = await userAppService.LoginAsync(Username, Password);
+            var result = await userAppService.LoginAsync(Username, Password, cancellationToken);
             if (!result.IsSuccess)
             {
                 ModelState.AddModelError(string.Empty, result.Message);

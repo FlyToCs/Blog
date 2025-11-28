@@ -14,16 +14,16 @@ namespace Blog.Presentation.RazorPages.Pages
         public PostSearchFilter PostSearchFilter { get; set; }
         public List<CategoryDto> Categories { get; set; }
         public List<PostDto> Posts { get; set; }
-        public async Task OnGet(int? userId)
+        public async Task OnGet(int? userId, CancellationToken cancellationToken)
         {
-            Categories = await categoryAppService.GetAllCategoriesAsync();
+            Categories = await categoryAppService.GetAllCategoriesAsync(cancellationToken);
             if (userId == null)
             {
-                Posts = await postAppService.GetAllAsync();
+                Posts = await postAppService.GetAllAsync(cancellationToken);
             }
             else
             {
-                Posts = await postAppService.GetAllByAsync(PostSearchFilter);
+                Posts = await postAppService.GetAllByAsync(PostSearchFilter, cancellationToken);
             }
         }
     }

@@ -11,31 +11,31 @@ namespace Blog.Presentation.RazorPages.Areas.Admin.Controllers
     public class CommentController(ICommentAppService commentAppService) : Controller
     {
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
             var authorId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            var comments = await commentAppService.GetCommentsPostAsync(authorId);
+            var comments = await commentAppService.GetCommentsPostAsync(authorId, cancellationToken);
             return View(comments);
         }
 
         [HttpGet]
-        public async Task<IActionResult> ApproveComment(int id, CommentStatus status)
+        public async Task<IActionResult> ApproveComment(int id, CommentStatus status, CancellationToken cancellationToken)
         {
           
-            await commentAppService.ApproveCommentAsync(id);
+            await commentAppService.ApproveCommentAsync(id, cancellationToken);
             return RedirectToAction("Index");
         }
-        public async Task<IActionResult> RejectComment(int id)
+        public async Task<IActionResult> RejectComment(int id, CancellationToken cancellationToken)
         {
 
-            await commentAppService.ApproveCommentAsync(id);
+            await commentAppService.ApproveCommentAsync(id, cancellationToken);
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
         {
-           await commentAppService.DeleteCommentAsync(id);
+           await commentAppService.DeleteCommentAsync(id, cancellationToken);
             return RedirectToAction("Index");
         }
     }

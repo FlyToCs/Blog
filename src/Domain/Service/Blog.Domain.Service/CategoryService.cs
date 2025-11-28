@@ -6,48 +6,49 @@ namespace Blog.Domain.Service;
 
 public class CategoryService(ICategoryRepository categoryRepo) : ICategoryService
 {
-    public async Task<bool> CreateCategoryAsync(CreateCategoryDto createDto)
+    public async Task<bool> CreateCategoryAsync(CreateCategoryDto createDto, CancellationToken cancellationToken)
     {
-        return await categoryRepo.CreateCategoryAsync(createDto);
+        return await categoryRepo.CreateCategoryAsync(createDto, cancellationToken);
     }
 
-    public async Task<bool> UpdateCategoryAsync(EditCategoryDto editDto)
+    public async Task<bool> UpdateCategoryAsync(EditCategoryDto editDto, CancellationToken cancellationToken)
     {
-        return await categoryRepo.UpdateCategoryAsync(editDto);
+        return await categoryRepo.UpdateCategoryAsync(editDto,cancellationToken );
     }
 
-    public async Task<List<CategoryDto>> GetAllCategoriesAsync()
+    public async Task<List<CategoryDto>> GetAllCategoriesAsync(CancellationToken cancellationToken)
     {
-        return await categoryRepo.GetAllCategoriesAsync();
+        return await categoryRepo.GetAllCategoriesAsync(cancellationToken);
     }
 
-    public async Task<List<CategoryDto>> GetAllCategoriesByAsync(int userId)
+    public async Task<List<CategoryDto>> GetAllCategoriesByAsync(int userId, CancellationToken cancellationToken)
     {
-        return await categoryRepo.GetAllCategoriesByAsync(userId);
+        return await categoryRepo.GetAllCategoriesByAsync(userId, cancellationToken);
     }
 
-    public async Task<List<CategoryDto>> GetChildCategoriesAsync(int parentId)
+    public async Task<List<CategoryDto>> GetChildCategoriesAsync(int parentId, CancellationToken cancellationToken)
     {
-        return await categoryRepo.GetChildCategoriesAsync(parentId);
+        return await categoryRepo.GetChildCategoriesAsync(parentId, cancellationToken);
     }
 
-    public async Task<CategoryDto?> GetCategoryByIdAsync(int id)
+    public async Task<CategoryDto?> GetCategoryByIdAsync(int id, CancellationToken cancellationToken)
     {
-        return await categoryRepo.GetCategoryByIdAsync(id);
+        return await categoryRepo.GetCategoryByIdAsync(id, cancellationToken);
     }
 
-    public async Task<CategoryDto?> GetCategoryBySlugAsync(string slug)
+    public async Task<CategoryDto?> GetCategoryBySlugAsync(string slug, CancellationToken cancellationToken)
     {
-        return await categoryRepo.GetCategoryBySlugAsync(slug);
+        return await categoryRepo.GetCategoryBySlugAsync(slug, cancellationToken);
+
     }
 
-    public async Task<bool> IsSlugExistAsync(string slug)
+    public async Task<bool> IsSlugExistAsync(string slug, CancellationToken cancellationToken)
     {
-        return await categoryRepo.IsSlugExistAsync(slug);
+        return await categoryRepo.IsSlugExistAsync(slug, cancellationToken);
     }
 
-    public async Task<bool> DeleteAsync(int categoryId)
+    public async Task<bool> DeleteAsync(int categoryId, CancellationToken cancellationToken)
     {
-        return await categoryRepo.DeleteAsync(categoryId);
+        return await categoryRepo.DeleteAsync(categoryId, cancellationToken);
     }
 }

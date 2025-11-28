@@ -7,43 +7,43 @@ namespace Blog.Domain.Service;
 public class UserService(IUserRepository userRepo) : IUserService
 {
 
-    public async Task<bool> CreateAsync(CreateUserDto userDto)
+    public async Task<bool> CreateAsync(CreateUserDto userDto, CancellationToken cancellationToken)
     {
-        return await userRepo.CreateAsync(userDto);
+        return await userRepo.CreateAsync(userDto, cancellationToken);
     }
 
-    public async Task<List<UserDto>> GetAllAsync()
+    public async Task<List<UserDto>> GetAllAsync(CancellationToken cancellationToken)
     {
-        return await userRepo.GetAllAsync();
+        return await userRepo.GetAllAsync(cancellationToken);
     }
 
-    public async Task<UserDto?> GetByIdAsync(int id)
+    public async Task<UserDto?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        return await userRepo.GetByIdAsync(id);
+        return await userRepo.GetByIdAsync(id, cancellationToken);
     }
 
-    public async Task<UserWithPasswordDto?> GetByUserNameAsync(string username)
+    public async Task<UserWithPasswordDto?> GetByUserNameAsync(string username, CancellationToken cancellationToken)
     {
-        return await userRepo.GetByUserNameAsync(username);
+        return await userRepo.GetByUserNameAsync(username, cancellationToken);
     }
 
-    public async Task<bool> UpdateAsync(int userId, UserWithPasswordDto userDto)
+    public async Task<bool> UpdateAsync(int userId, UserWithPasswordDto userDto, CancellationToken cancellationToken)
     {
-        return await userRepo.UpdateAsync(userId, userDto);
+        return await userRepo.UpdateAsync(userId, userDto, cancellationToken);
     }
 
-    public async Task<bool> ChangePasswordAsync(int userId, string newPassword)
+    public async Task<bool> ChangePasswordAsync(int userId, string newPassword, CancellationToken cancellationToken)
     {
-        return await userRepo.ChangePasswordAsync(userId, newPassword);
+        return await userRepo.ChangePasswordAsync(userId, newPassword, cancellationToken);
     }
 
-    public async Task<bool> ActivateAsync(int userId)
+    public async Task<bool> ActivateAsync(int userId, CancellationToken cancellationToken)
     {
-        return await userRepo.ActivateAsync(userId);
+        return await userRepo.ActivateAsync(userId, cancellationToken);
     }
 
-    public async Task<bool> DeActivateAsync(int userId)
+    public async Task<bool> DeActivateAsync(int userId, CancellationToken cancellationToken)
     {
-        return await userRepo.DeActivateAsync(userId);
+        return await userRepo.DeActivateAsync(userId, cancellationToken);
     }
 }

@@ -6,28 +6,28 @@ namespace Blog.Domain.Service;
 
 public class CommentService(ICommentRepository commentRepo) : ICommentService
 {
-    public async Task<bool> CreateCommentAsync(CreateCommentDto commentDto)
+    public async Task<bool> CreateCommentAsync(CreateCommentDto commentDto, CancellationToken cancellationToken)
     {
-        return await commentRepo.CreateCommentAsync(commentDto);
+        return await commentRepo.CreateCommentAsync(commentDto, cancellationToken);
     }
 
-    public async Task<List<CommentDto>> GetCommentsPostAsync(int userId)
+    public async Task<List<CommentDto>> GetCommentsPostAsync(int userId, CancellationToken cancellationToken)
     {
-        return await commentRepo.GetCommentsPostAsync(userId);
+        return await commentRepo.GetCommentsPostAsync(userId, cancellationToken);
     }
 
-    public async Task<bool> ApproveCommentAsync(int commentId)
+    public async Task<bool> ApproveCommentAsync(int commentId, CancellationToken cancellationToken)
     {
-        return await commentRepo.ApproveCommentAsync(commentId);
+        return await commentRepo.ApproveCommentAsync(commentId, cancellationToken);
     }
 
-    public async Task<bool> RejectCommentAsync(int commentId)
+    public async Task<bool> RejectCommentAsync(int commentId, CancellationToken cancellationToken)
     {
-        return await commentRepo.RejectCommentAsync(commentId);
+        return await commentRepo.RejectCommentAsync(commentId, cancellationToken);
     }
 
-    public async Task<bool> DeleteCommentAsync(int commentId)
+    public async Task<bool> DeleteCommentAsync(int commentId, CancellationToken cancellationToken)
     {
-        return await commentRepo.DeleteCommentAsync(commentId);
+        return await commentRepo.DeleteCommentAsync(commentId, cancellationToken);
     }
 }

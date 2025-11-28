@@ -9,7 +9,7 @@ namespace Blog.Infa.DataAccess.Repo.EfCore.Repositories;
 
 public class CommentRepository(AppDbContext context) : ICommentRepository 
 {
-    public async Task<bool> CreateCommentAsync(CreateCommentDto commentDto)
+    public async Task<bool> CreateCommentAsync(CreateCommentDto commentDto, CancellationToken cancellationToken)
     {
         var comment = new PostComment()
         {
@@ -24,7 +24,7 @@ public class CommentRepository(AppDbContext context) : ICommentRepository
         return await context.SaveChangesAsync() > 0;
     }
 
-    public async Task<List<CommentDto>> GetCommentsPostAsync(int userId)
+    public async Task<List<CommentDto>> GetCommentsPostAsync(int userId, CancellationToken cancellationToken)
     {
         return await context.PostComments
             .Where(c => c.Post.AuthorId == userId)
@@ -42,7 +42,7 @@ public class CommentRepository(AppDbContext context) : ICommentRepository
             .ToListAsync();
     }
 
-    public async Task<bool> ApproveCommentAsync(int commentId)
+    public async Task<bool> ApproveCommentAsync(int commentId, CancellationToken cancellationToken)
     {
         var comment = await context.PostComments.FindAsync(commentId);
         if (comment == null) return false;
@@ -51,7 +51,7 @@ public class CommentRepository(AppDbContext context) : ICommentRepository
         return await context.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> RejectCommentAsync(int commentId)
+    public async Task<bool> RejectCommentAsync(int commentId, CancellationToken cancellationToken)
     {
         var comment = await context.PostComments.FindAsync(commentId);
         if (comment == null) return false;
@@ -60,7 +60,7 @@ public class CommentRepository(AppDbContext context) : ICommentRepository
         return await context.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> DeleteCommentAsync(int commentId)
+    public async Task<bool> DeleteCommentAsync(int commentId, CancellationToken cancellationToken)
     {
         var comment = await context.PostComments.FindAsync(commentId);
         if (comment == null) return false;

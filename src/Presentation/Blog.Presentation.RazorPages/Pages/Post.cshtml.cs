@@ -29,19 +29,19 @@ namespace Blog.Presentation.RazorPages.Pages
         public List<PostDto> ResentlyPosts { get; set; } = new();
 
 
-        public async Task<IActionResult> OnGetAsync(string slug)
+        public async Task<IActionResult> OnGetAsync(string slug, CancellationToken cancellationToken)
         {
-            var result = await ReloadPageDataAsync(slug);
+            var result = await ReloadPageDataAsync(slug,cancellationToken);
             if (result != null)
                 return result;
 
-            await postAppService.IncreasePostViewsAsync(Post.PostId);
+            await postAppService.IncreasePostViewsAsync(Post.PostId, cancellationToken);
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(string slug)
+        public async Task<IActionResult> OnPostAsync(string slug, CancellationToken cancellationToken)
         {
-            var loadResult = await ReloadPageDataAsync(slug);
+            var loadResult = await ReloadPageDataAsync(slug,cancellationToken);
             if (loadResult != null)
                 return loadResult;
 
@@ -62,24 +62,24 @@ namespace Blog.Presentation.RazorPages.Pages
                 Rate = Rate,
                 UserId = int.Parse(userIdString)
             };
-            await commentAppService.CreateCommentAsync(comment);
-            await ReloadPageDataAsync(slug);
+            await commentAppService.CreateCommentAsync(comment, cancellationToken);
+            await ReloadPageDataAsync(slug,cancellationToken);
 
             return Page();
         }
 
 
-        private async Task<IActionResult?> ReloadPageDataAsync(string slug)
+        private async Task<IActionResult?> ReloadPageDataAsync(string slug, CancellationToken cancellationToken)
         {
-            ResentlyPosts = await postAppService.GetRecentlyPostsAsync(5);
+            ResentlyPosts = await postAppService.GetRecentlyPostsAsync(5, cancellationToken);
 
-            var postResult = await postAppService.GetByAsync(slug);
+            var postResult = await postAppService.GetByAsync(slug, cancellationToken);
 
             if (!postResult.IsSuccess)
                 return NotFound();
 
             Post = postResult.Data!;
-            Comments = await commentAppService.GetCommentsPostAsync(Post.PostId);
+            Comments = await commentAppService.GetCommentsPostAsync(Post.PostId, cancellationToken);
 
             return null;
         }

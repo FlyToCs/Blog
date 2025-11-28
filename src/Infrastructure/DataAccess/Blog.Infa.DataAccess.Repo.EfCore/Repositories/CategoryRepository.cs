@@ -8,7 +8,7 @@ namespace Blog.Infa.DataAccess.Repo.EfCore.Repositories;
 
 public class CategoryRepository(AppDbContext context) : ICategoryRepository
 {
-    public async Task<bool> CreateCategoryAsync(CreateCategoryDto createDto)
+    public async Task<bool> CreateCategoryAsync(CreateCategoryDto createDto, CancellationToken cancellationToken)
     {
         var category = new Category()
         {
@@ -20,13 +20,13 @@ public class CategoryRepository(AppDbContext context) : ICategoryRepository
             UserId = createDto.UserId
         };
 
-        await context.AddAsync(category);
-        return await context.SaveChangesAsync() > 0;
+        await context.AddAsync(category, cancellationToken);
+        return await context.SaveChangesAsync(cancellationToken) > 0;
     }
 
-    public async Task<bool> UpdateCategoryAsync(EditCategoryDto editDto)
+    public async Task<bool> UpdateCategoryAsync(EditCategoryDto editDto, CancellationToken cancellationToken)
     {
-        var category = await context.Categories.FindAsync(editDto.Id);
+        var category = await context.Categories.FirstOrDefaultAsync(c=>c.Id == editDto.Id, cancellationToken: cancellationToken);
         if (category == null) return false;
 
         category.Title = editDto.Title;
@@ -35,10 +35,10 @@ public class CategoryRepository(AppDbContext context) : ICategoryRepository
         category.MetaTag = editDto.MetaTag;
         category.ParentId = editDto.ParentId;
 
-        return await context.SaveChangesAsync() > 0;
+        return await context.SaveChangesAsync(cancellationToken) > 0;
     }
 
-    public async Task<List<CategoryDto>> GetAllCategoriesAsync()
+    public async Task<List<CategoryDto>> GetAllCategoriesAsync(CancellationToken cancellationToken)
     {
         return await context.Categories
             .Select(c => new CategoryDto()
@@ -50,10 +50,10 @@ public class CategoryRepository(AppDbContext context) : ICategoryRepository
                 MetaDescription = c.MetaDescription,
                 MetaTag = c.MetaTag,
                 UserId = c.UserId
-            }).ToListAsync();
+            }).ToListAsync(cancellationToken: cancellationToken);
     }
 
-    public async Task<List<CategoryDto>> GetAllCategoriesByAsync(int userId)
+    public async Task<List<CategoryDto>> GetAllCategoriesByAsync(int userId, CancellationToken cancellationToken)
     {
         return await context.Categories
             .Where(c => c.UserId == userId)
@@ -66,10 +66,10 @@ public class CategoryRepository(AppDbContext context) : ICategoryRepository
                 MetaDescription = c.MetaDescription,
                 MetaTag = c.MetaTag,
                 UserId = c.UserId
-            }).ToListAsync();
+            }).ToListAsync(cancellationToken: cancellationToken);
     }
 
-    public async Task<List<CategoryDto>> GetChildCategoriesAsync(int parentId)
+    public async Task<List<CategoryDto>> GetChildCategoriesAsync(int parentId, CancellationToken cancellationToken)
     {
         return await context.Categories
             .Where(c => c.ParentId == parentId)
@@ -82,10 +82,10 @@ public class CategoryRepository(AppDbContext context) : ICategoryRepository
                 MetaDescription = c.MetaDescription,
                 MetaTag = c.MetaTag,
                 UserId = c.UserId
-            }).ToListAsync();
+            }).ToListAsync(cancellationToken: cancellationToken);
     }
 
-    public async Task<CategoryDto?> GetCategoryByIdAsync(int id)
+    public async Task<CategoryDto?> GetCategoryByIdAsync(int id, CancellationToken cancellationToken)
     {
         return await context.Categories
             .Where(c => c.Id == id)
@@ -98,10 +98,10 @@ public class CategoryRepository(AppDbContext context) : ICategoryRepository
                 MetaDescription = c.MetaDescription,
                 MetaTag = c.MetaTag,
                 UserId = c.UserId
-            }).FirstOrDefaultAsync();
+            }).FirstOrDefaultAsync(cancellationToken: cancellationToken);
     }
 
-    public async Task<CategoryDto?> GetCategoryBySlugAsync(string slug)
+    public async Task<CategoryDto?> GetCategoryBySlugAsync(string slug, CancellationToken cancellationToken)
     {
         return await context.Categories
             .Where(c => c.Slug == slug)
@@ -114,19 +114,19 @@ public class CategoryRepository(AppDbContext context) : ICategoryRepository
                 MetaDescription = c.MetaDescription,
                 MetaTag = c.MetaTag,
                 UserId = c.UserId
-            }).FirstOrDefaultAsync();
+            }).FirstOrDefaultAsync(cancellationToken: cancellationToken);
     }
 
-    public async Task<bool> IsSlugExistAsync(string slug)
+    public async Task<bool> IsSlugExistAsync(string slug, CancellationToken cancellationToken)
     {
-        return await context.Categories.AnyAsync(c => c.Slug == slug);
+        return await context.Categories.AnyAsync(c => c.Slug == slug, cancellationToken: cancellationToken);
     }
 
-    public async Task<bool> DeleteAsync(int categoryId)
+    public async Task<bool> DeleteAsync(int categoryId, CancellationToken cancellationToken)
     {
         var effectedRows = await context.Categories.Where(c => c.Id == categoryId)
             .ExecuteUpdateAsync(setter => setter
-                .SetProperty(c => c.IsDeleted, true));
+                .SetProperty(c => c.IsDeleted, true), cancellationToken: cancellationToken);
         return effectedRows > 0;
     }
 }

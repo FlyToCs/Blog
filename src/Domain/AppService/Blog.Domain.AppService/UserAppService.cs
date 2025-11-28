@@ -8,7 +8,7 @@ namespace Blog.Domain.AppService;
 
 public class UserAppService(IUserService userService) : IUserAppService
 {
-    public async Task<Result<UserDto>> LoginAsync(string username, string password)
+    public async Task<Result<UserDto>> LoginAsync(string username, string password, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(username))
             return Result<UserDto>.Failure("نام کاربری نمیتواند خالی باشد");
@@ -23,7 +23,7 @@ public class UserAppService(IUserService userService) : IUserAppService
             return Result<UserDto>.Failure("نام کاربری نمیتواند کمتر از 6 کاراکتر باشد");
 
 
-        var user = await userService.GetByUserNameAsync(username);
+        var user = await userService.GetByUserNameAsync(username, cancellationToken);
         if (user == null || !PasswordHasherSha256.VerifyPassword(password, user.PasswordHash))
             return Result<UserDto>.Failure("نام کاربری یا رمز عبور اشتباه است");
 
@@ -42,7 +42,7 @@ public class UserAppService(IUserService userService) : IUserAppService
         });
     }
 
-    public async Task<Result<bool>> RegisterAsync(CreateUserDto userDto)
+    public async Task<Result<bool>> RegisterAsync(CreateUserDto userDto, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(userDto.FirstName))
             return Result<bool>.Failure("نام نمی‌تواند خالی باشد.");
@@ -63,67 +63,69 @@ public class UserAppService(IUserService userService) : IUserAppService
             return Result<bool>.Failure("رمز عبور باید حداقل ۶ کاراکتر باشد.");
 
         userDto.Password = PasswordHasherSha256.HashPassword(userDto.Password);
-        var success = await userService.CreateAsync(userDto);
+        var success = await userService.CreateAsync(userDto, cancellationToken);
         if (!success)
             return Result<bool>.Failure("ثبت نام با خطا مواجه شد");
 
         return Result<bool>.Success(true, "ثبت نام با موفقیت انجام شد");
     }
 
-    public async Task<Result<bool>> CreateAsync(CreateUserDto userDto)
+    public async Task<Result<bool>> CreateAsync(CreateUserDto userDto, CancellationToken cancellationToken)
     {
-        var success = await userService.CreateAsync(userDto);
+        var success = await userService.CreateAsync(userDto, cancellationToken);
         if (!success)
             return Result<bool>.Failure("ایجاد کاربر با خطا مواجه شد");
 
         return Result<bool>.Success(true, "کاربر با موفقیت ساخته شد");
     }
 
-    public async Task<List<UserDto>> GetAllAsync()
+    public async Task<List<UserDto>> GetAllAsync(CancellationToken cancellationToken)
     {
-        return await userService.GetAllAsync();
+        return await userService.GetAllAsync(cancellationToken);
     }
 
-    public async Task<Result<UserDto>> GetByIdAsync(int id)
+    public async Task<Result<UserDto>> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        var user = await userService.GetByIdAsync(id);
+        var user = await userService.GetByIdAsync(id, cancellationToken);
         if (user == null)
             return Result<UserDto>.Failure("کاربری با این ایدی یافت نشد");
 
         return Result<UserDto>.Success(user);
     }
 
-    public async Task<Result<bool>> UpdateAsync(int userId, UserWithPasswordDto userDto)
+    public async Task<Result<bool>> UpdateAsync(int userId, UserWithPasswordDto userDto,
+        CancellationToken cancellationToken)
     {
-        var success = await userService.UpdateAsync(userId, userDto);
+        var success = await userService.UpdateAsync(userId, userDto, cancellationToken);
         if (!success)
             return Result<bool>.Failure("ویرایش کاربر با شکست مواجه شد");
 
         return Result<bool>.Success(true, "ویرایش با موفقیت انجام شد");
     }
 
-    public async Task<Result<bool>> ChangePasswordAsync(int userId, string newPassword)
+    public async Task<Result<bool>> ChangePasswordAsync(int userId, string newPassword,
+        CancellationToken cancellationToken)
     {
         newPassword = PasswordHasherSha256.HashPassword(newPassword);
-        var success = await userService.ChangePasswordAsync(userId, newPassword);
+        var success = await userService.ChangePasswordAsync(userId, newPassword, cancellationToken);
         if (!success)
             return Result<bool>.Failure("تغییر رمز عبور با شکست مواجه شد");
 
         return Result<bool>.Success(true, "رمز عبور با موفقیت تغییر کرد");
     }
 
-    public async Task<Result<bool>> ActivateAsync(int userId)
+    public async Task<Result<bool>> ActivateAsync(int userId, CancellationToken cancellationToken)
     {
-        var success = await userService.ActivateAsync(userId);
+        var success = await userService.ActivateAsync(userId, cancellationToken);
         if (!success)
             return Result<bool>.Failure("عملیات فعال سازی کاربر با شکست مواجه شد");
 
         return Result<bool>.Success(true, "کاربر با موفقیت فعال شد");
     }
 
-    public async Task<Result<bool>> DeActivateAsync(int userId)
+    public async Task<Result<bool>> DeActivateAsync(int userId, CancellationToken cancellationToken)
     {
-        var success = await userService.DeActivateAsync(userId);
+        var success = await userService.DeActivateAsync(userId, cancellationToken);
         if (!success)
             return Result<bool>.Failure("عملیات غیر فعال سازی کاربر با شکست مواجه شد");
 

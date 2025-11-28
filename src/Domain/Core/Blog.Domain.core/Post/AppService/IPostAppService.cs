@@ -5,14 +5,14 @@ namespace Blog.Domain.core.Post.AppService;
 
 public interface IPostAppService
 {
-    Task<Result<bool>> CreateAsync(CreatePostDto postDto);
-    Task<Result<bool>> EditAsync(EditPostDto postDto);
-    Task<Result<PostDto>> GetByAsync(int id);
-    Task<Result<PostDto>> GetByAsync(string slug);
-    Task<PostFilterDto> GetPostsByFilterAsync(PostFilterParams filterParams);
-    Task<List<PostDto>> GetRecentlyPostsAsync(int count);
-    Task<bool> IncreasePostViewsAsync(int postId);
-    Task<List<PostDto>> GetAllByAsync(PostSearchFilter filter);
-    Task<List<PostDto>> GetAllAsync();
-    Task<Result<bool>> DeleteAsync(int postId);
+    Task<Result<bool>> CreateAsync(CreatePostDto postDto, CancellationToken cancellationToken);
+    Task<Result<bool>> EditAsync(EditPostDto postDto, CancellationToken cancellationToken);
+    Task<Result<PostDto>> GetByAsync(int id, CancellationToken cancellationToken);
+    Task<Result<PostDto>> GetByAsync(string slug, CancellationToken cancellationToken);
+    Task<PostFilterDto> GetPostsByFilterAsync(PostFilterParams filterParams, CancellationToken cancellationToken);
+    Task<List<PostDto>> GetRecentlyPostsAsync(int count, CancellationToken cancellationToken);
+    Task<bool> IncreasePostViewsAsync(int postId, CancellationToken cancellationToken);
+    Task<List<PostDto>> GetAllByAsync(PostSearchFilter filter, CancellationToken cancellationToken);
+    Task<List<PostDto>> GetAllAsync(CancellationToken cancellationToken);
+    Task<Result<bool>> DeleteAsync(int postId, CancellationToken cancellationToken);
 }
