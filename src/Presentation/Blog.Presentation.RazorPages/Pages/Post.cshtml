@@ -5,7 +5,59 @@
     ViewData["Title"] = Model.Post.Title;
     Layout = "Shared/_Layout";
 }
+<style>
+    .rating-box {
+        background: #f9fafb;
+        padding: 15px;
+        border-radius: 14px;
+        border: 1px solid #e5e7eb;
+    }
 
+    .rating-title {
+        font-size: 16px;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    .stars {
+        display: flex;
+        gap: 10px;
+    }
+
+    .star {
+        font-size: 32px;
+        cursor: pointer;
+        transition: 0.2s;
+        color: #9ca3af;
+    }
+
+        .star:hover {
+            transform: scale(1.2);
+        }
+
+        .star.active {
+            color: #facc15;
+            transform: scale(1.1);
+        }
+
+
+    .comment-rate {
+        margin: 5px 0 10px 0;
+        display: flex;
+        gap: 4px;
+    }
+
+    .star-view {
+        font-size: 22px;
+        color: #d1d5db; 
+    }
+
+        .star-view.active {
+            color: #facc15; 
+        }
+
+
+</style>
 <main class="main-row mb-2 mt-2 d-inline-block">
     <div class="container-main">
         <div class="d-block">
@@ -74,39 +126,77 @@
                                                     توسط @item.FullName در تاریخ @item.CreatedAt
                                                 </div>
                                             </header>
-                                            <p>
-                                                @item.Text
-                                            </p>
+
+                                            <div class="comment-rate">
+                                                @for (int i = 1; i <= 5; i++)
+                                                {
+                                                    if (i <= (int)item.Rate)
+                                                    {
+                                                        <i class="mdi mdi-star star-view active"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="mdi mdi-star-outline star-view"></i>
+                                                    }
+                                                }
+                                            </div>
+
+                                            <p>@item.Text</p>
+
                                             <div class="reply text-left">
                                                 <a href="#" class="comment-reply-link">پاسخ دادن</a>
                                             </div>
                                         }
+
                                     </div>
                                 </li>
                             </ol>
                             <form method="post">
                                 <input type="hidden" asp-for="Post.PostId" />
+                                <div asp-validation-summary="All" class="text-danger mb-3"></div>
 
                                 <div class="form-comment">
                                     <div class="col-md-12 col-sm-12">
                                         <div class="form-ui">
                                             <div class="row">
+
+                                             
+                                                <div class="rating-box mb-4">
+                                                    <div class="rating-title">امتیاز شما:</div>
+
+                                                    <div class="stars" id="ratingStars">
+                                                        <i data-value="1" class="star mdi mdi-star-outline"></i>
+                                                        <i data-value="2" class="star mdi mdi-star-outline"></i>
+                                                        <i data-value="3" class="star mdi mdi-star-outline"></i>
+                                                        <i data-value="4" class="star mdi mdi-star-outline"></i>
+                                                        <i data-value="5" class="star mdi mdi-star-outline"></i>
+                                                    </div>
+
+                                                    <input type="hidden" asp-for="Rate" id="rateValue" />
+                                                    <span asp-validation-for="Rate" class="text-danger"></span>
+                                                </div>
+
+                                                
                                                 <div class="col-12 mt-5">
                                                     <div class="form-row-title mb-2">متن نظر شما</div>
                                                     <div class="form-row">
-                                                        <textarea asp-for="Comment" 
-                                      class="input-ui pr-2 pt-2" rows="5"
-                                      placeholder="متن خود را بنویسید"
-                                      style="height:120px;"></textarea>
-                                                        <span asp-validation-for="Comment" class="text-danger"></span>
+                                                        <textarea asp-for="Comment"
+                                                                  class="input-ui pr-2 pt-2"
+                                                                  rows="5"
+                                                                  placeholder="متن خود را بنویسید"
+                                                                  style="height:120px;"></textarea>
 
+                                                        <span asp-validation-for="Comment" class="text-danger"></span>
                                                     </div>
                                                 </div>
+
+                                                
                                                 <div class="col-12 mt-5 px-0">
                                                     <button class="btn comment-submit-button">
                                                         ثبت نظر
                                                     </button>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -157,3 +247,19 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 
+<script>
+    const stars = document.querySelectorAll("#ratingStars .star");
+    const rateInput = document.getElementById("rateValue");
+
+    stars.forEach(star => {
+        star.addEventListener("click", () => {
+            let value = star.getAttribute("data-value");
+            rateInput.value = value;
+            stars.forEach(s => s.classList.remove("active"));
+
+            for (let i = 0; i < value; i++) {
+                stars[i].classList.add("active");
+            }
+        });
+    });
+</script>

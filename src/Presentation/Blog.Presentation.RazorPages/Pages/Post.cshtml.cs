@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
+using Blog.Domain.core.PostComment.Enums;
 
 
 namespace Blog.Presentation.RazorPages.Pages
@@ -19,9 +20,14 @@ namespace Blog.Presentation.RazorPages.Pages
         [MinLength(4, ErrorMessage = "طول پیام حداقل باید 4 کاراکتر باشد")]
         public string Comment { get; set; } = string.Empty;
 
+        [BindProperty]
+        [Required(ErrorMessage = "امتاز دهی از نون شب واجب تره")]
+        public RateEnum Rate { get; set; }
+
         public List<CommentDto> Comments { get; set; } = new();
         public PostDto Post { get; set; } = null!;
         public List<PostDto> ResentlyPosts { get; set; } = new();
+
 
         public async Task<IActionResult> OnGetAsync(string slug)
         {
@@ -42,17 +48,26 @@ namespace Blog.Presentation.RazorPages.Pages
             if (!ModelState.IsValid)
                 return Page();
 
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userIdString))
+            {
+                ModelState.AddModelError(string.Empty, "برای ارسال نظر باید وارد سایت شوید.");
+                return Page();
+            }
+
             var comment = new CreateCommentDto()
             {
                 PostId = Post.PostId,
                 Text = Comment,
-                UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!)
+                Rate = Rate,
+                UserId = int.Parse(userIdString)
             };
-
             await commentAppService.CreateCommentAsync(comment);
             await ReloadPageDataAsync(slug);
+
             return Page();
         }
+
 
         private async Task<IActionResult?> ReloadPageDataAsync(string slug)
         {
