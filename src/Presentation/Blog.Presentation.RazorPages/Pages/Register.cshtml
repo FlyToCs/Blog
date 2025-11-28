@@ -1,4 +1,84 @@
 ﻿@page
-@model Blog.Presentation.RazorPages.Pages.Auth.RegisterModel
+@model RegisterModel
 @{
 }
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg">
+            <section class="page-account-box">
+                <div class="col-lg-6 col-md-6 col-xs-12 mx-auto">
+                    <div class="ds-userlogin">
+                        <a href="#" class="account-box-logo">digismart</a>
+                        <div class="account-box">
+                            <div class="account-box-headline">
+                                <a href="/Login" class="login-ds">
+                                    <span class="title">ورود</span>
+                                    <span class="sub-title">به کالامارکت</span>
+                                </a>
+                                <a href="/Register" class="register-ds active">
+                                    <span class="title">ثبت نام</span>
+                                    <span class="sub-title">در کالامارکت</span>
+                                </a>
+                            </div>
+                            <div class="Login-to-account mt-4">
+                                <div class="account-box-content">
+                                    <h4>ثبت نام در کالامارکت</h4>
+
+                                    <form method="post" class="form-account text-right">
+
+                                        <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+                                        <div class="form-account-title">
+                                            <label asp-for="Input.FirstName"></label>
+                                            <input asp-for="Input.FirstName" class="form-control" />
+                                            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-account-title">
+                                            <label asp-for="Input.LastName"></label>
+                                            <input asp-for="Input.LastName" class="form-control" />
+                                            <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-account-title">
+                                            <label asp-for="Input.UserName"></label>
+                                            <input asp-for="Input.UserName" class="form-control" />
+                                            <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-account-title">
+                                            <label asp-for="Input.Password"></label>
+                                            <input asp-for="Input.Password" class="form-control" type="password" />
+                                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-auth-row">
+                                            <label for="remember" class="ui-checkbox mt-1">
+                                                <input type="checkbox" value="1" name="agreement" id="remember" required>
+                                                <span class="ui-checkbox-check"></span>
+                                            </label>
+                                            <label for="remember" class="remember-me mr-0">
+                                                <a href="#">حریم خصوصی</a> و <a href="#">شرایط و قوانین</a> استفاده از سرویس‌های سایت دیجی‌اسمارت را مطالعه نموده و با کلیه موارد آن موافقم.
+                                            </label>
+                                        </div>
+                                        <div class="form-row-account mt-3">
+                                            <button type="submit" class="btn btn-primary btn-register">
+                                                ثبت نام در کالامارکت
+                                            </button>
+                                        </div>
+
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
